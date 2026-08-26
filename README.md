@@ -3,7 +3,7 @@
 Purdue **MA 26100 (Multivariate Calculus)** rebuilt as pictures you can spin, procedures you can
 follow, and practice questions whose answers were computed rather than asserted.
 
-**Live:** https://sharvil-ultimate-calc-iii-visualized.vercel.app
+**Live:** https://ultimate-calc3.vercel.app
 
 | Page | What it is |
 |---|---|

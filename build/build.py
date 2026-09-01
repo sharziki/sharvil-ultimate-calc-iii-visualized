@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 import course
-import bank_q1
+import newbank
 import guide_121
 import patch_guide
 import quizpage
@@ -32,11 +32,22 @@ def _render_batch(items):
     todo = [it for it in items if it not in _cache]
     if todo:
         payload = json.dumps([{"tex": t, "display": d} for t, d in todo])
-        out = subprocess.run(
-            ["node", str(HERE / "katex_render.js")],
-            input=payload, capture_output=True, text=True, check=True,
-        ).stdout
-        for it, html in zip(todo, json.loads(out)):
+        r = subprocess.run(["node", str(HERE / "katex_render.js")],
+                           input=payload, capture_output=True, text=True)
+        if r.returncode:
+            # KaTeX fails the whole batch on one bad expression, so re-run the
+            # batch one at a time to name it. Worth the extra seconds: the
+            # alternative is a stack trace that points at subprocess.run.
+            for tex, disp in todo:
+                one = subprocess.run(["node", str(HERE / "katex_render.js")],
+                                     input=json.dumps([{"tex": tex, "display": disp}]),
+                                     capture_output=True, text=True)
+                if one.returncode:
+                    msg = next((l for l in one.stderr.splitlines()
+                                if "ParseError" in l or "KaTeX" in l), one.stderr[:200])
+                    sys.exit(f"KaTeX rejected: {tex!r}\n  {msg.strip()}")
+            sys.exit(f"katex_render.js failed:\n{r.stderr[:500]}")
+        for it, html in zip(todo, json.loads(r.stdout)):
             _cache[it] = html
     return [_cache[it] for it in items]
 
@@ -88,9 +99,13 @@ def read_bank():
 
 # 13.5 and 16.5 span two assessments; the question itself decides which side.
 SPLIT = {
-    "A12": "13.5P",   # plane through three points -> Quiz 2
-    "A16": "16.5C",   # cylindrical volume         -> Quiz 7
-    "B9":  "16.5S",   # spherical triple integral  -> Quiz 8
+    "A12": "13.5P",   # plane through three points  -> Quiz 2
+    "A16": "16.5C",   # cylindrical volume          -> Quiz 7
+    "B9":  "16.5S",   # spherical triple integral   -> Quiz 8
+    # Tagged 14.3 in the old bank, but the tangential component of acceleration
+    # is 14.5 — Lesson 8, not Lessons 6-7. Purdue's Lesson 6 and 7 pages cover
+    # velocity, acceleration, circular motion and projectiles only.
+    "C5":  "14.5",    # tangential component a_T    -> Quiz 4
 }
 
 SEC_LABEL = {
@@ -141,6 +156,12 @@ def bucket(bank):
         if stop is None:                      # 13.5 / 16.5 with no explicit split
             sys.exit(f"{qid}: section {tag} maps to no assessment")
         q["tag"] = tag
+        if tag != q["sec"]:
+            # keep the markup's data-sec in step with the split, so the
+            # "sections to reread" list after grading names one section, not two
+            q["html"] = q["html"].replace(f'data-sec="{q["sec"]}"',
+                                          f'data-sec="{tag}"', 1)
+            q["sec"] = tag
         buckets[stop].append(q)
     return buckets
 
@@ -165,13 +186,13 @@ def coverage_chips(stop):
     return chips
 
 
-# ----------------------------------------------------- new Q1 questions ----
+# ------------------------------------------------------ new questions ----
 
 def render_new_questions():
-    """Turn bank_q1.QUESTIONS into the same <li class="q"> markup."""
-    bank_q1.verify()
+    """Turn newbank.QUESTIONS into the same <li class="q"> markup."""
+    newbank.verify()
     texts = []
-    for q in bank_q1.QUESTIONS:
+    for q in newbank.QUESTIONS:
         texts.append(q["stem"])
         for v in q["opts"].values():
             if isinstance(v, dict):
@@ -183,7 +204,7 @@ def render_new_questions():
     MM(*texts)
 
     out = []
-    for q in bank_q1.QUESTIONS:
+    for q in newbank.QUESTIONS:
         opts = []
         for letter in sorted(q["opts"]):
             v = q["opts"][letter]
@@ -197,7 +218,7 @@ def render_new_questions():
         anchor = GUIDE_ANCHOR.get(q["sec"], "s131")
         label = SEC_LABEL.get(q["sec"], q["sec"])
         out.append(dict(
-            id=q["id"], key=q["key"], sec=q["sec"], tag=q["sec"], new=True,
+            id=q["id"], key=q["key"], sec=q["sec"], tag=q["sec"], quiz=q["quiz"], new=True,
             html=(
                 f'<li class="q" id="q-{q["id"]}" data-key="{q["key"]}" data-sec="{q["sec"]}">\n'
                 f'<div class="qh"><span class="qn">@@N@@</span>'
@@ -215,6 +236,7 @@ def render_new_questions():
             ),
         ))
     return out
+
 
 
 # --------------------------------------------------------------- index ----
@@ -321,10 +343,10 @@ footer a{color:var(--contour)}
 """
 
 
-def build_index(buckets, new_qs, total):
+def build_index(buckets, total):
     rows = []
     for s in course.STOPS:
-        n = len(buckets[s["id"]]) + (len(new_qs) if s["id"] == "q1" else 0)
+        n = len(buckets[s["id"]])
         rows.append(
             f'<li class="stop {"exam" if s["kind"] == "exam" else "quiz"}" '
             f'data-date="{s["date"]}">'
@@ -473,21 +495,23 @@ def main():
     new_qs = render_new_questions()
     buckets = bucket(bank)
 
-    total = quizpage.build(buckets, new_qs, M, SID_LABEL, coverage_chips)
+    for q in new_qs:
+        buckets[q["quiz"]].append(q)
+    total = quizpage.build(buckets, M, SID_LABEL, coverage_chips)
 
     global INDEX_JS
     INDEX_JS = INDEX_JS.replace("@@STOPS@@", json.dumps([
         dict(id=s["id"], label=s["label"], when=s["when"], date=s["date"],
              secs=s["secs_label"])
         for s in course.STOPS]))
-    build_index(buckets, new_qs, total)
+    build_index(buckets, total)
 
     patch_guide.run(M, MM, coverage_chips)
 
     print(f"quiz.html      {total} questions ({len(new_qs)} new, verified) "
           f"across {len(course.STOPS)} tabs")
     for s in course.STOPS:
-        n = len(buckets[s["id"]]) + (len(new_qs) if s["id"] == "q1" else 0)
+        n = len(buckets[s["id"]])
         print(f"   {s['label']:<12} {len(coverage_chips(s)):>2} sections  {n:>3} questions")
     print("index.html     semester map")
     print("guide.html     patched")

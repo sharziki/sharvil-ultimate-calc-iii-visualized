@@ -11,7 +11,7 @@ were computed rather than asserted.
 |---|---|
 | [`index.html`](index.html) | The landing page: two ways in, plus the Fall 2026 calendar with whichever stop is next surfaced. |
 | [`guide.html`](guide.html) | **Study all the material** — 40 sections, 41 figures (12 interactive 3-D), 41 algorithms, 86 check-yourself questions. Each section badged with the quiz that tests it. |
-| [`quiz.html`](quiz.html) | **Study by quiz** — pick a quiz and get only the sections it covers, in full, then 64 questions on exactly those sections. |
+| [`quiz.html`](quiz.html) | **Study by quiz** — pick a quiz and get only the sections it covers, in full, then questions on exactly those sections. 102 in all; Quizzes 1–3 carry 24, 17 and 16. |
 
 ## Where the schedule comes from
 
@@ -20,6 +20,13 @@ transcribed from the department's own Fall 2026 documents, read 2026-09-01:
 
 - [Fall 2026 calendar (PDF)](https://www.math.purdue.edu/academic/courses/semester/202710/ma26100/Schedule261.pages.pdf)
 - [Ground rules (PDF)](https://www.math.purdue.edu/academic/courses/semester/202710/ma26100/MA261F26GroundRules.pages2.pdf)
+
+Question coverage for Quizzes 1–3 is checked against Purdue's own per-lesson
+pages, which list what is actually worked in class — e.g.
+[Lesson 2](https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lesson2.html) names
+symmetric equations and skew lines, and
+[Lesson 7](https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lesson7.html) names
+circular motion and projectile max height. Each has a question.
 
 Nothing is carried over from a previous semester. `build/course.py` is the single
 source of truth; change a date there and every page follows.
@@ -47,8 +54,8 @@ python3 build.py
 
 - `course.py` — the Fall 2026 calendar, weights and deadlines
 - `bank.html` — the 55 original questions, pre-rendered
-- `bank_q1.py` — 9 further Quiz 1 questions, each recomputed with `sympy` at build
-  time; the build refuses to emit on a mismatch
+- `newbank.py` — 47 further questions for Quizzes 1–3, each recomputed with
+  `sympy` at build time; the build refuses to emit on a mismatch
 - `guide_121.py` — the 12.1 section the guide was missing
 - `patch_guide.py` — reads `guide.src.html`, writes `../guide.html`
 - `quizpage.py` — builds `quiz.html` by re-hosting the guide's own sections,
@@ -62,8 +69,8 @@ python3 build.py
   depth sort, Lambert shading, drag-to-rotate, auto-framing). No WebGL, no three.js.
 - **Diagrams** — hand-authored inline SVG, themed through `currentColor`.
 
-**Practice answers are verified, not asserted.** The Quiz 1 additions carry `sympy`
-check functions that recompute every keyed answer. The original 55 were built the
+**Practice answers are verified, not asserted.** Every added question carries a
+`sympy` check function that recomputes the keyed answer. The original 55 were built the
 same way, which caught two real errors during authoring (a Green's theorem answer
 keyed to 243π/2 when it's 243π/4, and a work integral keyed to 14 when it's 18).
 

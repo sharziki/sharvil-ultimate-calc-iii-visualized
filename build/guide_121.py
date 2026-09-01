@@ -9,7 +9,7 @@ Markup: $inline$ and $$display$$ TeX, everything else literal HTML.
 
 SVG = """
 <svg viewBox="0 0 470 250" role="img" aria-label="Left panel: an ellipse traced counterclockwise with tick marks at t equals 0, pi over 2, pi and 3 pi over 2, showing where the point is at each time. Right panel: the same ellipse traced twice as fast and in the opposite direction, showing that one curve has many parametrizations">
-  <text class="sm" x="16" y="16">ONE CURVE — x = 2cos t, y = 3sin t</text>
+  <text class="sm" x="16" y="16">ONE CURVE</text>
   <line class="s t1 mut" x1="24" y1="140" x2="212" y2="140"/>
   <line class="s t1 mut" x1="118" y1="42" x2="118" y2="238"/>
   <ellipse class="s t3 ac" cx="118" cy="140" rx="72" ry="92" fill="none"/>
@@ -22,19 +22,16 @@ SVG = """
   <circle class="c" cx="118" cy="232" r="4.5" fill="currentColor"/>
   <text class="b c" x="126" y="244">t = 3&#960;/2</text>
   <path class="s t3 ac" d="M172,86 A72,92 0 0,0 140,54" fill="none" marker-end="url(#arc)"/>
-  <text class="sm" x="16" y="238">counterclockwise, once</text>
 
   <line class="s t1 mut dash" x1="240" y1="12" x2="240" y2="238"/>
 
-  <text class="sm" x="264" y="16">SAME CURVE — twice as fast, reversed</text>
+  <text class="sm" x="264" y="16">SAME CURVE, DIFFERENT BUG</text>
   <line class="s t1 mut" x1="272" y1="140" x2="460" y2="140"/>
   <line class="s t1 mut" x1="366" y1="42" x2="366" y2="238"/>
   <ellipse class="s t3 vg" cx="366" cy="140" rx="72" ry="92" fill="none"/>
   <circle class="v" cx="438" cy="140" r="4.5" fill="currentColor"/>
   <text class="b v" x="410" y="132">t = 0</text>
   <path class="s t3 vg" d="M420,194 A72,92 0 0,1 388,226" fill="none" marker-end="url(#arv)"/>
-  <text class="sm" x="264" y="224">clockwise, twice as fast,</text>
-  <text class="sm" x="264" y="238">twice around on 0 &#8804; t &#8804; 2&#960;</text>
 </svg>
 """
 
@@ -53,8 +50,9 @@ HTML = r"""<article class="sec" id="s121">
     from $a$ to $b$ and the bug draws the curve. Different bugs can draw the same picture.</p>
 
     <figure class="fig"><div class="box">SVGHERE
-      <figcaption>Both bugs draw <b>the same ellipse</b>. They disagree about direction,
-      speed, and how many laps. Eliminating the parameter keeps the picture and throws
+      <figcaption>Both bugs draw <b>the same ellipse</b>. The orange one goes
+      counterclockwise once; the green one goes clockwise, twice as fast, twice around.
+      They disagree about direction, speed, and how many laps. Eliminating the parameter keeps the picture and throws
       all three away &mdash; which is exactly the information line integrals care about.</figcaption>
     </div></figure>
 

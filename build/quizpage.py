@@ -106,13 +106,46 @@ header.top h1{font-size:clamp(36px,6.4vw,60px);font-weight:800;line-height:.94;
   letter-spacing:-.035em;margin-top:14px}
 header.top h1 em{font-family:var(--body);font-style:italic;font-weight:300;color:var(--contour)}
 header.top .sub{margin-top:16px;font-size:18.5px;color:var(--ink-2);max-width:62ch}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:24px 0 0;position:sticky;top:0;z-index:20;
-  background:var(--paper);padding:12px 0;border-bottom:1px solid var(--rule)}
-.tabs button{font:600 12.5px/1 var(--disp);background:var(--card);color:var(--ink-2);
-  border:1px solid var(--rule);border-radius:2px;padding:9px 12px;cursor:pointer}
-.tabs button.on{background:var(--contour);border-color:var(--contour);color:var(--paper)}
-.tabs button.ex{border-left:3px solid var(--water)}
-.tabs button.ex.on{background:var(--water);border-color:var(--water)}
+/* --- the picker ------------------------------------------------------- */
+.picker{position:sticky;top:0;z-index:30;margin-top:22px;padding:12px 0 13px;
+  background:var(--paper);border-bottom:1px solid var(--rule)}
+.picker-h{display:flex;align-items:baseline;gap:12px;padding-bottom:10px}
+.picker-h span{font:700 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3)}
+.picker-h em{font:500 10px/1 var(--mono);font-style:normal;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--contour);margin-left:auto}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;align-items:stretch}
+.tabs button{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center;
+  align-items:flex-start;gap:5px;text-align:left;cursor:pointer;
+  background:var(--card);color:var(--ink-2);border:1px solid var(--rule);
+  border-radius:3px;padding:9px 12px 8px;transition:border-color .15s,background .15s}
+.tabs button b{font:700 13px/1 var(--disp);letter-spacing:-.01em;color:var(--ink)}
+.tabs button i{font:500 9.5px/1 var(--mono);font-style:normal;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.tabs button:hover{border-color:var(--ink-3)}
+/* "exam", not "ex" — the guide's stylesheet is loaded above and styles .ex
+   as its worked-example block, whose padding silently resized these tabs.
+   Accent is drawn inside the box so exam tabs stay exactly the same size. */
+.tabs button.exam{box-shadow:inset 0 -2px 0 var(--water)}
+.tabs button.exam b{color:var(--water)}
+.tabs button.on,.tabs button.on b,.tabs button.on i{color:var(--paper)}
+.tabs button.on{background:var(--contour);border-color:var(--contour);box-shadow:none}
+.tabs button.on i{opacity:.8}
+.tabs button.exam.on{background:var(--water);border-color:var(--water)}
+.tabs button.next::after{content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--contour);position:absolute;top:-3px;right:-3px}
+.tabs button.next{position:relative}
+.tabs button.on.next::after{display:none}
+.pksel{display:none;flex-direction:column;gap:7px}
+.pksel span{font:700 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3)}
+.pksel select{width:100%;font:600 15px/1.2 var(--disp);color:var(--ink);
+  background:var(--card);border:1px solid var(--rule);border-radius:3px;
+  padding:13px 12px;-webkit-appearance:none;appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),
+                   linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);
+  background-position:calc(100% - 19px) 50%,calc(100% - 13px) 50%;
+  background-size:6px 6px,6px 6px;background-repeat:no-repeat}
 .pane{padding-bottom:140px}
 .phd{padding:34px 0 0;max-width:74ch}
 .pwhen{font:500 11px/1.6 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--contour)}
@@ -191,7 +224,47 @@ header.top .sub{margin-top:16px;font-size:18.5px;color:var(--ink-2);max-width:62
 footer.qfoot{margin-top:20px;padding:22px 0 90px;border-top:1px solid var(--rule);
   font:400 13px/1.7 var(--mono);color:var(--ink-3)}
 footer.qfoot a{color:var(--contour)}
-@media (max-width:640px){.opts{grid-template-columns:1fr}.bar{top:0}}
+
+/* Wide typeset maths (aligned blocks, determinants, long chains) must scroll
+   inside its own box — otherwise it drags the whole page sideways on a phone. */
+.katex-display{max-width:100%;overflow-x:auto;overflow-y:hidden;padding:2px 0 6px}
+.mathd,.solb,.stem,.ans,.qt,.opts .ot,.step p,.trapl{max-width:100%}
+.mathd{overflow-x:auto}
+.katex-display::-webkit-scrollbar{height:5px}
+.katex-display::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
+
+/* --- responsive ------------------------------------------------------- */
+@media (max-width:1000px){
+  .wrap{padding:0 20px}
+  .topics{max-width:none}
+}
+@media (max-width:760px){
+  /* 13 tabs is a lot of thumb; hand the phone a native picker instead */
+  .tabs{display:none}
+  .pksel{display:flex}
+  .picker-h{display:none}
+  .picker{padding:10px 0}
+  .wrap{padding:0 16px}
+  .phd{padding-top:26px}
+  .step-h{margin-top:38px;flex-wrap:wrap;gap:6px 12px}
+  .step-h .x{margin-left:auto}
+  .step-note,.pn{font-size:16px}
+  .bar{position:static}
+  .opts{grid-template-columns:1fr}
+  .sec-h{gap:8px}
+  .seclink{margin-left:0;order:3;flex-basis:100%}
+  .sol{padding:13px 14px}
+  .qs,.sol{max-width:none}
+}
+@media (max-width:430px){
+  .wrap{padding:0 13px}
+  .pksel span{display:none}
+  .pksel select{padding:11px 10px;font-size:14px}
+  .ph{font-size:30px}
+  header.top{padding:40px 0 20px}
+  .stem{font-size:17px}
+  .opts label{padding:10px 8px}
+}
 """
 
 PAGE_JS = r"""
@@ -203,8 +276,24 @@ PAGE_JS = r"""
   function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
 
   var tabs=[].slice.call(document.querySelectorAll(".tabs button"));
+  var sel=document.getElementById("pksel");
+
+  /* whichever stop is next by date — marked on the tab and named above it */
+  var today=new Date(); today.setHours(0,0,0,0);
+  var nextId=null;
+  for(var i=0;i<tabs.length;i++){
+    if(new Date(tabs[i].dataset.date+"T00:00:00")>=today){ nextId=tabs[i].dataset.tab; break; }
+  }
+  if(nextId){
+    tabs.forEach(function(b){ b.classList.toggle("next", b.dataset.tab===nextId); });
+    var lab=[].slice.call(tabs).filter(function(b){return b.dataset.tab===nextId;})[0];
+    var note=document.getElementById("nextnote");
+    if(note && lab) note.textContent="next up · "+lab.querySelector("b").textContent;
+  }
+
   function show(id){
     tabs.forEach(function(b){ b.classList.toggle("on", b.dataset.tab===id); });
+    if(sel) sel.value=id;
     var pane=null;
     document.querySelectorAll(".pane").forEach(function(p){
       p.hidden = p.id!=="pane-"+id;
@@ -215,8 +304,9 @@ PAGE_JS = r"""
     try{ history.replaceState(null,"","#"+id); }catch(e){}
   }
   tabs.forEach(function(b){ b.addEventListener("click",function(){ show(b.dataset.tab); window.scrollTo({top:0}); }); });
+  if(sel) sel.addEventListener("change",function(){ show(sel.value); window.scrollTo({top:0}); });
   var want=(location.hash||"").replace("#","");
-  show(tabs.some(function(b){return b.dataset.tab===want;}) ? want : "@@FIRST@@");
+  show(tabs.some(function(b){return b.dataset.tab===want;}) ? want : (nextId||"@@FIRST@@"));
 
   /* The viz script registers its booter on DOMContentLoaded, which fires after
      this file runs — so the first pane's scenes need a second pass. */
@@ -304,6 +394,9 @@ PARTIAL = {
                     "Lines were Lesson 2, on Quiz 1.",
     ("q4", "s144"): "Lesson 8 runs 14.4 and 14.5 <b>as far as Theorem 14.5</b>. "
                     "The later part of 14.5 is not on this quiz.",
+    ("q3", "s143"): "Quiz 3 covers <b>14.3 only</b> — velocity, acceleration, "
+                    "circular and projectile motion. The T, N, B frame and the "
+                    "components of acceleration are 14.5, on Quiz 4 and later.",
 }
 
 
@@ -328,17 +421,23 @@ def section_html(parts, sid, stop_id):
     return html
 
 
-def build(buckets, new_qs, M, sid_label, coverage_chips):
+def build(buckets, M, sid_label, coverage_chips):
     parts = guide_parts(M)
-    tabs, panes = [], []
+    tabs, panes, options = [], [], []
 
     for s in course.STOPS:
-        qs = list(buckets[s["id"]]) + (new_qs if s["id"] == "q1" else [])
+        qs = list(buckets[s["id"]])
         qs.sort(key=lambda q: (q["tag"], q["id"]))
         sids = coverage_chips(s)
 
-        cls = "ex" if s["kind"] == "exam" else ""
-        tabs.append(f'<button data-tab="{s["id"]}" class="{cls}">{s["label"]}</button>')
+        cls = "exam" if s["kind"] == "exam" else ""
+        short = s["when"].split(" \u00b7 ")[0]
+        tabs.append(
+            f'<button data-tab="{s["id"]}" class="{cls}" data-date="{s["date"]}">'
+            f'<b>{s["label"]}</b><i>{short}</i></button>')
+        options.append(
+            f'<option value="{s["id"]}" data-date="{s["date"]}">'
+            f'{s["label"]} &middot; {short} &middot; {s["secs_label"]}</option>')
 
         lessons = (", ".join(str(l) for l in s["lessons"]) if len(s["lessons"]) <= 6
                    else f'{s["lessons"][0]}&ndash;{s["lessons"][-1]}')
@@ -393,7 +492,7 @@ def build(buckets, new_qs, M, sid_label, coverage_chips):
             f'<ol class="qs">\n' + "\n".join(items) + "\n</ol>\n</section>"
         )
 
-    total = sum(len(buckets[s["id"]]) for s in course.STOPS) + len(new_qs)
+    total = sum(len(buckets[s["id"]]) for s in course.STOPS)
     js = PAGE_JS.replace("@@FIRST@@", course.STOPS[0]["id"])
 
     html = f"""<!doctype html>
@@ -425,7 +524,12 @@ def build(buckets, new_qs, M, sid_label, coverage_chips):
   lesson calendar.</p>
 </header>
 
-<div class="tabs">{"".join(tabs)}</div>
+<div class="picker">
+  <div class="picker-h"><span>Pick a quiz</span><em id="nextnote"></em></div>
+  <div class="tabs" role="tablist">{"".join(tabs)}</div>
+  <label class="pksel"><span>Studying for</span>
+    <select id="pksel">{"".join(options)}</select></label>
+</div>
 {"".join(panes)}
 
 <footer class="qfoot">

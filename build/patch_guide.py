@@ -104,6 +104,28 @@ guidefooter{display:block}
 .gfoot{margin:64px auto 0;max-width:1200px;padding:22px 32px 90px;
   border-top:1px solid var(--rule);font:400 13px/1.7 var(--mono);color:var(--ink-3)}
 .gfoot a{color:var(--contour)}
+
+/* Wide typeset maths (aligned blocks, determinants, long chains) must scroll
+   inside its own box — otherwise it drags the whole page sideways on a phone. */
+.katex-display{max-width:100%;overflow-x:auto;overflow-y:hidden;padding:2px 0 6px}
+.mathd,.solb,.stem,.ans,.qt,.opts .ot,.step p,.trapl{max-width:100%}
+.mathd{overflow-x:auto}
+.katex-display::-webkit-scrollbar{height:5px}
+.katex-display::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
+/* .tbl is width:100%, which pins it to its wrapper, so wide cells spill out of
+   the table instead of making the wrapper scroll. Let the table grow instead. */
+.tblwrap .tbl{width:auto;min-width:100%}
+
+@media (max-width:760px){
+  /* A single long inline expression can be wider than a phone. Let the block
+     that holds it scroll on its own rather than dragging the page sideways. */
+  .say,.note,.tail,.qt,.ans,.ex p,.step p,.algo li,.check li,.trap p,.unit-note,
+  .sec-h h3,.fig figcaption,.readout{overflow-x:auto;overflow-y:hidden}
+  .sec-h{gap:8px}
+  .sec-h .qz{margin-left:0}
+  .cal{font-size:14px}
+  .gfoot{padding:22px 16px 80px}
+}
 """
 
 
@@ -288,6 +310,33 @@ def run(M, MM, coverage_chips):
          + f'<article class="sec" id="rexam">\n    {head}\n'
          + calendar_table() + "\n  </article>\n\n  "
          + h[end:])
+
+    # ---- boot the 3-D scenes lazily ---------------------------------------
+    # Twelve canvas scenes constructed at load is fine on a laptop and janks a
+    # phone for several seconds. Build each one just before it scrolls in.
+    boot_old = """function boot(){
+  document.querySelectorAll('.viz[data-scene]').forEach(function(el){
+    var d = SCENES[el.getAttribute('data-scene')];
+    if (d) { try { Scene(el, d); } catch(e){} }
+  });"""
+    boot_new = """function boot(){
+  var vizzes = [].slice.call(document.querySelectorAll('.viz[data-scene]'));
+  function make(el){
+    if (el.dataset.booted) return;
+    var d = SCENES[el.getAttribute('data-scene')];
+    if (d) { try { Scene(el, d); el.dataset.booted = '1'; } catch(e){} }
+  }
+  if ('IntersectionObserver' in window){
+    var vo = new IntersectionObserver(function(en){
+      en.forEach(function(e){ if (e.isIntersecting){ make(e.target); vo.unobserve(e.target); } });
+    }, { rootMargin: '700px 0px' });
+    vizzes.forEach(function(el){ vo.observe(el); });
+  } else {
+    vizzes.forEach(make);
+  }"""
+    if boot_old not in h:
+        sys.exit("patch_guide: viz boot() not found - the guide script changed")
+    h = h.replace(boot_old, boot_new, 1)
 
     # ---- footer -----------------------------------------------------------
     if 'class="gfoot"' not in h:

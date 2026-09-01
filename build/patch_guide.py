@@ -135,8 +135,11 @@ def calendar_table():
         rows.append(
             f'<tr{cls}><td>{s["label"]}</td><td>{s["when"]}</td>'
             f'<td>{lessons}</td><td>{secs}</td>'
-            f'<td><a href="/practice.html#{s["id"]}">practise</a></td></tr>')
+            f'<td><a href="/quiz.html#{s["id"]}">study it</a></td></tr>')
     skips = "".join(f"<li><b>{w}</b> &mdash; {t}</li>" for w, t in course.NO_QUIZ_WEEKS)
+    grades = "".join(f'<tr><td>{a}</td><td><b>{b}</b></td><td>{c}</td></tr>'
+                     for a, b, c in course.GRADING)
+    dates = "".join(f"<li><b>{d}</b> &mdash; {w}</li>" for d, w in course.DEADLINES)
     return f"""
     <p class="say">Purdue splits MA 26100 into <b>37 lessons</b>. Ten recitation quizzes,
     two evening midterms and a final are laid on top of them &mdash; and the boundaries do
@@ -157,6 +160,13 @@ def calendar_table():
     <p class="note"><b>16.7 (change of variables / the Jacobian) is not on the lesson plan
     at all</b> &mdash; the calendar goes 16.6 &rarr; 17.1. It is kept here as background,
     badged as a bonus, and no quiz or exam requires it.</p>
+    <div class="calwrap"><table class="cal">
+      <thead><tr><th>Component</th><th>Weight</th><th>Detail</th></tr></thead>
+      <tbody>{grades}</tbody>
+    </table></div>
+    <div class="algo"><h4>Dates that are not about material</h4><ol>{dates}</ol>
+      <p class="tail">Calculators are allowed on nothing &mdash; not quizzes, not
+      midterms, not the final.</p></div>
 """
 
 
@@ -249,7 +259,7 @@ def run(M, MM, coverage_chips):
             first = labels[0]
             cls = "qz m" if not first.startswith("Quiz") else "qz"
             txt = " &middot; ".join(labels)
-            tag = f'<a class="{cls}" href="/practice.html#{STOP_ID[first]}">{txt}</a>'
+            tag = f'<a class="{cls}" href="/quiz.html#{STOP_ID[first]}">{txt}</a>'
         else:
             return m.group(0)
         return (f'<article class="sec" id="{sid}">\n'
@@ -290,7 +300,7 @@ def run(M, MM, coverage_chips):
             f'read {course.VERIFIED}. Confirm your own section in Brightspace.<br>\n'
             '  Section numbers are <b>Briggs 3e</b>. '
             '<a href="/">Semester map</a> &middot; '
-            '<a href="/practice.html">Practice by quiz</a><br>\n'
+            '<a href="/quiz.html">Study by quiz</a><br>\n'
             '  Not affiliated with or endorsed by Purdue University.\n'
             '</footer>\n')
         sub1(r"</body>", foot + "</body>", "footer")

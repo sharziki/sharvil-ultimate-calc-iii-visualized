@@ -1,6 +1,8 @@
 {
   "redirects": [
-    { "source": "/drill.html", "destination": "/practice.html", "permanent": true },
-    { "source": "/drill", "destination": "/practice.html", "permanent": true }
+    { "source": "/practice.html", "destination": "/quiz.html", "permanent": true },
+    { "source": "/practice", "destination": "/quiz.html", "permanent": true },
+    { "source": "/drill.html", "destination": "/quiz.html", "permanent": true },
+    { "source": "/drill", "destination": "/quiz.html", "permanent": true }
   ]
 }

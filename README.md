@@ -1,16 +1,17 @@
 # Ultimate Calc III — MA 26100, Fall 2026
 
-Purdue **MA 26100 (Multivariate Calculus)** organised around the quiz calendar that
-actually decides the grade: pictures you can spin, procedures you can follow, and
-practice questions whose answers were computed rather than asserted.
+Purdue **MA 26100 (Multivariate Calculus)**, two ways: read all of it in order, or
+pick the quiz you are sitting and get only the sections it covers plus questions on
+exactly those. Pictures you can spin, procedures you can follow, and answers that
+were computed rather than asserted.
 
 **Live:** https://ultimate-calc3.vercel.app
 
 | Page | What it is |
 |---|---|
-| [`index.html`](index.html) | **Semester map** — every quiz and exam with its date, lessons, sections and questions. Surfaces whichever one is next. |
-| [`guide.html`](guide.html) | The study guide — 40 sections, 41 figures (12 interactive 3-D), 41 algorithms, 86 check-yourself questions. Each section badged with the quiz that tests it. |
-| [`practice.html`](practice.html) | 64 multiple-choice questions filed under the quiz or exam that tests them, with worked solutions and the trap each one plants. |
+| [`index.html`](index.html) | The landing page: two ways in, plus the Fall 2026 calendar with whichever stop is next surfaced. |
+| [`guide.html`](guide.html) | **Study all the material** — 40 sections, 41 figures (12 interactive 3-D), 41 algorithms, 86 check-yourself questions. Each section badged with the quiz that tests it. |
+| [`quiz.html`](quiz.html) | **Study by quiz** — pick a quiz and get only the sections it covers, in full, then 64 questions on exactly those sections. |
 
 ## Where the schedule comes from
 
@@ -50,6 +51,8 @@ python3 build.py
   time; the build refuses to emit on a mismatch
 - `guide_121.py` — the 12.1 section the guide was missing
 - `patch_guide.py` — reads `guide.src.html`, writes `../guide.html`
+- `quizpage.py` — builds `quiz.html` by re-hosting the guide's own sections,
+  stylesheet and 3-D engine inside each quiz tab
 
 **Everything is self-contained.** No CDN, no build step at serve time:
 

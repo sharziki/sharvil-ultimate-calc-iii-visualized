@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/drill.html", "destination": "/practice.html", "permanent": true },
+    { "source": "/drill", "destination": "/practice.html", "permanent": true }
+  ]
+}

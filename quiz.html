@@ -339,46 +339,88 @@ header.top h1{font-size:clamp(36px,6.4vw,60px);font-weight:800;line-height:.94;
   letter-spacing:-.035em;margin-top:14px}
 header.top h1 em{font-family:var(--body);font-style:italic;font-weight:300;color:var(--contour)}
 header.top .sub{margin-top:16px;font-size:18.5px;color:var(--ink-2);max-width:62ch}
-/* --- the picker ------------------------------------------------------- */
-.picker{position:sticky;top:0;z-index:30;margin-top:22px;padding:12px 0 13px;
-  background:var(--paper);border-bottom:1px solid var(--rule)}
-.picker-h{display:flex;align-items:baseline;gap:12px;padding-bottom:10px}
-.picker-h span{font:700 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
-  color:var(--ink-3)}
+/* --- the picker -------------------------------------------------------
+   A single-row rail with one sliding indicator, which condenses to a slim bar
+   once it sticks. Mechanics ported from 21st.dev "Animated Tabs" (sliding
+   indicator + roving tabindex + arrow-key nav) and "Sticky Header" (condense
+   on scroll); both are React, so this is a hand-written vanilla equivalent. */
+.picker{position:sticky;top:0;z-index:30;margin-top:22px;
+  background:var(--paper);border-bottom:1px solid var(--rule);
+  transition:box-shadow .3s ease,padding .28s cubic-bezier(.22,1,.36,1);
+  padding:12px 0 10px}
+.picker.stuck{box-shadow:0 10px 24px -22px rgba(0,0,0,.95);padding:6px 0 4px}
+/* grid-template-rows 1fr -> 0fr is the one way to animate a row to nothing */
+.picker-h{display:grid;grid-template-rows:1fr;
+  transition:grid-template-rows .3s cubic-bezier(.22,1,.36,1),opacity .2s ease}
+.picker.stuck .picker-h{grid-template-rows:0fr;opacity:0}
+/* min-height:0 zeroes the content box but not the padding, so the row
+   would stay 9px tall; collapse the padding on the same curve. */
+.picker.stuck .picker-h>div{padding-bottom:0}
+.picker-h>div{overflow:hidden;min-height:0;display:flex;align-items:baseline;
+  gap:12px;padding-bottom:9px;transition:padding-bottom .3s cubic-bezier(.22,1,.36,1)}
+.picker-h span{font:700 10px/1 var(--mono);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3)}
 .picker-h em{font:500 10px/1 var(--mono);font-style:normal;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--contour);margin-left:auto}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;align-items:stretch}
-.tabs button{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center;
-  align-items:flex-start;gap:5px;text-align:left;cursor:pointer;
-  background:var(--card);color:var(--ink-2);border:1px solid var(--rule);
-  border-radius:3px;padding:9px 12px 8px;transition:border-color .15s,background .15s}
-.tabs button b{font:700 13px/1 var(--disp);letter-spacing:-.01em;color:var(--ink)}
+  text-transform:uppercase;color:var(--contour);margin-left:auto;white-space:nowrap}
+
+.qrail{position:relative}
+/* "qrail", not "rail" — the guide's stylesheet owns .rail for its sidebar,
+   whose padding:40px 0 would add 80px of dead space here.
+   Edge fades, so a half-scrolled tab reads as "there is more". */
+.qrail::before,.qrail::after{content:"";position:absolute;top:0;bottom:0;width:34px;
+  pointer-events:none;z-index:3;opacity:0;transition:opacity .2s ease}
+.qrail::before{left:0;background:linear-gradient(to right,var(--paper),transparent)}
+.qrail::after{right:0;background:linear-gradient(to left,var(--paper),transparent)}
+.qrail.at-start::after,.qrail.mid::before,.qrail.mid::after,.qrail.at-end::before{opacity:1}
+
+.tabs{display:flex;gap:2px;position:relative;overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth;
+  padding:4px 0;margin:-4px 0}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;position:relative;z-index:1;cursor:pointer;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  gap:5px;text-align:left;background:none;border:0;border-radius:4px;
+  padding:9px 14px;color:var(--ink-2);
+  transition:color .18s ease,padding .28s cubic-bezier(.22,1,.36,1)}
+.tabs button b{font:700 13px/1 var(--disp);letter-spacing:-.01em;color:var(--ink);
+  white-space:nowrap;transition:color .18s ease}
 .tabs button i{font:500 9.5px/1 var(--mono);font-style:normal;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
-.tabs button:hover{border-color:var(--ink-3)}
-/* "exam", not "ex" — the guide's stylesheet is loaded above and styles .ex
-   as its worked-example block, whose padding silently resized these tabs.
-   Accent is drawn inside the box so exam tabs stay exactly the same size. */
-.tabs button.exam{box-shadow:inset 0 -2px 0 var(--water)}
+  text-transform:uppercase;color:var(--ink-3);white-space:nowrap;
+  max-height:12px;opacity:1;overflow:hidden;
+  transition:max-height .28s cubic-bezier(.22,1,.36,1),opacity .16s ease,color .18s ease}
+.picker.stuck .tabs button{padding:7px 13px}
+.picker.stuck .tabs button i{max-height:0;opacity:0}
+.tabs button:hover b{color:var(--contour)}
+.tabs button.exam:hover b{color:var(--water)}
+/* an exam reads blue until it is selected, when the pill carries the colour.
+   This pair must sit ABOVE the selected rules: equal specificity, source wins. */
 .tabs button.exam b{color:var(--water)}
-.tabs button.on,.tabs button.on b,.tabs button.on i{color:var(--paper)}
-.tabs button.on{background:var(--contour);border-color:var(--contour);box-shadow:none}
-.tabs button.on i{opacity:.8}
-.tabs button.exam.on{background:var(--water);border-color:var(--water)}
-.tabs button.next::after{content:"";width:6px;height:6px;border-radius:50%;
-  background:var(--contour);position:absolute;top:-3px;right:-3px}
-.tabs button.next{position:relative}
-.tabs button.on.next::after{display:none}
-.pksel{display:none;flex-direction:column;gap:7px}
-.pksel span{font:700 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
-  color:var(--ink-3)}
-.pksel select{width:100%;font:600 15px/1.2 var(--disp);color:var(--ink);
-  background:var(--card);border:1px solid var(--rule);border-radius:3px;
-  padding:13px 12px;-webkit-appearance:none;appearance:none;
-  background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),
-                   linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);
-  background-position:calc(100% - 19px) 50%,calc(100% - 13px) 50%;
-  background-size:6px 6px,6px 6px;background-repeat:no-repeat}
+.tabs button[aria-selected="true"] b,
+.tabs button[aria-selected="true"] i,
+.tabs button.exam[aria-selected="true"] b{color:var(--paper)}
+.tabs button[aria-selected="true"] i{opacity:.75}
+.tabs button:focus-visible{outline:2px solid var(--revise);outline-offset:1px}
+.tabs button.exam::after{content:"";position:absolute;left:14px;right:14px;bottom:3px;
+  height:2px;background:var(--water);border-radius:2px;opacity:.55}
+.tabs button.exam[aria-selected="true"]::after{opacity:0}
+.tabs button.next .tdot{position:absolute;top:5px;right:7px;width:5px;height:5px;
+  border-radius:50%;background:var(--contour);box-shadow:0 0 0 3px var(--paper)}
+.tabs button[aria-selected="true"] .tdot{display:none}
+
+/* the one indicator that slides between tabs */
+.tabind{position:absolute;z-index:0;left:0;top:4px;height:calc(100% - 8px);
+  width:var(--w,0px);transform:translateX(var(--x,0px));
+  background:var(--contour);border-radius:4px;opacity:0;
+  transition:transform .34s cubic-bezier(.22,1,.36,1),
+             width .34s cubic-bezier(.22,1,.36,1),
+             background-color .22s ease,opacity .18s ease}
+.tabind.ready{opacity:1}
+.tabind.is-exam{background:var(--water)}
+@media (prefers-reduced-motion:reduce){
+  .tabind,.picker,.picker-h,.tabs button,.tabs button i{transition:none}
+  .tabs{scroll-behavior:auto}
+}
+
 .pane{padding-bottom:140px}
 .phd{padding:34px 0 0;max-width:74ch}
 .pwhen{font:500 11px/1.6 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--contour)}
@@ -472,11 +514,11 @@ footer.qfoot a{color:var(--contour)}
   .topics{max-width:none}
 }
 @media (max-width:760px){
-  /* 13 tabs is a lot of thumb; hand the phone a native picker instead */
-  .tabs{display:none}
-  .pksel{display:flex}
-  .picker-h{display:none}
-  .picker{padding:10px 0}
+  /* the rail is swipeable, so it stays — it just loses its label row sooner */
+  .picker{padding:9px 0 7px}
+  .picker-h>div{padding-bottom:7px}
+  .picker-h em{display:none}
+  .tabs button{padding:8px 12px}
   .wrap{padding:0 16px}
   .phd{padding-top:26px}
   .step-h{margin-top:38px;flex-wrap:wrap;gap:6px 12px}
@@ -491,9 +533,7 @@ footer.qfoot a{color:var(--contour)}
 }
 @media (max-width:430px){
   .wrap{padding:0 13px}
-  .pksel span{display:none}
-  .pksel select{padding:11px 10px;font-size:14px}
-  .ph{font-size:30px}
+      .ph{font-size:30px}
   header.top{padding:40px 0 20px}
   .stem{font-size:17px}
   .opts label{padding:10px 8px}
@@ -518,13 +558,16 @@ footer.qfoot a{color:var(--contour)}
   lesson calendar.</p>
 </header>
 
-<div class="picker">
-  <div class="picker-h"><span>Pick a quiz</span><em id="nextnote"></em></div>
-  <div class="tabs" role="tablist"><button data-tab="q1" class="" data-date="2026-09-01"><b>Quiz 1</b><i>Tue Sep 1</i></button><button data-tab="q2" class="" data-date="2026-09-08"><b>Quiz 2</b><i>Tue Sep 8</i></button><button data-tab="q3" class="" data-date="2026-09-15"><b>Quiz 3</b><i>Tue Sep 15</i></button><button data-tab="q4" class="" data-date="2026-09-22"><b>Quiz 4</b><i>Tue Sep 22</i></button><button data-tab="q5" class="" data-date="2026-09-29"><b>Quiz 5</b><i>Tue Sep 29</i></button><button data-tab="m1" class="exam" data-date="2026-10-05"><b>Midterm 1</b><i>Mon Oct 5</i></button><button data-tab="q6" class="" data-date="2026-10-20"><b>Quiz 6</b><i>Tue Oct 20</i></button><button data-tab="q7" class="" data-date="2026-10-27"><b>Quiz 7</b><i>Tue Oct 27</i></button><button data-tab="q8" class="" data-date="2026-11-03"><b>Quiz 8</b><i>Tue Nov 3</i></button><button data-tab="q9" class="" data-date="2026-11-10"><b>Quiz 9</b><i>Tue Nov 10</i></button><button data-tab="m2" class="exam" data-date="2026-11-18"><b>Midterm 2</b><i>Wed Nov 18</i></button><button data-tab="q10" class="" data-date="2026-12-01"><b>Quiz 10</b><i>Tue Dec 1</i></button><button data-tab="fin" class="exam" data-date="2026-12-14"><b>Final Exam</b><i>Finals week</i></button></div>
-  <label class="pksel"><span>Studying for</span>
-    <select id="pksel"><option value="q1" data-date="2026-09-01">Quiz 1 &middot; Tue Sep 1 &middot; 13.1–13.4 · 12.1 · 13.5 lines</option><option value="q2" data-date="2026-09-08">Quiz 2 &middot; Tue Sep 8 &middot; 13.5 planes · 13.6</option><option value="q3" data-date="2026-09-15">Quiz 3 &middot; Tue Sep 15 &middot; 14.1 · 14.2 · 14.3</option><option value="q4" data-date="2026-09-22">Quiz 4 &middot; Tue Sep 22 &middot; 14.4 · 14.5 · 15.1 · 15.2</option><option value="q5" data-date="2026-09-29">Quiz 5 &middot; Tue Sep 29 &middot; 15.3 · 15.4 · 15.5</option><option value="m1" data-date="2026-10-05">Midterm 1 &middot; Mon Oct 5 &middot; 13.1–15.7 (all of Ch. 13–14, Ch. 15 through max/min)</option><option value="q6" data-date="2026-10-20">Quiz 6 &middot; Tue Oct 20 &middot; 15.8 · 16.1 · 16.2</option><option value="q7" data-date="2026-10-27">Quiz 7 &middot; Tue Oct 27 &middot; 16.3 · 16.4 · 16.5 cylindrical</option><option value="q8" data-date="2026-11-03">Quiz 8 &middot; Tue Nov 3 &middot; 16.5 spherical · 16.6 · 17.1</option><option value="q9" data-date="2026-11-10">Quiz 9 &middot; Tue Nov 10 &middot; 17.2 · 17.3</option><option value="m2" data-date="2026-11-18">Midterm 2 &middot; Wed Nov 18 &middot; 15.8–17.6 (Lagrange through surface integrals)</option><option value="q10" data-date="2026-12-01">Quiz 10 &middot; Tue Dec 1 &middot; 17.6 · all three lessons</option><option value="fin" data-date="2026-12-14">Final Exam &middot; Finals week &middot; 12.1–17.8 · everything</option></select></label>
+<div class="picker" id="picker">
+  <div class="picker-h"><div><span>Pick a quiz</span><em id="nextnote"></em></div></div>
+  <div class="qrail" id="qrail">
+    <div class="tabs" role="tablist" aria-label="Quizzes and exams" id="tabs">
+      <span class="tabind" id="tabind" aria-hidden="true"></span>
+      <button role="tab" id="tab-q1" aria-controls="pane-q1" aria-selected="false" tabindex="-1" data-tab="q1" class="" data-date="2026-09-01"><b>Quiz 1</b><i>Tue Sep 1</i><span class="tdot"></span></button><button role="tab" id="tab-q2" aria-controls="pane-q2" aria-selected="false" tabindex="-1" data-tab="q2" class="" data-date="2026-09-08"><b>Quiz 2</b><i>Tue Sep 8</i><span class="tdot"></span></button><button role="tab" id="tab-q3" aria-controls="pane-q3" aria-selected="false" tabindex="-1" data-tab="q3" class="" data-date="2026-09-15"><b>Quiz 3</b><i>Tue Sep 15</i><span class="tdot"></span></button><button role="tab" id="tab-q4" aria-controls="pane-q4" aria-selected="false" tabindex="-1" data-tab="q4" class="" data-date="2026-09-22"><b>Quiz 4</b><i>Tue Sep 22</i><span class="tdot"></span></button><button role="tab" id="tab-q5" aria-controls="pane-q5" aria-selected="false" tabindex="-1" data-tab="q5" class="" data-date="2026-09-29"><b>Quiz 5</b><i>Tue Sep 29</i><span class="tdot"></span></button><button role="tab" id="tab-m1" aria-controls="pane-m1" aria-selected="false" tabindex="-1" data-tab="m1" class="exam" data-date="2026-10-05"><b>Midterm 1</b><i>Mon Oct 5</i><span class="tdot"></span></button><button role="tab" id="tab-q6" aria-controls="pane-q6" aria-selected="false" tabindex="-1" data-tab="q6" class="" data-date="2026-10-20"><b>Quiz 6</b><i>Tue Oct 20</i><span class="tdot"></span></button><button role="tab" id="tab-q7" aria-controls="pane-q7" aria-selected="false" tabindex="-1" data-tab="q7" class="" data-date="2026-10-27"><b>Quiz 7</b><i>Tue Oct 27</i><span class="tdot"></span></button><button role="tab" id="tab-q8" aria-controls="pane-q8" aria-selected="false" tabindex="-1" data-tab="q8" class="" data-date="2026-11-03"><b>Quiz 8</b><i>Tue Nov 3</i><span class="tdot"></span></button><button role="tab" id="tab-q9" aria-controls="pane-q9" aria-selected="false" tabindex="-1" data-tab="q9" class="" data-date="2026-11-10"><b>Quiz 9</b><i>Tue Nov 10</i><span class="tdot"></span></button><button role="tab" id="tab-m2" aria-controls="pane-m2" aria-selected="false" tabindex="-1" data-tab="m2" class="exam" data-date="2026-11-18"><b>Midterm 2</b><i>Wed Nov 18</i><span class="tdot"></span></button><button role="tab" id="tab-q10" aria-controls="pane-q10" aria-selected="false" tabindex="-1" data-tab="q10" class="" data-date="2026-12-01"><b>Quiz 10</b><i>Tue Dec 1</i><span class="tdot"></span></button><button role="tab" id="tab-fin" aria-controls="pane-fin" aria-selected="false" tabindex="-1" data-tab="fin" class="exam" data-date="2026-12-14"><b>Final Exam</b><i>Finals week</i><span class="tdot"></span></button>
+    </div>
+  </div>
 </div>
-<section class="pane" id="pane-q1" hidden>
+<section class="pane" id="pane-q1" role="tabpanel" aria-labelledby="tab-q1" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Tue Sep 1 · recitation &middot; Lessons 1, 2 &middot; 13.1–13.4 · 12.1 · 13.5 lines</p><h2 class="ph">Quiz 1</h2><p class="pn">Vectors themselves: components, length, dot, cross — plus parametric curves and the equations of a line in space.</p></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">7 sections</span></div>
 <p class="step-note">&sect;13.1 &middot; &sect;13.2 &middot; &sect;13.3 &middot; &sect;13.3b &middot; &sect;13.4 &middot; &sect;12.1 &middot; &sect;13.5 &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -2066,7 +2109,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 <p class="review">Review <a href="/guide.html#s135">&sect;13.5 Lines in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-q2" hidden>
+</section><section class="pane" id="pane-q2" role="tabpanel" aria-labelledby="tab-q2" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Tue Sep 8 · recitation &middot; Lessons 3, 4 &middot; 13.5 planes · 13.6</p><h2 class="ph">Quiz 2</h2><p class="pn">Planes — normal vectors, three points, distances — and the six quadric surfaces you identify from traces.</p></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">3 sections</span></div>
 <p class="step-note">&sect;13.5 &middot; &sect;13.5b &middot; &sect;13.6 &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -2691,7 +2734,7 @@ which is why the surface is a cone and not a paraboloid.</div>
 <p class="review">Review <a href="/guide.html#s136">&sect;13.6 Quadric surfaces in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-q3" hidden>
+</section><section class="pane" id="pane-q3" role="tabpanel" aria-labelledby="tab-q3" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Tue Sep 15 · recitation &middot; Lessons 5, 6, 7 &middot; 14.1 · 14.2 · 14.3</p><h2 class="ph">Quiz 3</h2><p class="pn">A vector whose tip moves: space curves, differentiating and integrating them, and motion in space.</p></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">3 sections</span></div>
 <p class="step-note">&sect;14.1 &middot; &sect;14.2 &middot; &sect;14.3 &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -3253,7 +3296,7 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 <p class="review">Review <a href="/guide.html#s143">&sect;14.3 Motion in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-q4" hidden>
+</section><section class="pane" id="pane-q4" role="tabpanel" aria-labelledby="tab-q4" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Tue Sep 22 · recitation &middot; Lessons 8, 9, 10 &middot; 14.4 · 14.5 · 15.1 · 15.2</p><h2 class="ph">Quiz 4</h2><p class="pn">Arc length and curvature, then the jump to several variables: surfaces, level curves, and limits that die along a path.</p></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">3 sections</span></div>
 <p class="step-note">&sect;14.4 &middot; &sect;15.1 &middot; &sect;15.2 &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -3931,7 +3974,7 @@ In polar the quotient is <span class="katex"><span class="katex-mathml"><math xm
 <p class="review">Review <a href="/guide.html">§15.2 in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-q5" hidden>
+</section><section class="pane" id="pane-q5" role="tabpanel" aria-labelledby="tab-q5" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Tue Sep 29 · recitation &middot; Lessons 11, 12, 13 &middot; 15.3 · 15.4 · 15.5</p><h2 class="ph">Quiz 5</h2><p class="pn">Partial derivatives, the tree-diagram chain rule, and the gradient — the single most reused object in the course.</p></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">3 sections</span></div>
 <p class="step-note">&sect;15.3 &middot; &sect;15.4 &middot; &sect;15.5 &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -4257,7 +4300,7 @@ attained in the direction <span class="katex"><span class="katex-mathml"><math x
 <p class="review">Review <a href="/guide.html">§15.5 in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-m1" hidden>
+</section><section class="pane" id="pane-m1" role="tabpanel" aria-labelledby="tab-m1" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Mon Oct 5 · 8:00 pm &middot; Lessons 1&ndash;16 &middot; 13.1–15.7 (all of Ch. 13–14, Ch. 15 through max/min)</p><h2 class="ph">Midterm 1</h2><p class="pn">Lessons 1–16, one hour, multiple choice, no calculator. Stops in the middle of Chapter 15 — Lagrange is NOT on it.</p><div class="pnote"><b>Worth knowing.</b> Lessons 14–16 (tangent planes, max/min) are never quizzed. They arrive between Quiz 5 and this exam, so this is the only place they are ever tested before the final.</div><div class="pnote">Only the sections <b>no quiz ever covers</b> are shown here. Everything from the earlier quizzes is on this exam too &mdash; work those tabs as well.</div></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">2 sections</span></div>
 <p class="step-note">&sect;15.6 &middot; &sect;15.7 &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -4500,7 +4543,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 <p class="review">Review <a href="/guide.html">§15.7 in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-q6" hidden>
+</section><section class="pane" id="pane-q6" role="tabpanel" aria-labelledby="tab-q6" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Tue Oct 20 · recitation &middot; Lessons 17, 18, 19 &middot; 15.8 · 16.1 · 16.2</p><h2 class="ph">Quiz 6</h2><p class="pn">Lagrange multipliers, then double integrals — rectangles first, then general regions and the order of integration.</p></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">3 sections</span></div>
 <p class="step-note">&sect;15.8 &middot; &sect;16.1 &middot; &sect;16.2 &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -4814,7 +4857,7 @@ The <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.or
 <p class="review">Review <a href="/guide.html">§16.2 in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-q7" hidden>
+</section><section class="pane" id="pane-q7" role="tabpanel" aria-labelledby="tab-q7" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Tue Oct 27 · recitation &middot; Lessons 20, 21, 22 &middot; 16.3 · 16.4 · 16.5 cylindrical</p><h2 class="ph">Quiz 7</h2><p class="pn">Polar double integrals, triple integrals in Cartesian, and cylindrical coordinates.</p></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">3 sections</span></div>
 <p class="step-note">&sect;16.3 &middot; &sect;16.4 &middot; &sect;16.5a &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -5064,7 +5107,7 @@ Note the shape: function limits inside, then function, then <b>numbers</b> outer
 <p class="review">Review <a href="/guide.html">§16.5 in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-q8" hidden>
+</section><section class="pane" id="pane-q8" role="tabpanel" aria-labelledby="tab-q8" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Tue Nov 3 · recitation &middot; Lessons 23, 24, 25 &middot; 16.5 spherical · 16.6 · 17.1</p><h2 class="ph">Quiz 8</h2><p class="pn">Spherical coordinates, mass / centre of mass / moments, and the first look at vector fields.</p></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">3 sections</span></div>
 <p class="step-note">&sect;16.5b &middot; &sect;16.6 &middot; &sect;17.1 &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -5413,7 +5456,7 @@ conservative, with potential <span class="katex"><span class="katex-mathml"><mat
 <p class="review">Review <a href="/guide.html">§17.1 in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-q9" hidden>
+</section><section class="pane" id="pane-q9" role="tabpanel" aria-labelledby="tab-q9" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Tue Nov 10 · recitation &middot; Lessons 26, 27, 28 &middot; 17.2 · 17.3</p><h2 class="ph">Quiz 9</h2><p class="pn">Line integrals of functions and of fields, then conservative fields and the fundamental theorem for line integrals.</p></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">2 sections</span></div>
 <p class="step-note">&sect;17.2 &middot; &sect;17.3 &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -5683,7 +5726,7 @@ So <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org
 <p class="review">Review <a href="/guide.html">§17.3 in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-m2" hidden>
+</section><section class="pane" id="pane-m2" role="tabpanel" aria-labelledby="tab-m2" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Wed Nov 18 · 8:00 pm &middot; Lessons 17&ndash;31 &middot; 15.8–17.6 (Lagrange through surface integrals)</p><h2 class="ph">Midterm 2</h2><p class="pn">Lessons 17–31, one hour, multiple choice, no calculator. Starts at Lagrange.</p><div class="pnote"><b>Worth knowing.</b> Green's theorem (17.4) and curl / divergence (17.5) are never quizzed — Lesson 29 and 30 fall between Quiz 9 and this exam. The ground rules say Lessons 17–31; the calendar teaches through Lesson 33 before the exam. Assume 17–31 and know 32–33.</div><div class="pnote">Only the sections <b>no quiz ever covers</b> are shown here. Everything from the earlier quizzes is on this exam too &mdash; work those tabs as well.</div></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">2 sections</span></div>
 <p class="step-note">&sect;17.4 &middot; &sect;17.5 &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -5923,7 +5966,7 @@ At <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org
 <p class="review">Review <a href="/guide.html">§17.5 in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-q10" hidden>
+</section><section class="pane" id="pane-q10" role="tabpanel" aria-labelledby="tab-q10" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Tue Dec 1 · recitation &middot; Lessons 31, 32, 33 &middot; 17.6 · all three lessons</p><h2 class="ph">Quiz 10</h2><p class="pn">Surface integrals, all three lessons of them: parametric surfaces, surface area, and flux.</p></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">3 sections</span></div>
 <p class="step-note">&sect;17.6a &middot; &sect;17.6b &middot; &sect;17.6c &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -6337,7 +6380,7 @@ The stretch factor is constant here because the surface is a plane — the tilt 
 <p class="review">Review <a href="/guide.html">§17.6 in the study guide</a></p>
 </div></li>
 </ol>
-</section><section class="pane" id="pane-fin" hidden>
+</section><section class="pane" id="pane-fin" role="tabpanel" aria-labelledby="tab-fin" tabindex="0" hidden>
 <div class="phd"><p class="pwhen">Finals week · date TBD &middot; Lessons 1&ndash;37 &middot; 12.1–17.8 · everything</p><h2 class="ph">Final Exam</h2><p class="pn">Two hours, all course content. Stokes and the divergence theorem appear here and nowhere else.</p><div class="pnote"><b>Worth knowing.</b> Lessons 34–37 are covered in the last two weeks and are on no quiz and no midterm. Every point they are worth is on the final.</div><div class="pnote">Only the sections <b>no quiz ever covers</b> are shown here. Everything from the earlier quizzes is on this exam too &mdash; work those tabs as well.</div></div>
 <div class="step-h"><span class="n">STEP 01</span><h2>The material</h2><span class="x">2 sections</span></div>
 <p class="step-note">&sect;17.7 &middot; &sect;17.8 &mdash; and nothing else. Read them, then do the check-yourself questions inside each one with the answer folded away.</p>
@@ -7656,9 +7699,54 @@ else boot();
   function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
 
   var tabs=[].slice.call(document.querySelectorAll(".tabs button"));
-  var sel=document.getElementById("pksel");
+  var qrail=document.getElementById("qrail");
+  var strip=document.getElementById("tabs");
+  var ind=document.getElementById("tabind");
+  var picker=document.getElementById("picker");
 
-  /* whichever stop is next by date — marked on the tab and named above it */
+  /* --- condense the picker once it sticks ------------------------------
+     A sticky element sits at exactly top:0 the moment it sticks, so its own
+     rect is the test, so it can never disagree with the CSS.
+     The handler is one rect read and a class toggle, cheap at scroll rate. */
+  function syncStuck(){
+    var want = picker.getBoundingClientRect().top <= 0.5;
+    if(want !== picker.classList.contains("stuck")){
+      picker.classList.toggle("stuck", want);
+      place();                     /* tab heights change as it condenses */
+    }
+  }
+  window.addEventListener("scroll", syncStuck, {passive:true});
+  window.addEventListener("resize", syncStuck);
+  syncStuck();
+
+  /* --- the sliding indicator ------------------------------------------- */
+  function place(){
+    var on=strip.querySelector('[aria-selected="true"]');
+    if(!on) return;
+    ind.style.setProperty("--x", on.offsetLeft+"px");
+    ind.style.setProperty("--w", on.offsetWidth+"px");
+    ind.classList.toggle("is-exam", on.classList.contains("exam"));
+    ind.classList.add("ready");
+  }
+  function centre(btn,instant){
+    var want=btn.offsetLeft-(strip.clientWidth-btn.offsetWidth)/2;
+    var max=strip.scrollWidth-strip.clientWidth;
+    want=Math.max(0,Math.min(want,max));
+    if(instant){ var b=strip.style.scrollBehavior; strip.style.scrollBehavior="auto";
+                 strip.scrollLeft=want; strip.style.scrollBehavior=b; }
+    else strip.scrollLeft=want;
+  }
+  function edges(){
+    var max=strip.scrollWidth-strip.clientWidth;
+    qrail.classList.remove("at-start","mid","at-end");
+    if(max<2) return;
+    qrail.classList.add(strip.scrollLeft<2?"at-start":(strip.scrollLeft>max-2?"at-end":"mid"));
+  }
+  strip.addEventListener("scroll",edges,{passive:true});
+  if("ResizeObserver" in window) new ResizeObserver(function(){ place(); edges(); }).observe(strip);
+  window.addEventListener("resize",function(){ place(); edges(); });
+
+  /* whichever stop is next by date — dotted on its tab, named above the rail */
   var today=new Date(); today.setHours(0,0,0,0);
   var nextId=null;
   for(var i=0;i<tabs.length;i++){
@@ -7666,27 +7754,53 @@ else boot();
   }
   if(nextId){
     tabs.forEach(function(b){ b.classList.toggle("next", b.dataset.tab===nextId); });
-    var lab=[].slice.call(tabs).filter(function(b){return b.dataset.tab===nextId;})[0];
+    var lab=tabs.filter(function(b){return b.dataset.tab===nextId;})[0];
     var note=document.getElementById("nextnote");
     if(note && lab) note.textContent="next up · "+lab.querySelector("b").textContent;
   }
 
-  function show(id){
-    tabs.forEach(function(b){ b.classList.toggle("on", b.dataset.tab===id); });
-    if(sel) sel.value=id;
-    var pane=null;
+  function show(id,opts){
+    opts=opts||{};
+    var pane=null, btn=null;
+    tabs.forEach(function(b){
+      var on=b.dataset.tab===id;
+      b.setAttribute("aria-selected", on?"true":"false");
+      b.tabIndex = on?0:-1;
+      if(on) btn=b;
+    });
     document.querySelectorAll(".pane").forEach(function(p){
       p.hidden = p.id!=="pane-"+id;
       if(!p.hidden) pane=p;
     });
+    place();
+    if(btn) centre(btn, !!opts.instant);
+    edges();
     /* canvases have no size until the pane is visible, so boot scenes now */
     if(pane && window.__bootViz) window.__bootViz(pane);
     try{ history.replaceState(null,"","#"+id); }catch(e){}
   }
-  tabs.forEach(function(b){ b.addEventListener("click",function(){ show(b.dataset.tab); window.scrollTo({top:0}); }); });
-  if(sel) sel.addEventListener("change",function(){ show(sel.value); window.scrollTo({top:0}); });
+
+  tabs.forEach(function(b,i){
+    b.addEventListener("click",function(){ show(b.dataset.tab); window.scrollTo({top:0}); });
+    b.addEventListener("keydown",function(e){
+      var n=i;
+      if(e.key==="ArrowRight") n=(i+1)%tabs.length;
+      else if(e.key==="ArrowLeft") n=(i-1+tabs.length)%tabs.length;
+      else if(e.key==="Home") n=0;
+      else if(e.key==="End") n=tabs.length-1;
+      else return;
+      e.preventDefault();
+      show(tabs[n].dataset.tab);
+      tabs[n].focus();
+    });
+  });
+
   var want=(location.hash||"").replace("#","");
-  show(tabs.some(function(b){return b.dataset.tab===want;}) ? want : (nextId||"q1"));
+  show(tabs.some(function(b){return b.dataset.tab===want;}) ? want : (nextId||"q1"),
+       {instant:true});
+  edges();
+  /* web fonts land after first paint and change tab widths */
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ place(); edges(); });
 
   /* The viz script registers its booter on DOMContentLoaded, which fires after
      this file runs — so the first pane's scenes need a second pass. */

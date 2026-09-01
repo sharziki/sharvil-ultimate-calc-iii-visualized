@@ -106,46 +106,88 @@ header.top h1{font-size:clamp(36px,6.4vw,60px);font-weight:800;line-height:.94;
   letter-spacing:-.035em;margin-top:14px}
 header.top h1 em{font-family:var(--body);font-style:italic;font-weight:300;color:var(--contour)}
 header.top .sub{margin-top:16px;font-size:18.5px;color:var(--ink-2);max-width:62ch}
-/* --- the picker ------------------------------------------------------- */
-.picker{position:sticky;top:0;z-index:30;margin-top:22px;padding:12px 0 13px;
-  background:var(--paper);border-bottom:1px solid var(--rule)}
-.picker-h{display:flex;align-items:baseline;gap:12px;padding-bottom:10px}
-.picker-h span{font:700 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
-  color:var(--ink-3)}
+/* --- the picker -------------------------------------------------------
+   A single-row rail with one sliding indicator, which condenses to a slim bar
+   once it sticks. Mechanics ported from 21st.dev "Animated Tabs" (sliding
+   indicator + roving tabindex + arrow-key nav) and "Sticky Header" (condense
+   on scroll); both are React, so this is a hand-written vanilla equivalent. */
+.picker{position:sticky;top:0;z-index:30;margin-top:22px;
+  background:var(--paper);border-bottom:1px solid var(--rule);
+  transition:box-shadow .3s ease,padding .28s cubic-bezier(.22,1,.36,1);
+  padding:12px 0 10px}
+.picker.stuck{box-shadow:0 10px 24px -22px rgba(0,0,0,.95);padding:6px 0 4px}
+/* grid-template-rows 1fr -> 0fr is the one way to animate a row to nothing */
+.picker-h{display:grid;grid-template-rows:1fr;
+  transition:grid-template-rows .3s cubic-bezier(.22,1,.36,1),opacity .2s ease}
+.picker.stuck .picker-h{grid-template-rows:0fr;opacity:0}
+/* min-height:0 zeroes the content box but not the padding, so the row
+   would stay 9px tall; collapse the padding on the same curve. */
+.picker.stuck .picker-h>div{padding-bottom:0}
+.picker-h>div{overflow:hidden;min-height:0;display:flex;align-items:baseline;
+  gap:12px;padding-bottom:9px;transition:padding-bottom .3s cubic-bezier(.22,1,.36,1)}
+.picker-h span{font:700 10px/1 var(--mono);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3)}
 .picker-h em{font:500 10px/1 var(--mono);font-style:normal;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--contour);margin-left:auto}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;align-items:stretch}
-.tabs button{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center;
-  align-items:flex-start;gap:5px;text-align:left;cursor:pointer;
-  background:var(--card);color:var(--ink-2);border:1px solid var(--rule);
-  border-radius:3px;padding:9px 12px 8px;transition:border-color .15s,background .15s}
-.tabs button b{font:700 13px/1 var(--disp);letter-spacing:-.01em;color:var(--ink)}
+  text-transform:uppercase;color:var(--contour);margin-left:auto;white-space:nowrap}
+
+.qrail{position:relative}
+/* "qrail", not "rail" — the guide's stylesheet owns .rail for its sidebar,
+   whose padding:40px 0 would add 80px of dead space here.
+   Edge fades, so a half-scrolled tab reads as "there is more". */
+.qrail::before,.qrail::after{content:"";position:absolute;top:0;bottom:0;width:34px;
+  pointer-events:none;z-index:3;opacity:0;transition:opacity .2s ease}
+.qrail::before{left:0;background:linear-gradient(to right,var(--paper),transparent)}
+.qrail::after{right:0;background:linear-gradient(to left,var(--paper),transparent)}
+.qrail.at-start::after,.qrail.mid::before,.qrail.mid::after,.qrail.at-end::before{opacity:1}
+
+.tabs{display:flex;gap:2px;position:relative;overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth;
+  padding:4px 0;margin:-4px 0}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;position:relative;z-index:1;cursor:pointer;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  gap:5px;text-align:left;background:none;border:0;border-radius:4px;
+  padding:9px 14px;color:var(--ink-2);
+  transition:color .18s ease,padding .28s cubic-bezier(.22,1,.36,1)}
+.tabs button b{font:700 13px/1 var(--disp);letter-spacing:-.01em;color:var(--ink);
+  white-space:nowrap;transition:color .18s ease}
 .tabs button i{font:500 9.5px/1 var(--mono);font-style:normal;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
-.tabs button:hover{border-color:var(--ink-3)}
-/* "exam", not "ex" — the guide's stylesheet is loaded above and styles .ex
-   as its worked-example block, whose padding silently resized these tabs.
-   Accent is drawn inside the box so exam tabs stay exactly the same size. */
-.tabs button.exam{box-shadow:inset 0 -2px 0 var(--water)}
+  text-transform:uppercase;color:var(--ink-3);white-space:nowrap;
+  max-height:12px;opacity:1;overflow:hidden;
+  transition:max-height .28s cubic-bezier(.22,1,.36,1),opacity .16s ease,color .18s ease}
+.picker.stuck .tabs button{padding:7px 13px}
+.picker.stuck .tabs button i{max-height:0;opacity:0}
+.tabs button:hover b{color:var(--contour)}
+.tabs button.exam:hover b{color:var(--water)}
+/* an exam reads blue until it is selected, when the pill carries the colour.
+   This pair must sit ABOVE the selected rules: equal specificity, source wins. */
 .tabs button.exam b{color:var(--water)}
-.tabs button.on,.tabs button.on b,.tabs button.on i{color:var(--paper)}
-.tabs button.on{background:var(--contour);border-color:var(--contour);box-shadow:none}
-.tabs button.on i{opacity:.8}
-.tabs button.exam.on{background:var(--water);border-color:var(--water)}
-.tabs button.next::after{content:"";width:6px;height:6px;border-radius:50%;
-  background:var(--contour);position:absolute;top:-3px;right:-3px}
-.tabs button.next{position:relative}
-.tabs button.on.next::after{display:none}
-.pksel{display:none;flex-direction:column;gap:7px}
-.pksel span{font:700 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
-  color:var(--ink-3)}
-.pksel select{width:100%;font:600 15px/1.2 var(--disp);color:var(--ink);
-  background:var(--card);border:1px solid var(--rule);border-radius:3px;
-  padding:13px 12px;-webkit-appearance:none;appearance:none;
-  background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),
-                   linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);
-  background-position:calc(100% - 19px) 50%,calc(100% - 13px) 50%;
-  background-size:6px 6px,6px 6px;background-repeat:no-repeat}
+.tabs button[aria-selected="true"] b,
+.tabs button[aria-selected="true"] i,
+.tabs button.exam[aria-selected="true"] b{color:var(--paper)}
+.tabs button[aria-selected="true"] i{opacity:.75}
+.tabs button:focus-visible{outline:2px solid var(--revise);outline-offset:1px}
+.tabs button.exam::after{content:"";position:absolute;left:14px;right:14px;bottom:3px;
+  height:2px;background:var(--water);border-radius:2px;opacity:.55}
+.tabs button.exam[aria-selected="true"]::after{opacity:0}
+.tabs button.next .tdot{position:absolute;top:5px;right:7px;width:5px;height:5px;
+  border-radius:50%;background:var(--contour);box-shadow:0 0 0 3px var(--paper)}
+.tabs button[aria-selected="true"] .tdot{display:none}
+
+/* the one indicator that slides between tabs */
+.tabind{position:absolute;z-index:0;left:0;top:4px;height:calc(100% - 8px);
+  width:var(--w,0px);transform:translateX(var(--x,0px));
+  background:var(--contour);border-radius:4px;opacity:0;
+  transition:transform .34s cubic-bezier(.22,1,.36,1),
+             width .34s cubic-bezier(.22,1,.36,1),
+             background-color .22s ease,opacity .18s ease}
+.tabind.ready{opacity:1}
+.tabind.is-exam{background:var(--water)}
+@media (prefers-reduced-motion:reduce){
+  .tabind,.picker,.picker-h,.tabs button,.tabs button i{transition:none}
+  .tabs{scroll-behavior:auto}
+}
+
 .pane{padding-bottom:140px}
 .phd{padding:34px 0 0;max-width:74ch}
 .pwhen{font:500 11px/1.6 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--contour)}
@@ -239,11 +281,11 @@ footer.qfoot a{color:var(--contour)}
   .topics{max-width:none}
 }
 @media (max-width:760px){
-  /* 13 tabs is a lot of thumb; hand the phone a native picker instead */
-  .tabs{display:none}
-  .pksel{display:flex}
-  .picker-h{display:none}
-  .picker{padding:10px 0}
+  /* the rail is swipeable, so it stays — it just loses its label row sooner */
+  .picker{padding:9px 0 7px}
+  .picker-h>div{padding-bottom:7px}
+  .picker-h em{display:none}
+  .tabs button{padding:8px 12px}
   .wrap{padding:0 16px}
   .phd{padding-top:26px}
   .step-h{margin-top:38px;flex-wrap:wrap;gap:6px 12px}
@@ -258,9 +300,7 @@ footer.qfoot a{color:var(--contour)}
 }
 @media (max-width:430px){
   .wrap{padding:0 13px}
-  .pksel span{display:none}
-  .pksel select{padding:11px 10px;font-size:14px}
-  .ph{font-size:30px}
+      .ph{font-size:30px}
   header.top{padding:40px 0 20px}
   .stem{font-size:17px}
   .opts label{padding:10px 8px}
@@ -276,9 +316,54 @@ PAGE_JS = r"""
   function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
 
   var tabs=[].slice.call(document.querySelectorAll(".tabs button"));
-  var sel=document.getElementById("pksel");
+  var qrail=document.getElementById("qrail");
+  var strip=document.getElementById("tabs");
+  var ind=document.getElementById("tabind");
+  var picker=document.getElementById("picker");
 
-  /* whichever stop is next by date — marked on the tab and named above it */
+  /* --- condense the picker once it sticks ------------------------------
+     A sticky element sits at exactly top:0 the moment it sticks, so its own
+     rect is the test, so it can never disagree with the CSS.
+     The handler is one rect read and a class toggle, cheap at scroll rate. */
+  function syncStuck(){
+    var want = picker.getBoundingClientRect().top <= 0.5;
+    if(want !== picker.classList.contains("stuck")){
+      picker.classList.toggle("stuck", want);
+      place();                     /* tab heights change as it condenses */
+    }
+  }
+  window.addEventListener("scroll", syncStuck, {passive:true});
+  window.addEventListener("resize", syncStuck);
+  syncStuck();
+
+  /* --- the sliding indicator ------------------------------------------- */
+  function place(){
+    var on=strip.querySelector('[aria-selected="true"]');
+    if(!on) return;
+    ind.style.setProperty("--x", on.offsetLeft+"px");
+    ind.style.setProperty("--w", on.offsetWidth+"px");
+    ind.classList.toggle("is-exam", on.classList.contains("exam"));
+    ind.classList.add("ready");
+  }
+  function centre(btn,instant){
+    var want=btn.offsetLeft-(strip.clientWidth-btn.offsetWidth)/2;
+    var max=strip.scrollWidth-strip.clientWidth;
+    want=Math.max(0,Math.min(want,max));
+    if(instant){ var b=strip.style.scrollBehavior; strip.style.scrollBehavior="auto";
+                 strip.scrollLeft=want; strip.style.scrollBehavior=b; }
+    else strip.scrollLeft=want;
+  }
+  function edges(){
+    var max=strip.scrollWidth-strip.clientWidth;
+    qrail.classList.remove("at-start","mid","at-end");
+    if(max<2) return;
+    qrail.classList.add(strip.scrollLeft<2?"at-start":(strip.scrollLeft>max-2?"at-end":"mid"));
+  }
+  strip.addEventListener("scroll",edges,{passive:true});
+  if("ResizeObserver" in window) new ResizeObserver(function(){ place(); edges(); }).observe(strip);
+  window.addEventListener("resize",function(){ place(); edges(); });
+
+  /* whichever stop is next by date — dotted on its tab, named above the rail */
   var today=new Date(); today.setHours(0,0,0,0);
   var nextId=null;
   for(var i=0;i<tabs.length;i++){
@@ -286,27 +371,53 @@ PAGE_JS = r"""
   }
   if(nextId){
     tabs.forEach(function(b){ b.classList.toggle("next", b.dataset.tab===nextId); });
-    var lab=[].slice.call(tabs).filter(function(b){return b.dataset.tab===nextId;})[0];
+    var lab=tabs.filter(function(b){return b.dataset.tab===nextId;})[0];
     var note=document.getElementById("nextnote");
     if(note && lab) note.textContent="next up · "+lab.querySelector("b").textContent;
   }
 
-  function show(id){
-    tabs.forEach(function(b){ b.classList.toggle("on", b.dataset.tab===id); });
-    if(sel) sel.value=id;
-    var pane=null;
+  function show(id,opts){
+    opts=opts||{};
+    var pane=null, btn=null;
+    tabs.forEach(function(b){
+      var on=b.dataset.tab===id;
+      b.setAttribute("aria-selected", on?"true":"false");
+      b.tabIndex = on?0:-1;
+      if(on) btn=b;
+    });
     document.querySelectorAll(".pane").forEach(function(p){
       p.hidden = p.id!=="pane-"+id;
       if(!p.hidden) pane=p;
     });
+    place();
+    if(btn) centre(btn, !!opts.instant);
+    edges();
     /* canvases have no size until the pane is visible, so boot scenes now */
     if(pane && window.__bootViz) window.__bootViz(pane);
     try{ history.replaceState(null,"","#"+id); }catch(e){}
   }
-  tabs.forEach(function(b){ b.addEventListener("click",function(){ show(b.dataset.tab); window.scrollTo({top:0}); }); });
-  if(sel) sel.addEventListener("change",function(){ show(sel.value); window.scrollTo({top:0}); });
+
+  tabs.forEach(function(b,i){
+    b.addEventListener("click",function(){ show(b.dataset.tab); window.scrollTo({top:0}); });
+    b.addEventListener("keydown",function(e){
+      var n=i;
+      if(e.key==="ArrowRight") n=(i+1)%tabs.length;
+      else if(e.key==="ArrowLeft") n=(i-1+tabs.length)%tabs.length;
+      else if(e.key==="Home") n=0;
+      else if(e.key==="End") n=tabs.length-1;
+      else return;
+      e.preventDefault();
+      show(tabs[n].dataset.tab);
+      tabs[n].focus();
+    });
+  });
+
   var want=(location.hash||"").replace("#","");
-  show(tabs.some(function(b){return b.dataset.tab===want;}) ? want : (nextId||"@@FIRST@@"));
+  show(tabs.some(function(b){return b.dataset.tab===want;}) ? want : (nextId||"@@FIRST@@"),
+       {instant:true});
+  edges();
+  /* web fonts land after first paint and change tab widths */
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ place(); edges(); });
 
   /* The viz script registers its booter on DOMContentLoaded, which fires after
      this file runs — so the first pane's scenes need a second pass. */
@@ -423,7 +534,7 @@ def section_html(parts, sid, stop_id):
 
 def build(buckets, M, sid_label, coverage_chips):
     parts = guide_parts(M)
-    tabs, panes, options = [], [], []
+    tabs, panes = [], []
 
     for s in course.STOPS:
         qs = list(buckets[s["id"]])
@@ -433,11 +544,10 @@ def build(buckets, M, sid_label, coverage_chips):
         cls = "exam" if s["kind"] == "exam" else ""
         short = s["when"].split(" \u00b7 ")[0]
         tabs.append(
-            f'<button data-tab="{s["id"]}" class="{cls}" data-date="{s["date"]}">'
-            f'<b>{s["label"]}</b><i>{short}</i></button>')
-        options.append(
-            f'<option value="{s["id"]}" data-date="{s["date"]}">'
-            f'{s["label"]} &middot; {short} &middot; {s["secs_label"]}</option>')
+            f'<button role="tab" id="tab-{s["id"]}" aria-controls="pane-{s["id"]}"'
+            f' aria-selected="false" tabindex="-1"'
+            f' data-tab="{s["id"]}" class="{cls}" data-date="{s["date"]}">'
+            f'<b>{s["label"]}</b><i>{short}</i><span class="tdot"></span></button>')
 
         lessons = (", ".join(str(l) for l in s["lessons"]) if len(s["lessons"]) <= 6
                    else f'{s["lessons"][0]}&ndash;{s["lessons"][-1]}')
@@ -472,7 +582,8 @@ def build(buckets, M, sid_label, coverage_chips):
             items.append(html)
 
         panes.append(
-            f'<section class="pane" id="pane-{s["id"]}" hidden>\n{head}\n'
+            f'<section class="pane" id="pane-{s["id"]}" role="tabpanel" '
+            f'aria-labelledby="tab-{s["id"]}" tabindex="0" hidden>\n{head}\n'
             f'<div class="step-h"><span class="n">STEP 01</span>'
             f'<h2>The material</h2><span class="x">{n_sec} {what}</span></div>\n'
             f'<p class="step-note">{chips} &mdash; and nothing else. '
@@ -524,11 +635,14 @@ def build(buckets, M, sid_label, coverage_chips):
   lesson calendar.</p>
 </header>
 
-<div class="picker">
-  <div class="picker-h"><span>Pick a quiz</span><em id="nextnote"></em></div>
-  <div class="tabs" role="tablist">{"".join(tabs)}</div>
-  <label class="pksel"><span>Studying for</span>
-    <select id="pksel">{"".join(options)}</select></label>
+<div class="picker" id="picker">
+  <div class="picker-h"><div><span>Pick a quiz</span><em id="nextnote"></em></div></div>
+  <div class="qrail" id="qrail">
+    <div class="tabs" role="tablist" aria-label="Quizzes and exams" id="tabs">
+      <span class="tabind" id="tabind" aria-hidden="true"></span>
+      {"".join(tabs)}
+    </div>
+  </div>
 </div>
 {"".join(panes)}
 

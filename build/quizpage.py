@@ -15,6 +15,7 @@ from pathlib import Path
 
 import course
 import guide_121
+import guide_136
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -52,6 +53,10 @@ def guide_parts(M):
 
     # 12.1 exists only in the generated section, never in the source.
     sections["s121"] = guide_121.html(M).strip()
+
+    # 13.6 in the source teaches only the quadrics; Lesson 3 is "13.6 (to Ex 2)",
+    # which in Briggs is the cylinder half. Add it, plus completing the square.
+    sections["s136"] = guide_136.augment(sections["s136"], M)
     return dict(css=css, defs=defs, s1=scripts[0], s2=scripts[1], sections=sections)
 
 

@@ -3,6 +3,7 @@
 The guide was written for the advanced-credit exam. This:
   - retitles it and drops the test-out framing
   - inserts a 12.1 section (Lesson 2, never needed for the test-out)
+  - fills in the cylinder half of 13.6 and completing the square
   - badges every section and every rail entry with the quiz that tests it
   - replaces the "Exam map" reference section with the real Fall 2026 calendar
 
@@ -14,6 +15,7 @@ from pathlib import Path
 
 import course
 import guide_121
+import guide_136
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -270,6 +272,14 @@ def run(M, MM, coverage_chips):
         if anchor not in h:
             sys.exit("patch_guide: s135 anchor not found")
         h = h.replace(anchor, guide_121.html(M) + "\n\n  " + anchor, 1)
+
+    # ---- 13.6: add cylinders + completing the square -----------------------
+    # Must run before badging, which rewrites every sec-h it can see.
+    start = h.find('<article class="sec" id="s136">')
+    if start < 0:
+        sys.exit("patch_guide: s136 not found")
+    end = h.index("</article>", start) + len("</article>")
+    h = h[:start] + guide_136.augment(h[start:end], M) + h[end:]
 
     # ---- section badges ---------------------------------------------------
     def badge(m):

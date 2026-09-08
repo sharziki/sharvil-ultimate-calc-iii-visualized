@@ -14,6 +14,7 @@ import sys
 from pathlib import Path
 
 import course
+import drill
 import guide_121
 import guide_136
 
@@ -627,7 +628,7 @@ def build(buckets, M, sid_label, coverage_chips):
 <body>
 <a class="sitenav" href="/">&larr; Semester map</a>
 <link rel="stylesheet" href="/katex.css">
-<style>{parts["css"]}{PAGE_CSS}</style>
+<style>{parts["css"]}{PAGE_CSS}{drill.CSS}</style>
 {parts["defs"]}
 
 <div class="wrap">
@@ -666,6 +667,7 @@ def build(buckets, M, sid_label, coverage_chips):
 <script>{parts["s1"]}</script>
 <script>{patch_viz(parts["s2"])}</script>
 <script>{js}</script>
+<script>{drill.JS}</script>
 </body>
 </html>
 """

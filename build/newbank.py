@@ -619,6 +619,257 @@ QUESTIONS = [
         check=lambda: 1 - S(1)**2, want=S(0),
     ),
 
+    # ------------------------------------------------- QUIZ 2 · fundamentals --
+    # The first pass at Quiz 2 was almost entirely "identify this surface" and
+    # "build this plane" — the computational half. These close the conceptual
+    # gaps: reading a normal off an equation, every distance, the parallel /
+    # orthogonal / contained tests, going backwards from traces to a surface,
+    # completing the square, and the degenerate cases that look like typos.
+
+    dict(
+        quiz="q2", id="Q2o", sec="13.5P", title="13.5 · Reading the normal off the equation",
+        concept=True,
+        stem=r"Without doing any work, what is a normal vector to the plane $5x-2y+z=9$?",
+        opts={"A": r"\langle 5,-2,1\rangle", "B": r"\langle 5,-2,9\rangle",
+              "C": r"\langle 9,9,9\rangle", "D": r"\langle -5,2,-1\rangle \text{ only}",
+              "E": r"\langle 1,1,1\rangle", "F": r"\text{not determined without a point}"},
+        key="A",
+        sol=[r"In $ax+by+cz=d$ the coefficients **are** the normal: $\mathbf{n}=\langle a,b,c\rangle$.",
+             r"So $\mathbf{n}=\langle 5,-2,1\rangle$. The constant $d$ locates the plane in "
+             r"space; it says nothing about which way the plane faces.",
+             r"Any nonzero multiple works too — $\langle -5,2,-1\rangle$ is equally normal, "
+             r"just pointing the other way."],
+        trap="Dragging $d$ into the vector, giving $\\langle 5,-2,9\\rangle$. The normal has "
+             "three components and the equation has four numbers; $d$ is the one that is not "
+             "a direction.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2p", sec="13.5P", title="13.5 · Distance from a point to a plane",
+        stem=r"Find the distance from $P(1,2,3)$ to the plane $2x-2y+z=6$.",
+        opts={"A": r"\tfrac{5}{3}", "B": r"5", "C": r"\tfrac{5}{9}",
+              "D": r"\tfrac{11}{3}", "E": r"\tfrac{1}{3}", "F": r"\sqrt{5}"},
+        key="A",
+        sol=[r"Write it as $2x-2y+z-6=0$, so $\mathbf{n}=\langle 2,-2,1\rangle$ and $|\mathbf{n}|=3$.",
+             r"$D=\dfrac{|2(1)-2(2)+1(3)-6|}{\sqrt{2^2+(-2)^2+1^2}}"
+             r"=\dfrac{|2-4+3-6|}{3}=\dfrac{5}{3}$.",
+             r"It is a scalar projection onto the normal: the part of the trip from the plane "
+             r"to $P$ that actually left the plane."],
+        trap="Forgetting to divide by $|\\mathbf{n}|$ and answering $5$. The numerator alone is "
+             "not a length — it is only a length once the normal is a unit vector.",
+        check=lambda: Rational(abs(2*1 - 2*2 + 1*3 - 6), 3), want=Rational(5, 3),
+    ),
+
+    dict(
+        quiz="q2", id="Q2q", sec="13.5P", title="13.5 · Distance from the origin",
+        stem=r"How far is the origin from the plane $x+2y+2z=9$?",
+        opts={"A": r"3", "B": r"9", "C": r"\tfrac{9}{5}", "D": r"1",
+              "E": r"\sqrt{9}=3\text{, but only if the plane passes through }(1,2,2)",
+              "F": r"\tfrac{9}{\sqrt{5}}"},
+        key="A",
+        sol=[r"$|\mathbf{n}|=\sqrt{1+4+4}=3$.",
+             r"$D=\dfrac{|0+0+0-9|}{3}=3$.",
+             r"Useful shortcut worth remembering: from the origin the distance is just "
+             r"$|d|/|\mathbf{n}|$."],
+        trap="Using $\\sqrt{1^2+2^2}=\\sqrt5$ and dropping the third component. All three "
+             "coefficients are in the normal even when one of them repeats.",
+        check=lambda: Rational(9, 3), want=S(3),
+    ),
+
+    dict(
+        quiz="q2", id="Q2r", sec="13.5P", title="13.5 · Angle between two planes",
+        stem=r"What is the angle between the planes $x+y=1$ and $x+z=1$?",
+        opts={"A": r"60^\circ", "B": r"45^\circ", "C": r"90^\circ", "D": r"30^\circ",
+              "E": r"0^\circ\text{ — they are parallel}", "F": r"120^\circ"},
+        key="A",
+        sol=[r"The angle between planes is the angle between their normals: "
+             r"$\mathbf{n}_1=\langle 1,1,0\rangle$, $\mathbf{n}_2=\langle 1,0,1\rangle$.",
+             r"$\cos\theta=\dfrac{|\mathbf{n}_1\cdot\mathbf{n}_2|}"
+             r"{|\mathbf{n}_1||\mathbf{n}_2|}=\dfrac{1}{\sqrt2\sqrt2}=\dfrac12$.",
+             r"$\theta=60^\circ$."],
+        trap="Reading the missing variable as a zero angle. Neither normal is a multiple of "
+             "the other, so the planes genuinely cross — a missing variable makes a plane "
+             "parallel to an axis, not parallel to another plane.",
+        check=lambda: cos(pi/3), want=Rational(1, 2),
+    ),
+
+    dict(
+        quiz="q2", id="Q2s", sec="13.5P", title="13.5 · Line versus plane",
+        stem=r"The line $\mathbf{r}(t)=\langle 2t,\;t,\;-t\rangle$ and the plane "
+             r"$3x-y+5z=2$. Which is true?",
+        opts={"A": {"text": "The line is parallel to the plane and does not meet it"},
+              "B": {"text": "The line lies inside the plane"},
+              "C": {"text": "The line meets the plane at exactly one point"},
+              "D": {"text": "The line is perpendicular to the plane"},
+              "E": {"text": "The line meets the plane at exactly two points"},
+              "F": {"text": "Cannot be decided without more information"}},
+        key="A",
+        sol=[r"Test the direction against the normal: $\mathbf{v}=\langle 2,1,-1\rangle$, "
+             r"$\mathbf{n}=\langle 3,-1,5\rangle$, and "
+             r"$\mathbf{n}\cdot\mathbf{v}=6-1-5=0$.",
+             r"A zero dot product means the line never climbs away from the plane — so it is "
+             r"parallel to it, or lying in it. Two cases, and the dot product cannot tell "
+             r"them apart.",
+             r"Settle it with one point. At $t=0$ the line is at the origin, and "
+             r"$3(0)-0+5(0)=0\neq 2$, so the origin is not on the plane.",
+             r"Parallel and disjoint."],
+        trap="Stopping at $\\mathbf{n}\\cdot\\mathbf{v}=0$ and answering \"parallel\" without "
+             "checking a point — a line lying *inside* the plane passes that same test. One "
+             "substitution separates them.",
+        check=lambda: V(3, -1, 5).dot(V(2, 1, -1)), want=S(0),
+    ),
+
+    dict(
+        quiz="q2", id="Q2t", sec="13.5P", title="13.5 · Classifying two planes",
+        stem=r"How are $2x-4y+6z=5$ and $-x+2y-3z=1$ related?",
+        opts={"A": {"text": "Parallel and distinct"},
+              "B": {"text": "The same plane written twice"},
+              "C": {"text": "Perpendicular"},
+              "D": {"text": "They meet in a line, at some angle other than $90^\\circ$"},
+              "E": {"text": "They meet at a single point"},
+              "F": {"text": "Skew — they never meet and are not parallel"}},
+        key="A",
+        sol=[r"$\mathbf{n}_1=\langle 2,-4,6\rangle$ and $\mathbf{n}_2=\langle -1,2,-3\rangle$ "
+             r"satisfy $\mathbf{n}_1=-2\,\mathbf{n}_2$, so the normals are parallel and the "
+             r"planes are parallel.",
+             r"Same or different? Scale the second equation by $-2$: $2x-4y+6z=-2$.",
+             r"Same left-hand side, different constant ($-2$ against $5$), so they are "
+             r"parallel and distinct — two sheets that never touch."],
+        trap="\"Skew\" is not available to planes. Two planes in space are parallel or they "
+             "meet in a line; only *lines* can be skew.",
+        check=lambda: V(2, -4, 6).cross(V(-1, 2, -3)).norm(), want=S(0),
+    ),
+
+    dict(
+        quiz="q2", id="Q2u", sec="13.6", title="13.6 · Completing the square",
+        stem=r"Identify the surface $9x^{2}+4y^{2}+36z^{2}-18x=27$.",
+        opts={"A": {"text": "An ellipsoid centred at $(1,0,0)$"},
+              "B": {"text": "An ellipsoid centred at the origin"},
+              "C": {"text": "A hyperboloid of one sheet"},
+              "D": {"text": "An elliptic paraboloid opening along $x$"},
+              "E": {"text": "A sphere of radius $6$"},
+              "F": {"text": "An elliptic cylinder with rulings along $x$"}},
+        key="A",
+        sol=[r"Group the $x$ terms and factor out the $9$: $9(x^{2}-2x)+4y^{2}+36z^{2}=27$.",
+             r"Complete the square inside: $9\left[(x-1)^{2}-1\right]+4y^{2}+36z^{2}=27$, so "
+             r"$9(x-1)^{2}+4y^{2}+36z^{2}=36$.",
+             r"Divide by $36$: $\dfrac{(x-1)^{2}}{4}+\dfrac{y^{2}}{9}+z^{2}=1$.",
+             r"Three squared terms, all positive, right side $1$ — an **ellipsoid**, shifted "
+             r"one unit along $x$."],
+        trap="Adding $1$ to the right-hand side instead of $9$. The bracket is multiplied by "
+             "$9$, so completing the square inside it adds $9\\cdot 1$ to the left. Getting "
+             "this wrong changes the size but not the type, which is exactly why it survives "
+             "a sanity check and still loses the mark.",
+        check=lambda: S(9)*(S(1))**2 + S(0) + S(0) - S(9), want=S(0),
+    ),
+
+    dict(
+        quiz="q2", id="Q2v", sec="13.6", title="13.6 · From traces back to the surface",
+        concept=True,
+        stem=r"A surface has an **ellipse** for every horizontal trace $z=k$, and a "
+             r"**hyperbola** for every trace $x=k$ and $y=k$. What is it?",
+        opts={"A": {"text": "A hyperboloid of one sheet"},
+              "B": {"text": "A hyperboloid of two sheets"},
+              "C": {"text": "An ellipsoid"},
+              "D": {"text": "A hyperbolic paraboloid"},
+              "E": {"text": "An elliptic cone"},
+              "F": {"text": "An elliptic paraboloid"}},
+        key="A",
+        sol=[r"Ellipses at *every* height $z=k$ means the surface is present for all $z$ and "
+             r"closes up horizontally — that rules out the two-sheet hyperboloid, which is "
+             r"empty for small $|z|$, and the ellipsoid, which stops existing past its poles.",
+             r"Hyperbolas in the two vertical directions means one squared term carries the "
+             r"opposite sign: $\dfrac{x^{2}}{a^{2}}+\dfrac{y^{2}}{b^{2}}-\dfrac{z^{2}}{c^{2}}=1$.",
+             r"That is the **hyperboloid of one sheet** — the cooling-tower shape, connected, "
+             r"with a waist you can walk around."],
+        trap="A cone also gives hyperbolas vertically, but its horizontal traces shrink to a "
+             "single point at the vertex rather than staying ellipses at every height. "
+             "\"Every $k$\" is the word doing the work in this question.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2w", sec="13.6", title="13.6 · Cone versus hyperboloid",
+        concept=True,
+        stem=r"$\dfrac{x^{2}}{4}+\dfrac{y^{2}}{9}-z^{2}=1$ is a hyperboloid of one sheet. "
+             r"What does the surface become if the right-hand side is changed to $0$?",
+        opts={"A": {"text": "An elliptic cone — the waist closes to a single point"},
+              "B": {"text": "A hyperboloid of two sheets"},
+              "C": {"text": "An ellipsoid"},
+              "D": {"text": "Nothing — the equation has no real solutions"},
+              "E": {"text": "The same surface, shifted down by one"},
+              "F": {"text": "An elliptic paraboloid"}},
+        key="A",
+        sol=[r"The right-hand side controls the size of the waist. At $z=0$ the one-sheet "
+             r"hyperboloid gives $\dfrac{x^{2}}{4}+\dfrac{y^{2}}{9}=1$, an ellipse.",
+             r"With $0$ on the right, $z=0$ forces $\dfrac{x^{2}}{4}+\dfrac{y^{2}}{9}=0$, "
+             r"whose only real solution is the origin. The waist has pinched shut.",
+             r"Every other trace is still a hyperbola or an ellipse, so the surface is the "
+             r"**cone** the hyperboloid was hugging all along — the cone is the boundary case "
+             r"between the one-sheet and two-sheet families."],
+        trap="Reading \"$=0$\" as \"empty\". Zero on the right is the cone; it is a *negative* "
+             "right-hand side with all-positive squared terms that gives you nothing at all.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2x", sec="13.6", title="13.6 · Where a two-sheet hyperboloid is empty",
+        stem=r"For the surface $-x^{2}-y^{2}+4z^{2}=36$, which values of $z$ carry no points "
+             r"of the surface at all?",
+        opts={"A": r"|z|<3", "B": r"|z|<6", "C": r"|z|>3", "D": r"z=0\text{ only}",
+              "E": r"|z|<36", "F": r"\text{none — the surface exists for every }z"},
+        key="A",
+        sol=[r"Fix $z=k$: $-x^{2}-y^{2}=36-4k^{2}$, i.e. $x^{2}+y^{2}=4k^{2}-36$.",
+             r"A circle needs a non-negative right-hand side, so $4k^{2}\ge 36$, giving "
+             r"$k^{2}\ge 9$ and $|k|\ge 3$.",
+             r"For $|z|<3$ the trace would need a negative radius squared — there is nothing "
+             r"there. That gap between $z=-3$ and $z=3$ is what makes it **two sheets**."],
+        trap="Testing $z=0$, finding nothing, and concluding the surface is empty everywhere. "
+             "Two-sheet hyperboloids are always empty at the origin; that is the definition, "
+             "not a contradiction.",
+        check=lambda: sqrt(S(36)/S(4)) - S(3), want=S(0),
+    ),
+
+    dict(
+        quiz="q2", id="Q2y", sec="13.6", title="13.6 · Degenerate quadrics",
+        concept=True,
+        stem=r"What is the graph of $x^{2}+y^{2}+z^{2}=0$ in three dimensions?",
+        opts={"A": {"text": "A single point, the origin"},
+              "B": {"text": "A sphere of radius $0$… which is the whole $xy$-plane"},
+              "C": {"text": "An elliptic cone"},
+              "D": {"text": "Nothing — there are no real solutions"},
+              "E": {"text": "The three coordinate axes"},
+              "F": {"text": "A sphere of radius $1$"}},
+        key="A",
+        sol=[r"A sum of three squares of real numbers is zero only when every one of them is "
+             r"zero.",
+             r"So $x=y=z=0$: the graph is the **single point** $(0,0,0)$.",
+             r"Compare $x^{2}+y^{2}+z^{2}=-1$, which really is empty, and "
+             r"$x^{2}+y^{2}+z^{2}=9$, an honest sphere. The right-hand side alone separates "
+             r"all three cases."],
+        trap="Answering \"nothing\". Zero is attainable — every square can be zero at once. "
+             "It is a *negative* right-hand side that has no real solutions.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2z", sec="13.6", title="13.6 · Which axis the rulings follow",
+        concept=True,
+        stem=r"In three dimensions, $y^{2}+z^{2}=4$ is a circular cylinder. Its rulings — the "
+             r"straight lines running along its length — are parallel to which axis?",
+        opts={"A": {"text": "The $x$-axis"}, "B": {"text": "The $y$-axis"},
+              "C": {"text": "The $z$-axis"},
+              "D": {"text": "None — a cylinder has no straight lines on it"},
+              "E": {"text": "The line $y=z$"},
+              "F": {"text": "It depends on the radius"}},
+        key="A",
+        sol=[r"$x$ does not appear in the equation, so $x$ is unconstrained: any $x$ at all "
+             r"satisfies it.",
+             r"The circle $y^{2}+z^{2}=4$ therefore repeats at every $x$, and stacking those "
+             r"copies sweeps the curve along the **$x$-axis**.",
+             r"General rule: the missing variable names the axis the rulings follow."],
+        trap="Picking $z$ out of habit, because the cylinders drawn in most textbooks stand "
+             "upright on the $z$-axis. Read the equation instead — the axis is whichever "
+             "letter is absent.",
+    ),
+
     # ============================================================ QUIZ 3 ====
     # Lesson 5 (14.1), Lesson 6 (14.2, 14.3 to Ex 1), Lesson 7 (14.3 rest)
 
@@ -884,6 +1135,21 @@ def verify():
         if len(q["opts"]) < 4:
             problems.append(f"{q['id']}: only {len(q['opts'])} options")
 
+        # Conceptual questions have nothing to recompute — the answer is a
+        # definition or a classification, not a number. They opt out explicitly
+        # with concept=True rather than carrying a fake check that would pass
+        # trivially and quietly weaken this guard for everything else.
+        if q.get("concept"):
+            if "check" in q or "want" in q:
+                problems.append(f"{q['id']}: concept=True but still carries a check")
+            if not q.get("sol") or not q.get("trap"):
+                problems.append(f"{q['id']}: concept question needs sol and trap")
+            continue
+
+        if "check" not in q or "want" not in q:
+            problems.append(f"{q['id']}: no check — add one, or mark concept=True")
+            continue
+
         got, want = q["check"](), q["want"]
         try:
             if isinstance(got, Matrix):
@@ -911,4 +1177,6 @@ if __name__ == "__main__":
     n = verify()
     from collections import Counter
     c = Counter(q["quiz"] for q in QUESTIONS)
-    print(f"verified {n} questions: " + ", ".join(f"{k} {v}" for k, v in sorted(c.items())))
+    concept = sum(1 for q in QUESTIONS if q.get("concept"))
+    print(f"verified {n - concept} computed + {concept} conceptual = {n}: "
+          + ", ".join(f"{k} {v}" for k, v in sorted(c.items())))

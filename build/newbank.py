@@ -870,6 +870,170 @@ QUESTIONS = [
              "letter is absent.",
     ),
 
+    # ------------------------------------------ QUIZ 2 · the remaining types --
+    # Audit of 13.5-planes and 13.6 against the section material turned up eight
+    # types with no question at all. Several are standard exam fare: piercing a
+    # plane with a line, the distance between two parallel planes, and getting an
+    # actual point on a line of intersection rather than only its direction.
+
+    dict(
+        quiz="q2", id="Q2ab", sec="13.5P", title="13.5 · Where a line pierces a plane",
+        stem=r"Where does the line $x=1+t,\;y=-1+2t,\;z=3-t$ cross the plane "
+             r"$2x-y+z=7$?",
+        opts={"A": r"(0,-3,4)", "B": r"(2,1,2)", "C": r"(1,-1,3)",
+              "D": r"(-1,-5,5)", "E": r"\text{it never meets the plane}",
+              "F": r"\text{the whole line lies in the plane}"},
+        key="A",
+        sol=[r"Substitute the parametric coordinates straight into the plane equation:",
+             r"$2(1+t)-(-1+2t)+(3-t)=7$.",
+             r"$2+2t+1-2t+3-t=7\;\Rightarrow\;6-t=7\;\Rightarrow\;t=-1$.",
+             r"Put $t=-1$ back in the line: $(1-1,\;-1-2,\;3+1)=(0,-3,4)$. "
+             r"Check: $2(0)-(-3)+4=7$."],
+        trap="Stopping at $t=-1$ and offering that as the answer. The parameter is not a "
+             "point — it still has to go back into the line.",
+        check=lambda: V(1 + (-1), -1 + 2*(-1), 3 - (-1)), want=V(0, -3, 4),
+    ),
+
+    dict(
+        quiz="q2", id="Q2ac", sec="13.5P", title="13.5 · Distance between parallel planes",
+        stem=r"How far apart are the planes $x+2y+2z=6$ and $x+2y+2z=-3$?",
+        opts={"A": r"3", "B": r"9", "C": r"\tfrac{9}{\sqrt{5}}", "D": r"1",
+              "E": r"0\text{ — they intersect}", "F": r"\tfrac{3}{2}"},
+        key="A",
+        sol=[r"Same left-hand side, so the normals match and the planes are parallel — the "
+             r"distance is well defined.",
+             r"Take any point on the second plane. Setting $y=z=0$ gives $(-3,0,0)$.",
+             r"Now use point-to-plane on the first: "
+             r"$D=\dfrac{|(-3)+0+0-6|}{\sqrt{1+4+4}}=\dfrac{9}{3}=3$.",
+             r"Shortcut for this special case: with identical normals, "
+             r"$D=\dfrac{|d_1-d_2|}{|\mathbf{n}|}$."],
+        trap="Answering $9$, the difference of the constants. That is only the distance if "
+             "the normal happens to be a unit vector, and here $|\\mathbf{n}|=3$.",
+        check=lambda: Rational(abs(6 - (-3)), 3), want=S(3),
+    ),
+
+    dict(
+        quiz="q2", id="Q2ad", sec="13.5P", title="13.5 · A point on the line of intersection",
+        stem=r"The planes $x+y+z=1$ and $x-2y+3z=4$ meet in a line. Which point lies on it?",
+        opts={"A": r"(2,-1,0)", "B": r"(1,0,0)", "C": r"(0,1,0)",
+              "D": r"(1,-1,1)", "E": r"(0,0,1)", "F": r"(4,-2,-1)"},
+        key="A",
+        sol=[r"A point on the line has to satisfy **both** equations, so pick a convenient "
+             r"slice: set $z=0$.",
+             r"That leaves $x+y=1$ and $x-2y=4$. Subtracting, $3y=-3$, so $y=-1$ and $x=2$.",
+             r"The point is $(2,-1,0)$. Check both: $2-1+0=1$ and $2+2+0=4$.",
+             r"With the direction $\mathbf{n}_1\times\mathbf{n}_2=\langle 5,-2,-3\rangle$ "
+             r"from the companion question, you now have the full line."],
+        trap="Testing against only one of the two planes. Every option here satisfies at "
+             "least one of them — the line is the *intersection*, so both have to hold.",
+        check=lambda: (2 + (-1) + 0, 2 - 2*(-1) + 0), want=(S(1), S(4)),
+    ),
+
+    dict(
+        quiz="q2", id="Q2ae", sec="13.6", title="13.6 · Elliptic cylinder",
+        concept=True,
+        stem=r"What surface is $4x^{2}+9y^{2}=36$ in three dimensions?",
+        opts={"A": {"text": "An elliptic cylinder, rulings parallel to the $z$-axis"},
+              "B": {"text": "An ellipsoid"},
+              "C": {"text": "An elliptic cylinder, rulings parallel to the $x$-axis"},
+              "D": {"text": "An elliptic paraboloid opening along $z$"},
+              "E": {"text": "An ellipse in the $xy$-plane"},
+              "F": {"text": "An elliptic cone about the $z$-axis"}},
+        key="A",
+        sol=[r"Divide by $36$: $\dfrac{x^{2}}{9}+\dfrac{y^{2}}{4}=1$ — an ellipse with "
+             r"semi-axes $3$ and $2$.",
+             r"$z$ is absent, so $z$ is free and that ellipse repeats at every height.",
+             r"An **elliptic cylinder** whose rulings run along the missing variable's axis, "
+             r"the $z$-axis. Not every cylinder is circular."],
+        trap="Answering \"an ellipse\". In $\\mathbb{R}^{2}$ it is; the question says three "
+             "dimensions, where the same equation is an infinite tube of elliptical "
+             "cross-section.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2af", sec="13.6", title="13.6 · Hyperbolic cylinder",
+        concept=True,
+        stem=r"Identify $x^{2}-z^{2}=1$ in three dimensions.",
+        opts={"A": {"text": "A hyperbolic cylinder, rulings parallel to the $y$-axis"},
+              "B": {"text": "A hyperboloid of one sheet"},
+              "C": {"text": "A hyperbolic paraboloid"},
+              "D": {"text": "A hyperbolic cylinder, rulings parallel to the $z$-axis"},
+              "E": {"text": "A hyperbola in the $xz$-plane"},
+              "F": {"text": "Two intersecting planes"}},
+        key="A",
+        sol=[r"$y$ never appears, so this is a cylinder and the rulings run along the "
+             r"**$y$-axis**.",
+             r"The curve being swept is $x^{2}-z^{2}=1$ in the $xz$-plane: a hyperbola "
+             r"opening along $\pm x$, in two branches.",
+             r"So it is a **hyperbolic cylinder** — two curved sheets, both infinite in $y$."],
+        trap="Mistaking it for a hyperboloid. A hyperboloid has all three variables squared; "
+             "here one is missing entirely, which is the signature of a cylinder no matter "
+             "what curve is being swept.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2ag", sec="13.6", title="13.6 · Identify a cone",
+        concept=True,
+        stem=r"Identify the surface $x^{2}+y^{2}-4z^{2}=0$.",
+        opts={"A": {"text": "An elliptic (in fact circular) cone with axis the $z$-axis"},
+              "B": {"text": "A hyperboloid of one sheet about the $z$-axis"},
+              "C": {"text": "A hyperboloid of two sheets about the $z$-axis"},
+              "D": {"text": "A circular cylinder about the $z$-axis"},
+              "E": {"text": "A single point, the origin"},
+              "F": {"text": "A circular paraboloid opening upward"}},
+        key="A",
+        sol=[r"Three squared terms, one of them negative — and the right-hand side is "
+             r"**$0$**, not $1$. Zero on the right is the cone case.",
+             r"Confirm with traces: $z=k$ gives $x^{2}+y^{2}=4k^{2}$, a circle whose radius "
+             r"grows linearly with $|k|$ and pinches to a point at $k=0$.",
+             r"The odd-one-out variable, $z$, is the axis."],
+        trap="Reading the single negative sign and answering \"one sheet\". The minus-sign "
+             "count only decides between the hyperboloids once the right-hand side is $1$; "
+             "$0$ overrides it and gives the cone.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2ah", sec="13.6", title="13.6 · Identify an ellipsoid",
+        concept=True,
+        stem=r"Identify the surface $4x^{2}+y^{2}+9z^{2}=36$, and give its $x$-intercepts.",
+        opts={"A": {"text": "An ellipsoid; $x=\\pm 3$"},
+              "B": {"text": "An ellipsoid; $x=\\pm 6$"},
+              "C": {"text": "A sphere of radius $6$; $x=\\pm 6$"},
+              "D": {"text": "An elliptic cylinder; $x=\\pm 3$"},
+              "E": {"text": "An ellipsoid; $x=\\pm 2$"},
+              "F": {"text": "A hyperboloid of one sheet; $x=\\pm 3$"}},
+        key="A",
+        sol=[r"Divide by $36$: $\dfrac{x^{2}}{9}+\dfrac{y^{2}}{36}+\dfrac{z^{2}}{4}=1$.",
+             r"Three squared terms, none negative, right side $1$ — an **ellipsoid**.",
+             r"Intercepts are the denominators' square roots: $x=\pm 3$, $y=\pm 6$, "
+             r"$z=\pm 2$. Unequal, so it is not a sphere."],
+        trap="Reading the intercept off the original coefficient rather than the standard "
+             "form. In $4x^{2}+\\dots=36$ the $x$-intercept is $\\sqrt{36/4}=3$, not $6$ — "
+             "you must divide through first.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2ai", sec="13.6", title="13.6 · When a quadric is genuinely empty",
+        concept=True,
+        stem=r"What is the graph of $x^{2}+y^{2}+z^{2}=-4$?",
+        opts={"A": {"text": "Nothing — there are no real points"},
+              "B": {"text": "A single point, the origin"},
+              "C": {"text": "A sphere of radius $2$"},
+              "D": {"text": "A sphere of imaginary radius, drawn as radius $2$"},
+              "E": {"text": "An elliptic cone"},
+              "F": {"text": "A hyperboloid of two sheets"}},
+        key="A",
+        sol=[r"Every square of a real number is $\ge 0$, so the left-hand side is never "
+             r"negative.",
+             r"No real $(x,y,z)$ can satisfy it: the graph is the **empty set**.",
+             r"Three cases worth holding together: $=9$ is a sphere, $=0$ is the single "
+             r"point at the origin, and $<0$ is nothing at all. The right-hand side alone "
+             r"separates them."],
+        trap="Answering \"a single point\". That is the $=0$ case. A negative right-hand "
+             "side is strictly emptier, and it is the one that looks most like a typo in an "
+             "exam and most often gets \"corrected\" into a sphere.",
+    ),
+
     # ============================================================ QUIZ 3 ====
     # Lesson 5 (14.1), Lesson 6 (14.2, 14.3 to Ex 1), Lesson 7 (14.3 rest)
 

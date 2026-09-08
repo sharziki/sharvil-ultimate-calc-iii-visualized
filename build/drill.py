@@ -81,6 +81,7 @@ CSS = r"""
   font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
   transition:opacity .18s ease}
 .dnext button:hover{opacity:.82}
+.dnext button.retry{background:none;color:var(--ink);border-color:var(--ink)}
 .dnext em{font:400 11px/1.5 var(--mono);font-style:normal;color:var(--ink-3);
   letter-spacing:.04em}
 
@@ -146,8 +147,8 @@ JS = r"""
     /* mode switch + progress, injected ahead of the existing controls */
     var modes=document.createElement("div");
     modes.className="modes";
-    modes.innerHTML='<button type="button" data-mode="drill" aria-pressed="false">Drill</button>'+
-                    '<button type="button" data-mode="all" aria-pressed="true">Review all</button>';
+    modes.innerHTML='<button type="button" data-mode="drill" aria-pressed="true">Drill</button>'+
+                    '<button type="button" data-mode="all" aria-pressed="false">Review all</button>';
     var prog=document.createElement("div");
     prog.className="dprog"; prog.hidden=true;
     prog.innerHTML='<span class="dbar"><i></i></span>'+
@@ -183,6 +184,7 @@ JS = r"""
 
     function show(){
       if(endCard){ endCard.remove(); endCard=null; }
+      if(order[idx]) delete order[idx].dataset.scored;
       all.forEach(function(q){ q.classList.remove("dnow"); });
       if(idx>=order.length){ return finish(); }
       var q=order[idx];
@@ -205,7 +207,9 @@ JS = r"""
       q.classList.add("dlocked","graded");
       var key=q.dataset.key, ok=inp.value===key;
       q.classList.add(ok?"right":"wrong");
-      if(ok) right++; else { wrong++; missed.push(q); }
+      if(!q.dataset.scored){
+        if(ok) right++; else { wrong++; missed.push(q); }
+      }
       q.querySelectorAll("input").forEach(function(i){
         var lab=i.closest("label");
         if(i.value===key) lab.classList.add("correct");
@@ -223,11 +227,19 @@ JS = r"""
       var nx=document.createElement("div");
       nx.className="dnext";
       var last=idx>=order.length-1;
-      nx.innerHTML='<button type="button" data-dnext>'+
+      /* Getting it wrong and reading the working is not the same as being able
+         to do it. Retry re-asks this question with the options reshuffled, so
+         the second attempt is a real attempt and not a memory of where the
+         green box was. The pass score keeps the FIRST answer either way — the
+         retry is practice, and the question still returns in the missed pile. */
+      nx.innerHTML=(ok?"":'<button type="button" class="retry" data-dretry>'+
+                        "Try it again</button>")+
+        '<button type="button" data-dnext>'+
         (last?"See how you did":"Next question &rarr;")+'</button>'+
-        '<em>or press Enter</em>';
+        '<em>'+(ok?"or press Enter":"work it through, then re-answer &mdash; "+
+                "Enter moves on")+'</em>';
       q.appendChild(nx);
-      nx.querySelector("[data-dnext]").focus({preventScroll:true});
+      nx.querySelector(ok?"[data-dnext]":"[data-dretry]").focus({preventScroll:true});
       paint();
     }
 
@@ -272,6 +284,20 @@ JS = r"""
     list.addEventListener("click",function(e){
       var n=e.target.closest("[data-dnext]");
       if(n){ idx++; show(); return; }
+      var r=e.target.closest("[data-dretry]");
+      if(r){
+        var q=r.closest(".q");
+        clear(q);
+        shuffleOpts(q);
+        q.dataset.scored="1";          /* first attempt already counted */
+        q.classList.add("dnow");
+        var h=document.createElement("p");
+        h.className="dhint";
+        h.innerHTML="Second attempt. <b>The choices have been reshuffled</b>, so "+
+                    "this is the question again rather than a memory of the layout.";
+        q.insertBefore(h,q.querySelector(".opts"));
+        return;
+      }
       var a=e.target.closest("[data-again]");
       if(a){
         cycle++;
@@ -317,6 +343,11 @@ JS = r"""
       var b=e.target.closest("[data-mode]"); if(!b) return;
       mode(b.dataset.mode==="drill");
     });
+
+    /* Drill is the point of this page; Review all is the escape hatch. Starting
+       in review meant every question, every option and every answer was on
+       screen at once, which is exactly what one-at-a-time is for. */
+    mode(true);
   }
 
   document.querySelectorAll(".pane").forEach(setup);

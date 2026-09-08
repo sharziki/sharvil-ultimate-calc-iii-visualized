@@ -1,8 +1,24 @@
 {
   "redirects": [
-    { "source": "/practice.html", "destination": "/quiz.html", "permanent": true },
-    { "source": "/practice", "destination": "/quiz.html", "permanent": true },
-    { "source": "/drill.html", "destination": "/quiz.html", "permanent": true },
-    { "source": "/drill", "destination": "/quiz.html", "permanent": true }
+    {
+      "source": "/guide.html",
+      "destination": "https://study.sharvilsaxena.com/ma261/guide.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz.html",
+      "destination": "https://study.sharvilsaxena.com/ma261/quiz.html",
+      "permanent": true
+    },
+    {
+      "source": "/(practice|drill)(\\.html)?",
+      "destination": "https://study.sharvilsaxena.com/ma261/quiz.html",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "destination": "https://study.sharvilsaxena.com/ma261/",
+      "permanent": true
+    }
   ]
 }

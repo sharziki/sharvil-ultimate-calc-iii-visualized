@@ -208,7 +208,10 @@ def render_new_questions():
         opts = []
         for letter in sorted(q["opts"]):
             v = q["opts"][letter]
-            body = (v.get("text", "") + (M(f"${v['tex']}$") if "tex" in v else "")) \
+            # v["text"] is prose that may still carry inline $...$ — it has to
+            # go through M like every other field, or the dollars ship literally
+            # and the option reads "A sphere of radius $1$".
+            body = (M(v.get("text", "")) + (M(f"${v['tex']}$") if "tex" in v else "")) \
                 if isinstance(v, dict) else M(f"${v}$")
             opts.append(
                 f'<li><label><input type="radio" name="{q["id"]}" value="{letter}">'

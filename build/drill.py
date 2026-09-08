@@ -176,7 +176,11 @@ JS = r"""
       q.querySelectorAll("label").forEach(function(l){
         l.classList.remove("correct","chosen-wrong");
       });
-      q.querySelectorAll("input").forEach(function(i){ i.checked=false; });
+      /* answer() disables every input to lock the question. clear() has to put
+         that back or a retry renders a question you physically cannot answer. */
+      q.querySelectorAll("input").forEach(function(i){
+        i.checked=false; i.disabled=false;
+      });
       var v=q.querySelector(".dverdict"); if(v) v.remove();
       var n=q.querySelector(".dnext"); if(n) n.remove();
       var h=q.querySelector(".dhint"); if(h) h.remove();

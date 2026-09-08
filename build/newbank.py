@@ -1034,6 +1034,138 @@ QUESTIONS = [
              "exam and most often gets \"corrected\" into a sphere.",
     ),
 
+    # ---------------------------------------- QUIZ 2 · from Purdue's own notes --
+    # Diffed against the handwritten Lesson 3 and Lesson 4 pages
+    # (math.purdue.edu/~msunkula/MA261/Sp26/Lesson{3,4}.html), which show what is
+    # actually worked in the room. Five things they teach had no question here —
+    # including their opening think-pair-share, which is the whole intuition for
+    # the section.
+
+    dict(
+        quiz="q2", id="Q2aj", sec="13.6", title="13.6 · The same equation in different dimensions",
+        concept=True,
+        stem=r"What does the equation $x=2$ describe in $\mathbb{R}^{3}$?",
+        opts={"A": {"text": "A plane perpendicular to the $x$-axis"},
+              "B": {"text": "A single point on the $x$-axis"},
+              "C": {"text": "A line parallel to the $y$-axis"},
+              "D": {"text": "A line parallel to the $x$-axis"},
+              "E": {"text": "A circular cylinder about the $x$-axis"},
+              "F": {"text": "Nothing — one equation cannot describe a surface"}},
+        key="A",
+        sol=[r"Count the free variables. $x$ is pinned at $2$; $y$ and $z$ appear nowhere, "
+             r"so both are free to be anything.",
+             r"Two free variables sweep out a two-dimensional object: a **plane**, "
+             r"perpendicular to the $x$-axis and passing through $(2,0,0)$.",
+             r"The same equation says something different in each dimension — a **point** on "
+             r"the number line, a **vertical line** in the plane, a **plane** in space. The "
+             r"equation never changes; the ambient space does.",
+             r"This is the idea the whole section runs on: a variable that is absent is a "
+             r"variable that is free, and every free variable is a direction you sweep along."],
+        trap="Answering \"a line\" out of habit from two-variable algebra, where $x=2$ really "
+             "is a line. The question has to tell you the ambient space, and in this chapter "
+             "it is always $\\mathbb{R}^{3}$ unless it says otherwise.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2ak", sec="13.6", title="13.6 · A paraboloid that is not about the z-axis",
+        concept=True,
+        stem=r"Identify the surface $x^{2}+z^{2}=-y$.",
+        opts={"A": {"text": "A circular paraboloid opening in the $-y$ direction"},
+              "B": {"text": "A circular paraboloid opening in the $-z$ direction"},
+              "C": {"text": "A circular cone about the $y$-axis"},
+              "D": {"text": "A circular cylinder about the $y$-axis"},
+              "E": {"text": "A hyperbolic paraboloid"},
+              "F": {"text": "A paraboloid opening in the $+y$ direction"}},
+        key="A",
+        sol=[r"Two variables are squared ($x$ and $z$) and one is linear ($y$) — that is a "
+             r"**paraboloid**, and the linear variable is always the axis. Here the axis is "
+             r"$y$, not $z$.",
+             r"The two squared terms share a sign, so the cross-sections are circles: "
+             r"elliptic (in fact circular), not a saddle.",
+             r"Which way does it open? Set $y=c$: $x^{2}+z^{2}=-c$. That needs $-c\ge 0$, so "
+             r"$c\le 0$ — the surface only exists for $y\le 0$ and opens along $-y$.",
+             r"At $y=0$ the trace is $x^{2}+z^{2}=0$, the single point at the vertex."],
+        trap="Assuming every paraboloid stands on the $z$-axis because that is how they are "
+             "always drawn. Read which variable is unsquared — that one is the axis.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2al", sec="13.6", title="13.6 · Where a paraboloid has no points",
+        concept=True,
+        stem=r"For the surface $x^{2}+y^{2}=-z$, which values of $z$ carry no points at all?",
+        opts={"A": {"text": "Every $z>0$"},
+              "B": {"text": "Every $z<0$"},
+              "C": {"text": "Only $z=0$"},
+              "D": {"text": "$|z|<1$"},
+              "E": {"text": "None — the surface exists at every height"},
+              "F": {"text": "Every $z\\neq 0$"}},
+        key="A",
+        sol=[r"Slice at $z=k$: $x^{2}+y^{2}=-k$.",
+             r"The left side is a sum of squares, so it is never negative. A trace exists "
+             r"only when $-k\ge 0$, i.e. $k\le 0$.",
+             r"So there is **nothing above the $xy$-plane**: the paraboloid opens downward "
+             r"from its vertex at the origin. At $k=0$ the trace is the single point "
+             r"$(0,0,0)$; below that the traces are circles of radius $\sqrt{-k}$, growing "
+             r"as you descend.",
+             r"Same reasoning as the two-sheet hyperboloid — ask which slices force a "
+             r"negative sum of squares, and those are the empty ones."],
+        trap="Reading the minus sign as \"reflected, so it exists everywhere\". The minus "
+             "sign is exactly what makes half of space empty. Test a slice rather than "
+             "picturing the surface.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2am", sec="13.6", title="13.6 · The x²−y²=k family",
+        concept=True,
+        stem=r"In the plane, the curve $x^{2}-y^{2}=k$ changes character with $k$. Which "
+             r"description is right?",
+        opts={"A": {"text": "$k>0$ hyperbola opening left–right; $k=0$ the two lines $y=\\pm x$; $k<0$ hyperbola opening up–down"},
+              "B": {"text": "$k>0$ hyperbola opening up–down; $k=0$ a single point; $k<0$ hyperbola opening left–right"},
+              "C": {"text": "An ellipse for every $k$, of varying size"},
+              "D": {"text": "$k>0$ a hyperbola; $k\\le 0$ nothing at all"},
+              "E": {"text": "$k=0$ a circle of radius $0$; otherwise two parallel lines"},
+              "F": {"text": "A parabola for every $k$"}},
+        key="A",
+        sol=[r"$k>0$: dividing by $k$ puts $x^{2}$ over a positive number, so the curve meets "
+             r"the $x$-axis at $x=\pm\sqrt{k}$ and never the $y$-axis — it opens **left and "
+             r"right**.",
+             r"$k=0$: $x^{2}-y^{2}=0$ factors as $(x-y)(x+y)=0$, the **two lines** $y=x$ and "
+             r"$y=-x$. This is the degenerate member of the family.",
+             r"$k<0$: the roles swap and the hyperbola opens **up and down**, asymptotic to "
+             r"the same two lines.",
+             r"This is exactly the family of horizontal traces of the saddle $z=x^{2}-y^{2}$, "
+             r"which is why the saddle's $z=0$ trace is a pair of crossed lines."],
+        trap="Treating $k=0$ as \"empty\" or \"a point\". A difference of squares can vanish "
+             "without either square vanishing — that is what makes the asymptotes part of "
+             "the family rather than something outside it.",
+    ),
+
+    dict(
+        quiz="q2", id="Q2an", sec="13.6", title="13.6 · How many pieces a cone has",
+        concept=True,
+        stem=r"The surface $x^{2}+y^{2}=z^{2}$ is a circular cone. What does it actually "
+             r"look like?",
+        opts={"A": {"text": "Two nappes meeting at the origin, one opening up and one opening down"},
+              "B": {"text": "One nappe, opening upward from the origin"},
+              "C": {"text": "One nappe, opening upward, plus an isolated point below it"},
+              "D": {"text": "Two nappes separated by a gap around $z=0$"},
+              "E": {"text": "A single sheet with a hole through the middle"},
+              "F": {"text": "Two nappes meeting along the whole $z$-axis"}},
+        key="A",
+        sol=[r"Solve for $z$: $z=\pm\sqrt{x^{2}+y^{2}}$. Both signs are real for every "
+             r"$(x,y)$, so the surface has an upper half and a lower half.",
+             r"Trace at $z=k$: a circle of radius $|k|$ — so the circles shrink to a point at "
+             r"$k=0$ and grow linearly in both directions.",
+             r"The two **nappes** therefore touch at exactly one place, the origin. The "
+             r"equation $z=\sqrt{x^{2}+y^{2}}$ would be only the top half; the squared form "
+             r"is both.",
+             r"Contrast the two-sheet hyperboloid, whose pieces are separated by a genuine "
+             r"gap and never touch."],
+        trap="Confusing the cone with the two-sheet hyperboloid. Both come in two pieces, but "
+             "the cone's pieces meet at a point ($=0$ on the right) while the hyperboloid's "
+             "are held apart by an empty band ($=1$ on the right).",
+    ),
+
     # ============================================================ QUIZ 3 ====
     # Lesson 5 (14.1), Lesson 6 (14.2, 14.3 to Ex 1), Lesson 7 (14.3 rest)
 

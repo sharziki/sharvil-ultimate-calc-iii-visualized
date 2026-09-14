@@ -409,6 +409,41 @@ GUIDES = [
 ]
 
 
+# Topics Purdue's own per-lesson pages teach that the Spring study guide never
+# examines. Checked against the lesson pages, not guessed: Lesson 7 ("Motion in
+# Space, Part II") works projectile motion under gravity and uniform circular
+# motion, and the guide's 14.2-14.3 section has neither in its notes or its six
+# problems. A tab that shows only official problems would quietly imply those
+# topics are not examinable, which is the opposite of true.
+#
+# lesson -> (topic, the words whose absence proves the gap)
+TAUGHT_NOT_TESTED = {
+    7: ("projectile motion under gravity, and uniform circular motion",
+        ("projectile", "gravity", "circular")),
+}
+
+
+def official_blind_spots(lessons):
+    """Topics these lessons are taught but the official problems never test.
+
+    Verified against the guide's own text each build rather than hardcoded as a
+    claim: if the instructor adds a projectile problem, the warning disappears
+    on its own.
+    """
+    out = []
+    for g in GUIDES:
+        data = exam1_src.read(exam1_src.HERE / "sources" / g["file"],
+                              expect=g["expect"])
+        for sec in data["sections"]:
+            for ln in set(sec["lessons"]) & set(lessons) & set(TAUGHT_NOT_TESTED):
+                topic, words = TAUGHT_NOT_TESTED[ln]
+                blob = (" ".join(p["stem"] for p in sec["problems"])
+                        + " " + sec["notes_html"]).lower()
+                if not any(w in blob for w in words):
+                    out.append((ln, topic))
+    return out
+
+
 def official_problems(M, MM, lessons, prefix=""):
     """The instructor's own problems for these lessons, rendered and worked.
 

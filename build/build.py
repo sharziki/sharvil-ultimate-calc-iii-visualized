@@ -223,6 +223,9 @@ def render_new_questions():
         label = SEC_LABEL.get(q["sec"], q["sec"])
         out.append(dict(
             id=q["id"], key=q["key"], sec=q["sec"], tag=q["sec"], quiz=q["quiz"], new=True,
+            # carried so the quiz tab can list what it can ask without
+            # re-deriving it from the rendered HTML
+            kind=q["title"],
             html=(
                 f'<li class="q" id="q-{q["id"]}" data-key="{q["key"]}" data-sec="{q["sec"]}">\n'
                 f'<div class="qh"><span class="qn">@@N@@</span>'
@@ -587,7 +590,8 @@ def main():
                            official=exam1page.official_index(),
                            official_problems=lambda lessons, prefix="":
                                exam1page.official_problems(M, MM, lessons,
-                                                           prefix=prefix))
+                                                           prefix=prefix),
+                           blind_spots=exam1page.official_blind_spots)
 
     global INDEX_JS
     INDEX_JS = INDEX_JS.replace("@@STOPS@@", json.dumps([

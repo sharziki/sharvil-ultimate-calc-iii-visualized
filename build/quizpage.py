@@ -277,6 +277,27 @@ header.top .sub{margin-top:16px;font-size:18.5px;color:var(--ink-2);max-width:62
   text-transform:uppercase;color:var(--revise);margin-bottom:7px}
 .fixl .katex{color:var(--ink)}
 .notel{margin-top:10px;font:400 13px/1.6 var(--mono);color:var(--ink-3)}
+.blindbox{margin-top:26px;border:1px solid var(--revise);border-left:3px solid var(--revise);
+  border-radius:3px;background:color-mix(in srgb,var(--revise) 7%,transparent);
+  padding:16px 19px;max-width:86ch}
+.blindbox>b{display:block;font-family:var(--disp);font-size:17px;
+  letter-spacing:-.015em;color:var(--ink)}
+.blindbox ul{margin:9px 0 0;padding-left:20px;font-size:16.5px;color:var(--ink-2)}
+.blindbox li{margin-top:5px}
+.blindbox li b{color:var(--ink)}
+.blindbox p{margin-top:9px;font-size:16.5px;line-height:1.55;color:var(--ink-2)}
+.whatbox{margin-top:18px;border:1px solid var(--rule);border-left:3px solid var(--contour);
+  border-radius:2px;background:var(--card);padding:15px 18px;max-width:82ch}
+.whatbox>b{display:block;font:700 10px/1 var(--mono);letter-spacing:.13em;
+  text-transform:uppercase;color:var(--contour)}
+.whatbox p{margin-top:8px;font-size:16px;line-height:1.5;color:var(--ink-2)}
+.whatlist{margin:11px 0 0;padding:0;list-style:none;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:5px 16px;counter-reset:wl}
+.whatlist li{position:relative;padding-left:24px;font-size:15.5px;line-height:1.5;
+  color:var(--ink-2)}
+.whatlist li::before{counter-increment:wl;content:counter(wl);position:absolute;left:0;top:2px;
+  font:700 9.5px/15px var(--mono);width:15px;height:15px;text-align:center;
+  border:1px solid var(--rule);border-radius:50%;color:var(--ink-3)}
 @media (max-width:760px){
   .ofgrp-h a{margin-left:0;flex-basis:100%}
   .prob .stem{font-size:17px}
@@ -638,7 +659,7 @@ def section_html(parts, sid, stop_id):
 
 
 def build(buckets, M, sid_label, coverage_chips, official=None,
-          official_problems=None):
+          official_problems=None, blind_spots=None):
     parts = guide_parts(M)
     tabs, panes = [], []
 
@@ -663,6 +684,18 @@ def build(buckets, M, sid_label, coverage_chips, official=None,
             f'&middot; {s["secs_label"]}</p>'
             f'<h2 class="ph">{s["label"]}</h2>'
             f'<p class="pn">{s["blurb"]}</p>'
+            # Every question type in this tab, from my bank's own titles. This is
+            # the thing you actually want the night before: not "here are 24
+            # problems" but "here are the eleven shapes a question can take, tick
+            # them off". Derived from the bank so it can never drift from it.
+            + (lambda kinds: (
+                '<div class="whatbox"><b>What you can be asked</b>'
+                '<p>Every question type this quiz can use. Work down it; anything '
+                'you cannot start is where tonight goes.</p><ol class="whatlist">'
+                + "".join(f'<li>{k}</li>' for k in kinds)
+                + '</ol></div>') if kinds else "")(
+                    sorted({q["kind"].split("\u00b7", 1)[-1].strip()
+                            for q in buckets[s["id"]] if q.get("kind")}))
         )
         if s.get("extra"):
             head += f'<div class="pnote"><b>Worth knowing.</b> {s["extra"]}</div>'
@@ -736,6 +769,23 @@ def build(buckets, M, sid_label, coverage_chips, official=None,
                     f'{g["page"].replace(".html","").replace("exam","Exam ").replace("final","Final")} guide &rarr;</a>'
                     f'</div><ol class="probs">{g["html"]}</ol></div>')
 
+        # Where the official set skips something the lesson actually teaches,
+        # say so loudly. Otherwise "do the official problems" reads as "these
+        # are the examinable topics", and Lesson 7's projectile motion would be
+        # walked past entirely.
+        blind = blind_spots(s["lessons"]) if blind_spots else []
+        blind_html = ""
+        if blind:
+            rows = "".join(
+                f'<li>Lesson {ln} covers <b>{topic}</b> &mdash; and not one of '
+                f'the official problems above tests it.</li>' for ln, topic in blind)
+            blind_html = (
+                '<div class="blindbox"><b>The official set has a hole here.</b>'
+                f'<ul>{rows}</ul>'
+                '<p>It is still examinable, so the questions below are not '
+                'optional this time &mdash; they are the only place those topics '
+                'get rehearsed.</p></div>')
+
         step_official = ""
         if off_html:
             step_official = (
@@ -745,7 +795,7 @@ def build(buckets, M, sid_label, coverage_chips, official=None,
                 f'<p class="step-note">Straight from the department\'s own study '
                 f'guide, for exactly these lessons &mdash; worked, with the answer '
                 f'held back until you commit. <b>Do these first.</b></p>\n'
-                f'{off_html}\n')
+                f'{off_html}\n{blind_html}')
 
         panes.append(
             f'<section class="pane" id="pane-{s["id"]}" role="tabpanel" '

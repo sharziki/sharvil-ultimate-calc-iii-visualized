@@ -72,7 +72,10 @@ BOOT_NEW = """function boot(root){
      is inside a hidden tab and would measure 0x0, so nothing can be built yet.
      show() calls this again with the pane it just revealed. */
   window.__bootViz = boot;
-  if (!root) return;
+  /* The guide registers boot as a DOMContentLoaded handler, so the first call
+     arrives with an Event, not an element. Anything without querySelectorAll
+     means "no pane to boot yet". */
+  if (!root || typeof root.querySelectorAll !== 'function') return;
   root.querySelectorAll('.viz[data-scene]').forEach(function(el){
     if (el.dataset.booted) return;
     var d = SCENES[el.getAttribute('data-scene')];
@@ -217,6 +220,67 @@ header.top .sub{margin-top:16px;font-size:18.5px;color:var(--ink-2);max-width:62
 .ofrow a:hover{border-color:var(--veg);color:var(--veg)}
 .ofrow i{font:500 9.5px/1 var(--mono);font-style:normal;letter-spacing:.09em;
   text-transform:uppercase;color:var(--ink-3)}
+.official-first p{margin-top:8px;font-size:16px;line-height:1.5;color:var(--ink-2)}
+
+/* official problems, hosted inline in a quiz tab */
+.ofgrp{margin-top:24px}
+.ofgrp-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  border-bottom:1px solid var(--rule);padding-bottom:9px}
+.ofgrp-h h3{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.ofgrp-h span{font:500 10.5px/1 var(--mono);letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink-3)}
+.ofgrp-h a{margin-left:auto;font:500 11.5px/1 var(--mono);color:var(--contour);
+  text-decoration:none;white-space:nowrap}
+.ofgrp-h a:hover{text-decoration:underline}
+.probs{list-style:none;margin:6px 0 0;padding:0;max-width:86ch}
+.prob{border-top:1px solid var(--rule-2);padding:20px 0 18px}
+.prob.seen{border-left:3px solid var(--veg);padding-left:15px}
+.prob .pn{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+.prob .num{font:700 11.5px/24px var(--mono);color:var(--paper);background:var(--ink);
+  border-radius:50%;width:24px;height:24px;text-align:center;flex:none}
+.prob.seen .num{background:var(--veg)}
+.prob .tagx{font:700 9.5px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;
+  color:var(--paper);background:var(--contour);padding:4px 6px;border-radius:2px}
+.prob .stem{margin-top:10px;font-size:18px;line-height:1.55}
+.tryrow{margin-top:13px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.tryrow button{cursor:pointer;border-radius:2px;border:1px solid var(--rule);
+  background:var(--card);color:var(--ink-2);padding:9px 13px;font:600 12px/1 var(--disp)}
+.tryrow button.go{background:var(--contour);border-color:var(--contour);color:var(--paper)}
+.tryrow .hintx{font:400 13px/1.5 var(--mono);color:var(--ink-3)}
+.work{margin-top:12px;background:var(--paper-2);border:1px solid var(--rule);
+  border-left:3px solid var(--contour);border-radius:2px;padding:15px 18px}
+.work[hidden]{display:none}
+.ansline{display:flex;gap:11px;align-items:baseline;flex-wrap:wrap;
+  padding-bottom:11px;border-bottom:1px solid var(--rule)}
+.ansline.right{border-bottom:0;padding-top:11px}
+.ansline.right .lab{color:var(--veg)}
+.ansline .lab{font:700 10px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;
+  color:var(--veg);flex:none}
+.ansline .val{font-size:18px;color:var(--ink)}
+.ansline .val.struck{text-decoration:line-through;text-decoration-thickness:1px;
+  text-decoration-color:var(--revise);color:var(--ink-3)}
+.ansline .val.struck .katex{color:var(--ink-3)}
+.ansline .ver{margin-left:auto;font:500 10px/1 var(--mono);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);border:1px solid var(--rule);
+  border-radius:2px;padding:4px 6px;white-space:nowrap}
+.ansline .ver.bad{color:var(--revise);border-color:var(--revise)}
+.steps{list-style:none;margin:13px 0 0;padding:0;counter-reset:st}
+.steps li{position:relative;padding-left:27px;margin-top:9px;font-size:16.5px;
+  line-height:1.6;color:var(--ink-2)}
+.steps li::before{counter-increment:st;content:counter(st);position:absolute;left:0;top:2px;
+  font:700 10px/16px var(--mono);width:16px;height:16px;text-align:center;
+  border:1px solid var(--rule);border-radius:50%;color:var(--ink-3)}
+.steps .katex{color:var(--ink)}
+.fixl{margin-top:13px;padding:12px 14px;border:1px solid var(--revise);border-radius:2px;
+  background:color-mix(in srgb,var(--revise) 8%,transparent);font-size:15.5px;color:var(--ink-2)}
+.fixl>span:first-child{display:block;font:700 10px/1 var(--mono);letter-spacing:.13em;
+  text-transform:uppercase;color:var(--revise);margin-bottom:7px}
+.fixl .katex{color:var(--ink)}
+.notel{margin-top:10px;font:400 13px/1.6 var(--mono);color:var(--ink-3)}
+@media (max-width:760px){
+  .ofgrp-h a{margin-left:0;flex-basis:100%}
+  .prob .stem{font-size:17px}
+}
 .step-h{margin-top:52px;display:flex;align-items:baseline;gap:14px;
   border-top:2px solid var(--ink);padding-top:18px}
 .step-h .n{font:700 12px/1 var(--mono);letter-spacing:.14em;color:var(--contour);flex:none}
@@ -448,6 +512,27 @@ PAGE_JS = r"""
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",bootVisible);
   else bootVisible();
 
+  /* --- official problems hosted in this page -------------------------
+     Same commitment step as the exam pages, and the same storage key, so a
+     problem you have already worked there shows as worked here too. */
+  (function(){
+    var KEY2="ma261-exam1", seen={};
+    try{ seen=JSON.parse(localStorage.getItem(KEY2)||"{}"); }catch(e){ seen={}; }
+    function save(){ try{ localStorage.setItem(KEY2,JSON.stringify(seen)); }catch(e){} }
+    function open_(p, remember){
+      var w=p.querySelector(".work"); if(w) w.hidden=false;
+      p.classList.add("seen");
+      var b=p.querySelector("[data-try]");
+      if(b) b.textContent="Answer shown";
+      if(remember!==false){ seen[p.dataset.pid||p.id]=1; save(); }
+    }
+    document.querySelectorAll(".prob").forEach(function(p){
+      var b=p.querySelector("[data-try]");
+      if(b) b.addEventListener("click",function(){ open_(p); });
+      if(seen[p.dataset.pid||p.id]) open_(p,false);
+    });
+  })();
+
   document.querySelectorAll(".q input[type=radio]").forEach(function(inp){
     if(state[inp.name]===inp.value) inp.checked=true;
     inp.addEventListener("change",function(){
@@ -552,7 +637,8 @@ def section_html(parts, sid, stop_id):
     return html
 
 
-def build(buckets, M, sid_label, coverage_chips, official=None):
+def build(buckets, M, sid_label, coverage_chips, official=None,
+          official_problems=None):
     parts = guide_parts(M)
     tabs, panes = [], []
 
@@ -613,7 +699,9 @@ def build(buckets, M, sid_label, coverage_chips, official=None):
                             f'<i>{n} official problems</i></a>')
             if rows:
                 head += ('<div class="official-first"><b>Official problems for '
-                         'these lessons</b><div class="ofrow">'
+                         'these lessons</b><p>The department\'s own questions for '
+                         'exactly these lessons are worked below, before anything '
+                         'of mine.</p><div class="ofrow">'
                          + "".join(rows) + '</div></div>')
         head += "</div>"
 
@@ -632,6 +720,33 @@ def build(buckets, M, sid_label, coverage_chips, official=None):
                            f'<span class="qn">{n}</span>', html, count=1))
             items.append(html)
 
+        # The instructor's own problems for these lessons, worked, inline.
+        # A quiz tab should be everything you need for that quiz; sending you to
+        # another page for the questions that matter most defeats the point.
+        off_html, n_off = "", 0
+        if official_problems:
+            groups = official_problems(s["lessons"], prefix=s["id"] + "-")
+            n_off = sum(g["n"] for g in groups)
+            for g in groups:
+                off_html += (
+                    f'<div class="ofgrp"><div class="ofgrp-h">'
+                    f'<h3>{g["title"]}</h3><span>&sect;{g["secs"].lstrip("§")} '
+                    f'&middot; {g["n"]} problems</span>'
+                    f'<a href="/{g["page"]}#{g["anchor"]}">open in the full '
+                    f'{g["page"].replace(".html","").replace("exam","Exam ").replace("final","Final")} guide &rarr;</a>'
+                    f'</div><ol class="probs">{g["html"]}</ol></div>')
+
+        step_official = ""
+        if off_html:
+            step_official = (
+                f'<div class="step-h"><span class="n">STEP 02</span>'
+                f'<h2>The official problems</h2>'
+                f'<span class="x">{n_off} problems</span></div>\n'
+                f'<p class="step-note">Straight from the department\'s own study '
+                f'guide, for exactly these lessons &mdash; worked, with the answer '
+                f'held back until you commit. <b>Do these first.</b></p>\n'
+                f'{off_html}\n')
+
         panes.append(
             f'<section class="pane" id="pane-{s["id"]}" role="tabpanel" '
             f'aria-labelledby="tab-{s["id"]}" tabindex="0" hidden>\n{head}\n'
@@ -641,9 +756,10 @@ def build(buckets, M, sid_label, coverage_chips, official=None):
             f'Read them, then do the check-yourself questions inside each one '
             f'with the answer folded away.</p>\n'
             f'<div class="topics">{topics}</div>\n'
-            f'<div class="step-h"><span class="n">STEP 02</span>'
-            f'<h2>The questions</h2><span class="x">{len(qs)} questions</span></div>\n'
-            f'<p class="step-note">On those sections only. Untimed, '
+            f'{step_official}'
+            f'<div class="step-h"><span class="n">STEP {"03" if off_html else "02"}</span>'
+            f'<h2>More practice</h2><span class="x">{len(qs)} questions</span></div>\n'
+            f'<p class="step-note">Mine, on those sections only. Untimed, '
             f'<b>no calculator</b> &mdash; the quiz doesn\'t allow one either.</p>\n'
             f'<div class="bar">'
             f'<button class="submit" data-submit>Check answers</button>'

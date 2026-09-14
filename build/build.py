@@ -584,7 +584,10 @@ def main():
     for q in new_qs:
         buckets[q["quiz"]].append(q)
     total = quizpage.build(buckets, M, SID_LABEL, coverage_chips,
-                           official=exam1page.official_index())
+                           official=exam1page.official_index(),
+                           official_problems=lambda lessons, prefix="":
+                               exam1page.official_problems(M, MM, lessons,
+                                                           prefix=prefix))
 
     global INDEX_JS
     INDEX_JS = INDEX_JS.replace("@@STOPS@@", json.dumps([

@@ -266,23 +266,23 @@ JS = r"""
     p.classList.add("seen");
     var b=p.querySelector("[data-try]");
     if(b) b.textContent="Answer shown";
-    if(remember!==false){ seen[p.id]=1; save(); tally(); }
+    if(remember!==false){ seen[p.dataset.pid||p.id]=1; save(); tally(); }
   }
   document.querySelectorAll(".prob").forEach(function(p){
     var b=p.querySelector("[data-try]");
     if(b) b.addEventListener("click",function(){ open_(p); });
-    if(seen[p.id]) open_(p,false);
+    if(seen[p.dataset.pid||p.id]) open_(p,false);
   });
 
   function tally(){
     document.querySelectorAll(".lesson").forEach(function(L){
       var all=L.querySelectorAll(".prob"), n=0;
-      all.forEach(function(p){ if(seen[p.id]) n++; });
+      all.forEach(function(p){ if(seen[p.dataset.pid||p.id]) n++; });
       var el=L.querySelector("[data-done]");
       if(el) el.innerHTML="<b>"+n+"</b> / "+all.length+" worked";
     });
     var total=document.querySelectorAll(".prob").length, got=0;
-    document.querySelectorAll(".prob").forEach(function(p){ if(seen[p.id]) got++; });
+    document.querySelectorAll(".prob").forEach(function(p){ if(seen[p.dataset.pid||p.id]) got++; });
     var bar=document.getElementById("pbar");
     if(bar) bar.style.width=(100*got/total)+"%";
   }
@@ -353,7 +353,7 @@ def B(text):
     return _BOLD.sub(r"<b>\1</b>", text)
 
 
-def _prob_html(M, p, sol, extra=False):
+def _prob_html(M, p, sol, extra=False, prefix=""):
     """One problem: stem, a commit button, then the work."""
     steps = "\n".join(f"<li>{M(B(s))}</li>" for s in sol["steps"])
     # The badge describes the *official* answer printed beside it. Saying
@@ -374,7 +374,11 @@ def _prob_html(M, p, sol, extra=False):
     note = (f'<p class="notel">{sol["note"]}</p>' if sol.get("note") else "")
     tag = '<span class="tagx">restored</span>' if extra else ""
     return (
-        f'<li class="prob" id="p-{p["pid"]}">\n'
+        # `prefix` namespaces the id when a quiz tab hosts the same problem a
+        # second time. Progress is keyed on the id, so the raw pid is kept in
+        # data-pid and the storage key derives from that — working a problem on
+        # the Exam 1 page marks it worked on the quiz tab too, and vice versa.
+        f'<li class="prob" id="{prefix}p-{p["pid"]}" data-pid="p-{p["pid"]}">\n'
         f'<div class="pn"><span class="num">{p["n"]}</span>{tag}</div>\n'
         f'<div class="stem">{M(p["stem"])}</div>\n'
         f'<div class="tryrow">'
@@ -403,6 +407,42 @@ GUIDES = [
          url="https://www.math.purdue.edu/~msunkula/MA261/Sp26/StudyGuide-Final.html",
          blurb="Stokes and the divergence theorem &mdash; on the final and nowhere else."),
 ]
+
+
+def official_problems(M, MM, lessons, prefix=""):
+    """The instructor's own problems for these lessons, rendered and worked.
+
+    Returns the same <li class="prob"> markup the exam pages use, so a quiz tab
+    can host the official problems inline instead of linking away to them. The
+    reveal button, the worked steps, the trap and any correction all come along;
+    only the surrounding chrome differs.
+    """
+    bank = exam1_sol.all_solutions()
+    out, seen = [], set()
+    for g in GUIDES:
+        data = exam1_src.read(exam1_src.HERE / "sources" / g["file"],
+                              expect=g["expect"])
+        for sec in data["sections"]:
+            if not set(sec["lessons"]) & set(lessons) or sec["id"] in seen:
+                continue
+            seen.add(sec["id"])
+            items = []
+            for prob in sec["problems"]:
+                sol = bank.get(prob["pid"])
+                if sol is None:
+                    continue
+                items.append(_prob_html(M, prob, sol, prefix=prefix))
+            for e in exam1_sol.EXTRA:
+                if e["lesson"] == sec["key"]:
+                    items.append(_prob_html(
+                        M, dict(pid=e["pid"], n="\u2032", stem=e["stem"],
+                                answer=e["answer"]), e, extra=True,
+                        prefix=prefix))
+            if items:
+                out.append(dict(title=sec["title"], secs=sec["secs_label"],
+                                page=g["out"], anchor=sec["id"],
+                                n=len(items), html="\n".join(items)))
+    return out
 
 
 def official_index():

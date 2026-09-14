@@ -1611,6 +1611,15 @@ def verify():
 
     if problems:
         raise SystemExit("ANSWER VERIFICATION FAILED:\n  " + "\n  ".join(problems))
+
+    # The questions must not reproduce an assigned homework problem: practice
+    # that carries the homework's own numbers rehearses a remembered answer
+    # rather than the method, and the README promises originality.
+    import hwcheck
+    overlap = hwcheck.check(q4bank.QUESTIONS)
+    if overlap:
+        raise SystemExit("HOMEWORK OVERLAP:\n  " + "\n  ".join(overlap))
+
     return len(QUESTIONS)
 
 

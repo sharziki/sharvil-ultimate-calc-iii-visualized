@@ -4,9 +4,14 @@ Lessons 8–10 · **14.4 arc length · 14.5 curvature & TNB (to Thm 14.5) · 15.
 
 Everything below is the pattern set actually assigned in MyLab (14.4.9, .11, .13,
 .23, .40, .42 · 14.5.11, .13, .15, .23 · 15.1.11, .15, .17, .19, .25, .28, .30,
-.34, .35) plus the two 15.2 limit types the lesson plan adds. Practice lives in
-`quiz.html` under the Quiz 4 tab — 32 questions, every numeric answer recomputed
-by sympy at build time.
+.34, .35) plus the two 15.2 limit types the lesson plan adds.
+
+The worked examples in *this* file use the homework's own numbers, because it is
+a reference: you want to check your work against the problem you actually sat.
+The **practice questions** in `quiz.html` deliberately do not — every one carries
+different numbers, so drilling them exercises the method rather than your memory
+of an answer you have already seen. `build/hwcheck.py` enforces that at build
+time and refuses to emit on a collision.
 
 ---
 

@@ -71,6 +71,14 @@ python3 build.py
   depth sort, Lambert shading, drag-to-rotate, auto-framing). No WebGL, no three.js.
 - **Diagrams** — hand-authored inline SVG, themed through `currentColor`.
 
+**Practice questions are not the homework.** `build/hwcheck.py` fingerprints
+every Quiz 4 stem — the multiset of numbers and the sequence of function names —
+against all 19 assigned MyLab problems, and the build refuses to emit on a match.
+Reusing a homework problem verbatim would turn practice into recall of a seen
+answer; the pattern is the lesson, the digits are not. Five stems are too short
+to fingerprint safely and are hand-compared in `HAND_CHECKED`, with the reasoning
+recorded.
+
 **Practice answers are verified, not asserted.** Every added question carries a
 `sympy` check function that recomputes the keyed answer, and a second guard
 re-parses the keyed *option* back out of its TeX to confirm the letter points at

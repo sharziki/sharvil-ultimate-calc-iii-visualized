@@ -65,16 +65,22 @@ header.hero{position:relative;padding:96px 0 40px;overflow:hidden}
 .socials svg.stroke{fill:none;stroke:currentColor;stroke-width:1.7;
   stroke-linecap:round;stroke-linejoin:round}
 /* the two doors */
-.doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:40px}
+/* Three doors. auto-fit with a 300px floor gives 2+1 at desktop widths and
+   leaves the third stranded, so the count is stated explicitly and only
+   collapses when a card would genuinely be too narrow to read. */
+.doors{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+@media (max-width:900px){.doors{grid-template-columns:1fr}}
 .door{display:block;text-decoration:none;background:var(--card);border:1px solid var(--rule);
   border-radius:4px;padding:28px 26px 24px;transition:border-color .18s,transform .18s}
 .door:hover{border-color:var(--contour);transform:translateY(-2px)}
 .door .k{font:700 10.5px/1 var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--contour)}
-.door h2{font-size:32px;font-weight:800;letter-spacing:-.028em;margin-top:12px;line-height:1.02}
+.door h2{font-size:28px;font-weight:800;letter-spacing:-.028em;margin-top:12px;line-height:1.02}
 .door p{margin-top:12px;font-size:16.5px;line-height:1.5;color:var(--ink-2)}
 .door .go{margin-top:18px;display:inline-block;font:600 13px/1 var(--disp);color:var(--contour)}
 .door.b{border-left:3px solid var(--water)}
 .door.b .k,.door.b .go{color:var(--water)}
+.door.c{border-left:3px solid var(--revise)}
+.door.c .k,.door.c .go{color:var(--revise)}
 .door.b:hover{border-color:var(--water)}
 /* next up */
 .next{margin-top:16px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;
@@ -127,7 +133,7 @@ footer a{color:var(--contour)}
   <p class="eyebrow">Purdue MA 26100 &middot; Fall 2026 &middot; 37 lessons</p>
   <h1>Calculus III,<br><em>drawn.</em></h1>
   <p class="lede">The whole course as one long walk over a hilly landscape.
-  Two ways in.</p>
+  Three ways in.</p>
   <p class="byline">by <a class="who" href="https://sharvilsaxena.com"
     target="_blank" rel="noopener me">Sharvil Saxena</a>
     <span class="socials"><a href="https://sharvilsaxena.com" target="_blank" rel="noopener me" aria-label="Personal site" title="Personal site"><svg viewBox="0 0 24 24" class="stroke" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2"/><path d="M2.8 12h18.4"/><path d="M12 2.8c2.6 2.7 4 5.9 4 9.2s-1.4 6.5-4 9.2c-2.6-2.7-4-5.9-4-9.2s1.4-6.5 4-9.2Z"/></svg></a><a href="https://github.com/sharziki" target="_blank" rel="noopener me" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a><a href="https://x.com/sharziki" target="_blank" rel="noopener me" aria-label="X" title="X"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://instagram.com/sharziki" target="_blank" rel="noopener me" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" class="stroke" aria-hidden="true" focusable="false"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5.2"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.15" fill="currentColor" stroke="none"/></svg></a><a href="https://www.linkedin.com/in/sharvilsaxena" target="_blank" rel="noopener me" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.86-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.73V1.73C24 .77 23.21 0 22.23 0Z"/></svg></a></span></p>
@@ -147,6 +153,14 @@ footer a{color:var(--contour)}
     <p>Pick a quiz and get the sections it covers &mdash; and nothing else &mdash;
     in full, then 152 questions on exactly those sections.</p>
     <span class="go">Pick a quiz &rarr;</span>
+  </a>
+  <a class="door c" href="/exam1.html">
+    <span class="k">The official guide</span>
+    <h2>Exam 1, worked</h2>
+    <p>Purdue's own Exam&nbsp;1 study guide, every one of its 69 practice problems
+    worked out, the answer shut until you commit. 57 answers recomputed with
+    sympy &mdash; two of the published ones are wrong.</p>
+    <span class="go">Work the official guide &rarr;</span>
   </a>
 </div>
 

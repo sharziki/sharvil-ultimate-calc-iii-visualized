@@ -203,6 +203,7 @@ header.top .sub{margin-top:16px;font-size:18.5px;color:var(--ink-2);max-width:62
   border-left:3px solid var(--revise);border-radius:2px;padding:14px 17px;
   font-size:16px;line-height:1.55;color:var(--ink-2)}
 .pnote b{color:var(--ink)}
+.pnote a{color:var(--contour)}
 .step-h{margin-top:52px;display:flex;align-items:baseline;gap:14px;
   border-top:2px solid var(--ink);padding-top:18px}
 .step-h .n{font:700 12px/1 var(--mono);letter-spacing:.14em;color:var(--contour);flex:none}
@@ -566,6 +567,13 @@ def build(buckets, M, sid_label, coverage_chips):
         )
         if s.get("extra"):
             head += f'<div class="pnote"><b>Worth knowing.</b> {s["extra"]}</div>'
+        if s["id"] == "m1":
+            head += ('<div class="pnote"><b>The department publishes a study guide '
+                     'for this exam</b>, and it is the source of truth for coverage. '
+                     'Every one of its practice problems is worked out, with the '
+                     'answer held back until you commit to an attempt, at '
+                     '<a href="/exam1.html">Exam&nbsp;1, worked</a>. Start there; '
+                     'use this tab for the sections no quiz ever tested.</div>')
         if s["kind"] == "exam":
             head += ('<div class="pnote">Only the sections <b>no quiz ever covers</b> '
                      'are shown here. Everything from the earlier quizzes is on this '

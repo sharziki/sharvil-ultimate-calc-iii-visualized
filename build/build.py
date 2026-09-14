@@ -3,7 +3,7 @@
 
 Inputs :  build/bank.html (the 55 original questions)
           guide.html (patched in place)
-Outputs:  index.html, quiz.html, guide.html
+Outputs:  index.html, quiz.html, guide.html, exam1.html
 
 Run from this directory:  python3 build.py
 """
@@ -14,6 +14,7 @@ import sys
 from pathlib import Path
 
 import course
+import exam1page
 import newbank
 import guide_121
 import patch_guide
@@ -304,16 +305,22 @@ header.hero{position:relative;padding:96px 0 40px;overflow:hidden}
 .socials svg.stroke{fill:none;stroke:currentColor;stroke-width:1.7;
   stroke-linecap:round;stroke-linejoin:round}
 /* the two doors */
-.doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:40px}
+/* Three doors. auto-fit with a 300px floor gives 2+1 at desktop widths and
+   leaves the third stranded, so the count is stated explicitly and only
+   collapses when a card would genuinely be too narrow to read. */
+.doors{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+@media (max-width:900px){.doors{grid-template-columns:1fr}}
 .door{display:block;text-decoration:none;background:var(--card);border:1px solid var(--rule);
   border-radius:4px;padding:28px 26px 24px;transition:border-color .18s,transform .18s}
 .door:hover{border-color:var(--contour);transform:translateY(-2px)}
 .door .k{font:700 10.5px/1 var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--contour)}
-.door h2{font-size:32px;font-weight:800;letter-spacing:-.028em;margin-top:12px;line-height:1.02}
+.door h2{font-size:28px;font-weight:800;letter-spacing:-.028em;margin-top:12px;line-height:1.02}
 .door p{margin-top:12px;font-size:16.5px;line-height:1.5;color:var(--ink-2)}
 .door .go{margin-top:18px;display:inline-block;font:600 13px/1 var(--disp);color:var(--contour)}
 .door.b{border-left:3px solid var(--water)}
 .door.b .k,.door.b .go{color:var(--water)}
+.door.c{border-left:3px solid var(--revise)}
+.door.c .k,.door.c .go{color:var(--revise)}
 .door.b:hover{border-color:var(--water)}
 /* next up */
 .next{margin-top:16px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;
@@ -398,7 +405,7 @@ def social_links():
     return "".join(out)
 
 
-def build_index(buckets, total):
+def build_index(buckets, total, e1):
     rows = []
     for s in course.STOPS:
         n = len(buckets[s["id"]])
@@ -435,7 +442,7 @@ def build_index(buckets, total):
   <p class="eyebrow">Purdue MA 26100 &middot; Fall 2026 &middot; 37 lessons</p>
   <h1>Calculus III,<br><em>drawn.</em></h1>
   <p class="lede">The whole course as one long walk over a hilly landscape.
-  Two ways in.</p>
+  Three ways in.</p>
   <p class="byline">by <a class="who" href="https://sharvilsaxena.com"
     target="_blank" rel="noopener me">Sharvil Saxena</a>
     <span class="socials">{social_links()}</span></p>
@@ -455,6 +462,14 @@ def build_index(buckets, total):
     <p>Pick a quiz and get the sections it covers &mdash; and nothing else &mdash;
     in full, then {total} questions on exactly those sections.</p>
     <span class="go">Pick a quiz &rarr;</span>
+  </a>
+  <a class="door c" href="/exam1.html">
+    <span class="k">The official guide</span>
+    <h2>Exam 1, worked</h2>
+    <p>Purdue's own Exam&nbsp;1 study guide, every one of its {e1["problems"]} practice problems
+    worked out, the answer shut until you commit. {e1["checked"]} answers recomputed with
+    sympy &mdash; two of the published ones are wrong.</p>
+    <span class="go">Work the official guide &rarr;</span>
   </a>
 </div>
 
@@ -562,7 +577,8 @@ def main():
         dict(id=s["id"], label=s["label"], when=s["when"], date=s["date"],
              secs=s["secs_label"])
         for s in course.STOPS]))
-    build_index(buckets, total)
+    e1 = exam1page.build(M, MM)
+    build_index(buckets, total, e1)
 
     patch_guide.run(M, MM, coverage_chips)
 
@@ -573,6 +589,9 @@ def main():
         print(f"   {s['label']:<12} {len(coverage_chips(s)):>2} sections  {n:>3} questions")
     print("index.html     semester map")
     print("guide.html     patched")
+    print(f"exam1.html     {e1['problems']} official problems worked across "
+          f"{e1['sections']} lessons ({e1['checked']} answers recomputed, "
+          f"{e1['prose']} prose)")
 
 
 if __name__ == "__main__":

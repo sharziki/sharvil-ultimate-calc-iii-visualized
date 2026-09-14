@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam 1 Study Guide - MA 261 Spring 2026</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* WCAG 2.2 Compliant Styles */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --purdue-gold: #C28E0E;
+            --purdue-black: #000000;
+            --text-color: #000000;
+            --background-color: #FFFFFF;
+            --border-color: #000000;
+            --link-color: #0066CC;
+            --link-visited: #551A8B;
+            --focus-color: #C28E0E;
+            --accent-bg: #FFF8DC;
+            --section-bg: #F7F7F7;
+        }
+        
+        /* Skip link for keyboard navigation (WCAG 2.2) */
+        .skip-link {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+            background: var(--purdue-gold);
+            color: var(--purdue-black);
+            font-weight: bold;
+            text-decoration: none;
+            z-index: 100;
+        }
+        
+        .skip-link:focus {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            padding: 8px 16px;
+            margin: 0;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+        }
+        
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* Focus indicators (WCAG 2.2 requirement) */
+        a:focus,
+        button:focus,
+        summary:focus {
+            outline: 3px solid var(--focus-color);
+            outline-offset: 2px;
+        }
+        
+        header {
+            border-bottom: 3px solid var(--purdue-gold);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2em;
+            color: var(--purdue-black);
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .course-info {
+            font-size: 1.1em;
+            color: var(--purdue-black);
+            margin: 10px 0;
+        }
+        
+        .exam-info {
+            background-color: var(--accent-bg);
+            border-left: 4px solid var(--purdue-gold);
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .exam-info strong {
+            color: var(--purdue-black);
+        }
+        
+        .lecture-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .lecture-link {
+            background-color: var(--background-color);
+            color: var(--purdue-black);
+            padding: 6px 12px;
+            text-decoration: none;
+            border: 2px solid var(--purdue-gold);
+            border-radius: 4px;
+            font-size: 0.9em;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .lecture-link:hover {
+            background-color: var(--purdue-gold);
+            color: var(--background-color);
+        }
+        
+        .lecture-link:focus {
+            background-color: var(--accent-bg);
+        }
+        
+        h2 {
+            font-size: 1.5em;
+            color: var(--purdue-black);
+            margin: 30px 0 0 0;
+            padding: 15px;
+            background-color: var(--section-bg);
+            border-left: 4px solid var(--purdue-gold);
+        }
+        
+        h3 {
+            font-size: 1.2em;
+            color: var(--purdue-black);
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+        
+        h4 {
+            font-size: 1.1em;
+            color: var(--purdue-black);
+            margin: 15px 0 8px 0;
+            font-weight: bold;
+        }
+        
+        section {
+            margin-bottom: 40px;
+        }
+        
+        p {
+            margin: 10px 0;
+        }
+        
+        /* High contrast formula boxes (WCAG 2.2) */
+        .formula-box {
+            border: 2px solid var(--purdue-black);
+            background-color: #FFFEF7;
+            padding: 15px;
+            margin: 15px 0;
+            display: block;
+        }
+        
+        .important-box {
+            border: 2px solid var(--purdue-gold);
+            background-color: var(--accent-bg);
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        ul, ol {
+            margin: 10px 0 10px 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        /* High contrast links (WCAG 2.2 - 4.5:1 ratio required) */
+        a {
+            color: var(--link-color);
+            text-decoration: underline;
+        }
+        
+        a:visited {
+            color: var(--link-visited);
+        }
+        
+        a:hover {
+            color: var(--purdue-gold);
+            background-color: #FFFEF7;
+        }
+        
+        strong, .important {
+            font-weight: bold;
+            color: var(--purdue-black);
+        }
+        
+        /* WCAG 2.2 compliant tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: var(--background-color);
+        }
+        
+        caption {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            text-align: left;
+            color: var(--purdue-black);
+        }
+        
+        th, td {
+            border: 1px solid var(--purdue-black);
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--section-bg);
+            font-weight: bold;
+            color: var(--purdue-black);
+        }
+        
+        tr:nth-child(even) {
+            background-color: #FAFAFA;
+        }
+        
+        .note {
+            font-style: italic;
+            margin: 10px 0;
+            padding-left: 20px;
+            border-left: 3px solid var(--purdue-gold);
+        }
+        
+        .study-tips {
+            background-color: var(--section-bg);
+            border: 2px solid var(--purdue-gold);
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .study-tips h3 {
+            margin-top: 0;
+            color: var(--purdue-black);
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                font-size: 12pt;
+                max-width: 100%;
+                padding: 0.5in;
+            }
+            
+            .skip-link, .lecture-links {
+                display: none;
+            }
+            
+            h2 {
+                page-break-after: avoid;
+            }
+            
+            .formula-box,
+            .important-box {
+                page-break-inside: avoid;
+            }
+            
+            a {
+                color: var(--purdue-black);
+                text-decoration: none;
+            }
+            
+            a[href^="http"]:after {
+                content: " (" attr(href) ")";
+                font-size: 0.8em;
+            }
+        }
+        
+        /* Mobile responsive (WCAG 2.2 - Reflow) */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            h2 {
+                font-size: 1.3em;
+            }
+            
+            h3 {
+                font-size: 1.1em;
+            }
+            
+            .formula-box,
+            .important-box {
+                padding: 10px;
+            }
+            
+            table {
+                font-size: 0.9em;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --text-color: #000000;
+                --background-color: #FFFFFF;
+            }
+            
+            .formula-box,
+            .important-box {
+                border-width: 3px;
+            }
+        }
+        
+        /* Reduced motion support (WCAG 2.2) */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    
+        /* Practice Problems */
+        .practice-problems {
+            background-color: #F9F6F0;
+            border: 2px solid var(--purdue-gold);
+            border-radius: 4px;
+            padding: 20px;
+            margin: 30px 0 10px 0;
+        }
+        .practice-problems h3 {
+            color: var(--purdue-black);
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--purdue-gold);
+            font-size: 1.2em;
+        }
+        .practice-question {
+            margin: 15px 0;
+            padding: 14px 18px;
+            background-color: var(--background-color);
+            border: 1px solid #DDD;
+            border-left: 3px solid var(--purdue-gold);
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+        .practice-question:hover {
+            background-color: #FFFBF0;
+        }
+        .practice-question p {
+            margin: 0;
+        }
+        .practice-question .question-prompt {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .practice-question .toggle-hint {
+            font-size: 0.8em;
+            color: #888;
+            white-space: nowrap;
+            padding-top: 2px;
+            flex-shrink: 0;
+            font-family: Georgia, serif;
+        }
+        .practice-question.answered .toggle-hint {
+            color: #2a7a2a;
+        }
+        .answer-box {
+            display: none;
+            margin-top: 14px;
+            padding: 12px 16px;
+            background-color: #F0F7F0;
+            border: 1px solid #5A9E5A;
+            border-left: 4px solid #2a7a2a;
+            border-radius: 2px;
+        }
+        .answer-box .answer-label {
+            font-weight: bold;
+            color: #2a7a2a;
+            font-size: 0.9em;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .answer-box p {
+            margin: 6px 0 0 0;
+            color: #000;
+        }
+        .practice-question.answered .answer-box {
+            display: block;
+        }
+        @media print {
+            .toggle-hint { display: none; }
+            .answer-box { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header role="banner">
+        <h1>Exam 1 Study Guide</h1>
+        <p class="course-info">MA 26100: Multivariate Calculus, Spring 2026</p>
+        <p class="course-info">Purdue University</p>
+    </header>
+    
+    <main id="main-content" role="main">
+        <div class="exam-info" role="region" aria-label="Exam Information">
+            <p><strong>Coverage:</strong> Lessons 1-16 (Sections 13.1-15.7)</p>
+            <p><strong>Exam Date:</strong> Tuesday, February 25, 2026</p>
+            <p><strong>Time:</strong> 6:30 PM - 7:30 PM</p>
+            <p><strong>Location:</strong> Announced on Brightspace</p>
+        </div>
+        
+        <nav aria-label="Table of Contents" class="important-box">
+            <h2>Contents</h2>
+            <ol>
+                <li><a href="#lesson1">Review of Vectors [Lesson 1] (§13.1-13.4)</a></li>
+                <li><a href="#lesson2">Lines and Planes in Space [Lesson 2] (§13.5)</a></li>
+                <li><a href="#lesson3-4">Quadric Surfaces [Lessons 3-4] (§13.6)</a></li>
+                <li><a href="#lesson5">Vector-Valued Functions [Lesson 5] (§14.1)</a></li>
+                <li><a href="#lesson6-7">Calculus of Vector-Valued Functions & Motion [Lessons 6-7] (§14.2-14.3)</a></li>
+                <li><a href="#lesson8">Arc Length and Curvature [Lesson 8] (§14.4-14.5)</a></li>
+                <li><a href="#lesson9">Functions of Several Variables [Lesson 9] (§15.1)</a></li>
+                <li><a href="#lesson10">Limits and Continuity [Lesson 10] (§15.2)</a></li>
+                <li><a href="#lesson11">Partial Derivatives [Lesson 11] (§15.3)</a></li>
+                <li><a href="#lesson12">The Chain Rule [Lesson 12] (§15.4)</a></li>
+                <li><a href="#lesson13">Directional Derivatives & Gradient [Lesson 13] (§15.5)</a></li>
+                <li><a href="#lesson14">Tangent Planes & Linear Approximation [Lesson 14] (§15.6)</a></li>
+                <li><a href="#lesson15-16">Maximum and Minimum Problems [Lessons 15-16] (§15.7)</a></li>
+            </ol>
+        </nav>
+        
+        <section id="lesson1" aria-labelledby="lesson1-heading">
+            <h2 id="lesson1-heading">Review of Vectors [Lesson 1] (§13.1-13.4)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson1" class="lecture-link">Video</a>
+                <a href="Lesson1.html" class="lecture-link">Notes</a>
+            
+                <a href="#practice-lesson1" class="lecture-link">Practice</a></div>
+            
+            <h3>Vector Notation and Operations</h3>
+            <p>A <strong>vector</strong> has both magnitude (length) and direction. Vector notation:</p>
+            <div class="formula-box" role="region" aria-label="Vector notation">
+                \[\vec{v} = \langle v_1, v_2, v_3 \rangle \quad \text{or} \quad \vec{v} = v_1\vec{i} + v_2\vec{j} + v_3\vec{k}\]
+            </div>
+            
+            <p>where \(\vec{i} = \langle 1,0,0 \rangle\), \(\vec{j} = \langle 0,1,0 \rangle\), \(\vec{k} = \langle 0,0,1 \rangle\) are the standard basis vectors.</p>
+            
+            <h4>Basic Operations</h4>
+            <ul>
+                <li><strong>Addition:</strong> \(\vec{u} + \vec{v} = \langle u_1+v_1, u_2+v_2, u_3+v_3 \rangle\)</li>
+                <li><strong>Scalar multiplication:</strong> \(c\vec{u} = \langle cu_1, cu_2, cu_3 \rangle\)</li>
+                <li><strong>Vector from P to Q:</strong> \(\overrightarrow{PQ} = \langle x_2-x_1, y_2-y_1, z_2-z_1 \rangle\)</li>
+            </ul>
+            
+            <h3>Magnitude and Unit Vectors</h3>
+            <p><strong>Magnitude</strong> (Length) of vector \(\vec{v} = \langle v_1, v_2, v_3 \rangle\):</p>
+            <div class="formula-box" role="region" aria-label="Magnitude formula">
+                \[|\vec{v}| = \sqrt{v_1^2 + v_2^2 + v_3^2}\]
+            </div>
+            
+            <p>A <strong>unit vector</strong> is a vector of length 1. The unit vector in the direction of \(\vec{v}\) is:</p>
+            <div class="formula-box" role="region" aria-label="Unit vector formula">
+                \[\hat{v} = \frac{\vec{v}}{|\vec{v}|}\]
+            </div>
+            
+            <h3>Dot Product</h3>
+            <p><strong>Dot Product</strong> of \(\vec{u} = \langle u_1, u_2, u_3 \rangle\) and \(\vec{v} = \langle v_1, v_2, v_3 \rangle\):</p>
+            <div class="formula-box" role="region" aria-label="Dot product formula">
+                \[\vec{u} \cdot \vec{v} = u_1v_1 + u_2v_2 + u_3v_3 = |\vec{u}||\vec{v}|\cos\theta\]
+            </div>
+            <p>where \(\theta\) is the angle between the vectors. Result is a <strong>scalar</strong>.</p>
+            
+            <ul>
+                <li>\(\vec{u} \cdot \vec{v} = 0 \Longleftrightarrow\) vectors are perpendicular (orthogonal)</li>
+                <li>Angle between vectors: \(\cos\theta = \frac{\vec{u} \cdot \vec{v}}{|\vec{u}||\vec{v}|}\)</li>
+            </ul>
+            
+            <h3>Cross Product</h3>
+            <p><strong>Cross Product</strong> of \(\vec{u} = \langle u_1, u_2, u_3 \rangle\) and \(\vec{v} = \langle v_1, v_2, v_3 \rangle\):</p>
+            <div class="formula-box" role="region" aria-label="Cross product formula">
+                \[\vec{u} \times \vec{v} = \begin{vmatrix} \vec{i} & \vec{j} & \vec{k} \\ u_1 & u_2 & u_3 \\ v_1 & v_2 & v_3 \end{vmatrix} = \langle u_2v_3-u_3v_2, u_3v_1-u_1v_3, u_1v_2-u_2v_1 \rangle\]
+            </div>
+            <p>Result is a <strong>vector</strong> perpendicular to both \(\vec{u}\) and \(\vec{v}\).</p>
+            
+            <ul>
+                <li>\(|\vec{u} \times \vec{v}| = |\vec{u}||\vec{v}|\sin\theta\) = area of parallelogram formed by \(\vec{u}\) and \(\vec{v}\)</li>
+                <li>\(\vec{u} \times \vec{v} = \vec{0} \Longleftrightarrow\) vectors are parallel</li>
+                <li>\(\vec{u} \times \vec{v} = -(\vec{v} \times \vec{u})\) (anti-commutative)</li>
+            </ul>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson1">
+                <h3 id="practice-lesson1">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Find the projection of \(\vec{u} = \langle 2, -1, 3 \rangle\) onto \(\vec{v} = \langle 1, 2, 2 \rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\left\langle \dfrac{2}{3},\, \dfrac{4}{3},\, \dfrac{4}{3}\right\rangle\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Find the area of the triangle with vertices \(P(1,0,0)\), \(Q(0,2,0)\), and \(R(0,0,3)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\dfrac{7}{2}\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> If \(\vec{u} = \langle 3, -1, 2 \rangle\) and \(\vec{v} = \langle 1, 4, -1 \rangle\), find \(\vec{u} \times \vec{v}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\langle -7,\, 5,\, 13\rangle\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> For what value of \(c\) are the vectors \(\langle 2, c, -1 \rangle\) and \(\langle 3, -6, c \rangle\) orthogonal?</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(c = \dfrac{6}{7}\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Find the angle between \(\vec{u} = \langle 1, 1, 0 \rangle\) and \(\vec{v} = \langle 0, 1, 1 \rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\theta = \dfrac{\pi}{3}\)</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson2" aria-labelledby="lesson2-heading">
+            <h2 id="lesson2-heading">Lines and Planes in Space [Lesson 2] (§13.5)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson2" class="lecture-link">Video</a>
+                <a href="Lesson2.html" class="lecture-link">Notes</a>
+            
+                <a href="#practice-lesson2" class="lecture-link">Practice</a></div>
+            
+            <h3>Equations of a Line</h3>
+            <p>Line through point \(P_0(x_0, y_0, z_0)\) with direction vector \(\vec{v} = \langle a, b, c \rangle\):</p>
+            
+            <h4>Vector Equation</h4>
+            <div class="formula-box" role="region" aria-label="Vector equation of line">
+                \[\vec{r}(t) = \vec{r}_0 + t\vec{v} = \langle x_0, y_0, z_0 \rangle + t\langle a, b, c \rangle\]
+            </div>
+            
+            <h4>Parametric Equations</h4>
+            <div class="formula-box" role="region" aria-label="Parametric equations of line">
+                \[x = x_0 + at, \quad y = y_0 + bt, \quad z = z_0 + ct\]
+            </div>
+            
+            <h4>Symmetric Equations (if \(a, b, c \neq 0\))</h4>
+            <div class="formula-box" role="region" aria-label="Symmetric equations of line">
+                \[\frac{x-x_0}{a} = \frac{y-y_0}{b} = \frac{z-z_0}{c}\]
+            </div>
+            
+            <h3>Equation of a Plane</h3>
+            <p>Plane through point \(P_0(x_0, y_0, z_0)\) with normal vector \(\vec{n} = \langle a, b, c \rangle\):</p>
+            <div class="formula-box" role="region" aria-label="Plane equation">
+                \[a(x-x_0) + b(y-y_0) + c(z-z_0) = 0\]
+            </div>
+            <p>or equivalently: \(ax + by + cz = d\), where \(d = ax_0 + by_0 + cz_0\)</p>
+            
+            <h4>Finding Normal Vectors</h4>
+            <ul>
+                <li>If two direction vectors \(\vec{v}_1\) and \(\vec{v}_2\) lie in the plane, then \(\vec{n} = \vec{v}_1 \times \vec{v}_2\)</li>
+                <li>If given three points, use two vectors formed by the points</li>
+            </ul>
+            
+       <!--     <h3>Distance Formula</h3>
+            <p><strong>Distance</strong> from point \(P(x_1,y_1,z_1)\) to plane \(ax+by+cz=d\):</p>
+            <div class="formula-box" role="region" aria-label="Distance to plane formula">
+                \[D = \frac{|ax_1+by_1+cz_1-d|}{\sqrt{a^2+b^2+c^2}}\]
+            </div>
+            -->
+            <p class="note"><strong>Note:</strong> Angle between two planes equals the angle between their normal vectors.</p>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson2">
+                <h3 id="practice-lesson2">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> The line through \((1, 3, -1)\) and \((3, 1, 2)\) intersects the plane \(x + y + z = 6\) at what point?</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\((3,\, 1,\, 2)\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Find the equation of the plane containing \((2, 1, -1)\) and parallel to the vectors \(\langle 1, 0, 3 \rangle\) and \(\langle 2, 1, 0 \rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(-3x + 6y + z + 1 = 0\)</p></div>
+                </div>
+              <!--  <div class="practice-question">
+                    <p><strong>Problem 3.</strong> Find the distance from the point \((1, -2, 3)\) to the plane \(2x - y + 2z = 4\).</p>
+                </div> -->
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Find the line of intersection between the planes \(x + y = 2\) and \(y + z = 3\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(x = 2+t,\quad y = -t,\quad z = 3+t\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Find the angle between the planes \(x + y + z = 1\) and \(x - y = 0\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\theta = \dfrac{\pi}{2}\) (planes are perpendicular)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> For what value of \(a\) do the lines \(\vec{r}_1(t)=\langle 1+t,\, 2t,\, 3+t\rangle\) and \(\vec{r}_2(s)=\langle 3-s,\, s+1,\, 2s+a\rangle\) intersect?</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(a = 2\)</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson3-4" aria-labelledby="lesson3-4-heading">
+            <h2 id="lesson3-4-heading">Quadric Surfaces [Lessons 3-4] (§13.6)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson3" class="lecture-link">Video (Lesson 3)</a>
+                <a href="Lesson3.html" class="lecture-link">Notes (Lesson 3)</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson4" class="lecture-link">Video (Lesson 4)</a>
+                <a href="Lesson4.html" class="lecture-link">Notes (Lesson 4)</a>
+            
+                <a href="#practice-lesson3-4" class="lecture-link">Practice</a></div>
+            
+            <p>A <strong>quadric surface</strong> is the graph of a second-degree equation in three variables.</p>
+            
+            <table role="table" aria-label="Quadric Surfaces Types">
+                <caption>Standard Quadric Surfaces</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Surface</th>
+                        <th scope="col">Standard Equation</th>
+                        <th scope="col">Key Features</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Ellipsoid</th>
+                        <td>\(\frac{x^2}{a^2} + \frac{y^2}{b^2} + \frac{z^2}{c^2} = 1\)</td>
+                        <td>All traces are ellipses</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Elliptic Paraboloid</th>
+                        <td>\(z = \frac{x^2}{a^2} + \frac{y^2}{b^2}\)</td>
+                        <td>Opens upward (or downward if negative)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Hyperbolic Paraboloid</th>
+                        <td>\(z = \frac{x^2}{a^2} - \frac{y^2}{b^2}\)</td>
+                        <td>Saddle shape</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Hyperboloid (1 sheet)</th>
+                        <td>\(\frac{x^2}{a^2} + \frac{y^2}{b^2} - \frac{z^2}{c^2} = 1\)</td>
+                        <td>Connected, one piece</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Hyperboloid (2 sheets)</th>
+                        <td>\(\frac{z^2}{c^2} - \frac{x^2}{a^2} - \frac{y^2}{b^2} = 1\)</td>
+                        <td>Two separate pieces</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Elliptic Cone</th>
+                        <td>\(\frac{z^2}{c^2} = \frac{x^2}{a^2} + \frac{y^2}{b^2}\)</td>
+                        <td>Double cone, vertex at origin</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Identifying Quadric Surfaces</h3>
+            <ul>
+                <li>Look at which variables are squared</li>
+                <li>Check the signs (all positive, mixed signs, or one isolated)</li>
+                <li>Check what the equation equals (0, 1, or a variable)</li>
+                <li>Sketch traces in the coordinate planes (xy, xz, yz)</li>
+            </ul>
+            
+            <p><strong>Traces</strong> are curves of intersection with planes parallel to coordinate planes.</p>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson3-4">
+                <h3 id="practice-lesson3-4">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Identify the surface: \(\displaystyle -x^2 + \frac{y^2}{4} - \frac{z^2}{9} = 1\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Hyperboloid of two sheets (axis along \(y\))</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Identify the surface defined by \(x^2 + 4x + y^2 - 2y + z^2 = -4\). (Hint: complete the square.)</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Sphere centered at \((-2,\, 1,\, 0)\) with radius \(1\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Identify the surface: \(z = 4x^2 + 9y^2\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Elliptic paraboloid opening upward</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Describe the trace of \(\displaystyle \frac{x^2}{4} + \frac{y^2}{9} - z^2 = 1\) in the plane \(z = 2\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Ellipse: \(\dfrac{x^2}{20} + \dfrac{y^2}{45} = 1\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Identify the surface: \(\displaystyle x^2 + \frac{y^2}{4} = \frac{z^2}{9}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Elliptic cone with axis along the \(z\)-axis</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson5" aria-labelledby="lesson5-heading">
+            <h2 id="lesson5-heading">Vector-Valued Functions [Lesson 5] (§14.1)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson5" class="lecture-link">Video</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson5" class="lecture-link">Notes</a>
+            
+                <a href="#practice-lesson5" class="lecture-link">Practice</a></div>
+            
+            <h3>Definition</h3>
+            <p>A <strong>vector-valued function</strong> (or <strong>vector function</strong>) has the form:</p>
+            <div class="formula-box" role="region" aria-label="Vector function definition">
+                \[\vec{r}(t) = \langle f(t), g(t), h(t) \rangle = f(t)\vec{i} + g(t)\vec{j} + h(t)\vec{k}\]
+            </div>
+            <p>The graph is a <strong>space curve</strong> traced out as t varies.</p>
+            
+            <h3>Limits and Continuity</h3>
+            <p>The limit of a vector function is computed component-wise:</p>
+            <div class="formula-box" role="region" aria-label="Vector function limit">
+                \[\lim_{t \to a} \vec{r}(t) = \left\langle \lim_{t \to a} f(t), \lim_{t \to a} g(t), \lim_{t \to a} h(t) \right\rangle\]
+            </div>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson5">
+                <h3 id="practice-lesson5">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Find the domain on which \(\vec{r}(t) = \left\langle \sqrt{t-1},\, \ln(4-t),\, e^t \right\rangle\) is continuous.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\([1,\, 4)\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Evaluate \(\displaystyle \lim_{t \to 0} \left\langle \frac{\sin(3t)}{t},\, e^{2t},\, \frac{t^2+1}{t+1} \right\rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\langle 3,\, 1,\, 1\rangle\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Find the domain on which \(\vec{r}(t) = \left\langle \frac{1}{t^2-4},\, \sqrt{t},\, \cos(t) \right\rangle\) is continuous.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\([0,2)\cup(2,\infty)\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Describe the curve traced by \(\vec{r}(t) = \langle 2\cos t,\, 2\sin t,\, 0 \rangle\) for \(0 \le t \le 2\pi\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Circle of radius 2 in the \(xy\)-plane centered at the origin</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Evaluate \(\displaystyle \lim_{t \to 0}\left\langle \frac{e^t - 1}{t},\, \frac{1-\cos t}{t^2},\, t\sin\!\left(\frac{1}{t}\right) \right\rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\left\langle 1,\, \dfrac{1}{2},\, 0\right\rangle\)</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson6-7" aria-labelledby="lesson6-7-heading">
+            <h2 id="lesson6-7-heading">Calculus of Vector-Valued Functions & Motion in Space [Lessons 6-7] (§14.2-14.3)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson6" class="lecture-link">Video (Lesson 6)</a>
+                <a href="Lesson6.html" class="lecture-link">Notes (Lesson 6)</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson7" class="lecture-link">Video (Lesson 7)</a>
+                <a href="Lesson7.html" class="lecture-link">Notes (Lesson 7)</a>
+            
+                <a href="#practice-lesson6-7" class="lecture-link">Practice</a></div>
+            
+            <h3>Derivative</h3>
+            <div class="formula-box" role="region" aria-label="Vector function derivative">
+                \[\vec{r}'(t) = \lim_{h \to 0} \frac{\vec{r}(t+h) - \vec{r}(t)}{h} = \langle f'(t), g'(t), h'(t) \rangle\]
+            </div>
+            
+            <h3>Integral</h3>
+            <div class="formula-box" role="region" aria-label="Vector function integral">
+                \[\int \vec{r}(t)\,dt = \left\langle \int f(t)\,dt, \int g(t)\,dt, \int h(t)\,dt \right\rangle + \vec{C}\]
+            </div>
+            
+            <h3>Differentiation Rules</h3>
+            <p>For vector functions \(\vec{u}(t)\) and \(\vec{v}(t)\):</p>
+            <ul>
+                <li>\(\frac{d}{dt}[\vec{u}(t) + \vec{v}(t)] = \vec{u}'(t) + \vec{v}'(t)\)</li>
+                <li>\(\frac{d}{dt}[c\vec{u}(t)] = c\vec{u}'(t)\)</li>
+                <li>\(\frac{d}{dt}[f(t)\vec{u}(t)] = f'(t)\vec{u}(t) + f(t)\vec{u}'(t)\)</li>
+                <li>\(\frac{d}{dt}[\vec{u}(t) \cdot \vec{v}(t)] = \vec{u}'(t) \cdot \vec{v}(t) + \vec{u}(t) \cdot \vec{v}'(t)\)</li>
+                <li>\(\frac{d}{dt}[\vec{u}(t) \times \vec{v}(t)] = \vec{u}'(t) \times \vec{v}(t) + \vec{u}(t) \times \vec{v}'(t)\)</li>
+            </ul>
+            
+            <h3>Motion in Space</h3>
+            <p>If \(\vec{r}(t)\) is the position vector at time t:</p>
+            <ul>
+                <li><strong>Velocity:</strong> \(\vec{v}(t) = \vec{r}'(t)\)</li>
+                <li><strong>Speed:</strong> \(|\vec{v}(t)| = |\vec{r}'(t)|\)</li>
+                <li><strong>Acceleration:</strong> \(\vec{a}(t) = \vec{v}'(t) = \vec{r}''(t)\)</li>
+            </ul>
+            
+            <h3>Unit Tangent Vector</h3>
+            <div class="formula-box" role="region" aria-label="Unit tangent vector">
+                \[\vec{T}(t) = \frac{\vec{r}'(t)}{|\vec{r}'(t)|} = \frac{\vec{v}(t)}{|\vec{v}(t)|}\]
+            </div>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson6-7">
+                <h3 id="practice-lesson6-7">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> A particle has velocity \(\vec{v}(t) = \langle 2t,\, 3,\, -1 \rangle\) and at \(t=0\) passes through \((1,-2,5)\). Find \(\vec{r}(t)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\vec{r}(t) = \langle t^2+1,\, 3t-2,\, -t+5\rangle\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> The tangent line to \(\vec{r}(t) = \langle t^2,\, 2t+1,\, t^3 \rangle\) at \(t=1\) intersects the \(xz\)-plane. Find the point of intersection.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\left(-2,\, 0,\, -\dfrac{7}{2}\right)\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Find the unit tangent vector \(\vec{T}(0)\) for \(\vec{r}(t) = \langle \cos t,\, \sin t,\, t \rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\vec{T}(0) = \left\langle 0,\, \dfrac{1}{\sqrt{2}},\, \dfrac{1}{\sqrt{2}}\right\rangle\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Find the speed of a particle with position \(\vec{r}(t) = \langle e^t,\, e^{-t},\, \sqrt{2}\,t \rangle\) at \(t = 0\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Speed \(= 2\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> If \(\vec{r}(t) = \langle t,\, t^2,\, t^3 \rangle\), compute \(\vec{r}'(t) \times \vec{r}''(t)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\langle 6t^2,\, -6t,\, 2\rangle\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 6.</strong> A particle travels along \(\vec{r}(t) = \langle 3\cos t,\, 4\sin t,\, 0 \rangle\). Find the speed at \(t = \frac{\pi}{2}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Speed \(= 3\)</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson8" aria-labelledby="lesson8-heading">
+            <h2 id="lesson8-heading">Arc Length and Curvature [Lesson 8] (§14.4-14.5)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson8" class="lecture-link">Video</a>
+                <a href="Lesson8.html" class="lecture-link">Notes</a>
+            
+                <a href="#practice-lesson8" class="lecture-link">Practice</a></div>
+            
+            <h3>Arc Length</h3>
+            <p><strong>Arc Length</strong> of curve \(\vec{r}(t)\) from \(t = a\) to \(t = b\):</p>
+            <div class="formula-box" role="region" aria-label="Arc length formula">
+                \[L = \int_a^b |\vec{r}'(t)|\,dt = \int_a^b \sqrt{[f'(t)]^2 + [g'(t)]^2 + [h'(t)]^2}\,dt\]
+            </div>
+            
+            <h3>Arc Length Function</h3>
+            <div class="formula-box" role="region" aria-label="Arc length function">
+                \[s(t) = \int_{t_0}^t |\vec{r}'(u)|\,du\]
+            </div>
+            
+            <h3>Curvature</h3>
+            <p><strong>Curvature</strong> measures how quickly the curve changes direction:</p>
+            <div class="formula-box" role="region" aria-label="Curvature formulas">
+                \[\kappa = \left|\frac{d\vec{T}}{ds}\right| = \frac{|\vec{T}'(t)|}{|\vec{r}'(t)|} = \frac{|\vec{r}'(t) \times \vec{r}''(t)|}{|\vec{r}'(t)|^3}\]
+            </div>
+        
+            <p>For a plane curve \(y = f(x)\):</p>
+            <div class="formula-box" role="region" aria-label="Curvature for plane curve">
+                \[\kappa(x) = \frac{|f''(x)|}{[1+(f'(x))^2]^{3/2}}\]
+            </div>
+              <!--
+            <h3>TNB Frame</h3>
+            <p><strong>Principal unit normal vector:</strong></p>
+            <div class="formula-box" role="region" aria-label="Principal unit normal">
+                \[\vec{N}(t) = \frac{\vec{T}'(t)}{|\vec{T}'(t)|}\]
+            </div>
+            
+            <p><strong>Binormal vector:</strong></p>
+            <div class="formula-box" role="region" aria-label="Binormal vector">
+                \[\vec{B}(t) = \vec{T}(t) \times \vec{N}(t)\]
+            </div> -->
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson8">
+                <h3 id="practice-lesson8">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Find the arc length of \(\vec{r}(t) = \langle 3\cos t,\, 3\sin t,\, 4t \rangle\) for \(0 \le t \le 2\pi\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(L = 10\pi\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Find the curvature \(\kappa(t)\) of \(\vec{r}(t) = \langle 2\cos t,\, 2\sin t,\, t \rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\kappa = \dfrac{2}{5}\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Find the curvature of the plane curve \(y = x^3\) at the point \((0,0)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\kappa = 0\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Find the arc length of \(\vec{r}(t) = \langle 3t,\, 4t,\, 0 \rangle\) for \(1 \le t \le 5\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(L = 20\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> A particle moves along \(\vec{r}(t) = \langle 5\sin t,\, 3\sin t,\, 4\cos t \rangle\). Find the distance traveled from \(t=0\) to \(t=\pi\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(L = \displaystyle\int_0^{\pi}\sqrt{16+18\cos^2 t}\,dt\)</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson9" aria-labelledby="lesson9-heading">
+            <h2 id="lesson9-heading">Functions of Several Variables [Lesson 9] (§15.1)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson9" class="lecture-link">Video</a>
+                <a href="Lesson9" class="lecture-link">Notes</a>
+            
+                <a href="#practice-lesson9" class="lecture-link">Practice</a></div>
+            
+            <h3>Definition</h3>
+            <p>A <strong>function of two variables</strong> assigns to each ordered pair (x, y) in a set D a unique real number \(z = f(x,y)\).</p>
+            
+            <h3>Visualization Methods</h3>
+            <ul>
+                <li><strong>Graph:</strong> Surface in 3D space</li>
+                <li><strong>Level Curves:</strong> Curves in xy-plane where \(f(x,y) = k\) (constant)</li>
+                <li><strong>Contour Map:</strong> Collection of level curves</li>
+            </ul>
+            
+            <h3>Functions of Three Variables</h3>
+            <p>For \(w = f(x,y,z)\):</p>
+            <ul>
+                <li><strong>Level Surfaces:</strong> Surfaces where \(f(x,y,z) = k\)</li>
+            </ul>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson9">
+                <h3 id="practice-lesson9">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Find the domain of \(f(x, y) = \sqrt{9 - x^2 - y^2}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\{(x,y):\, x^2+y^2 \le 9\}\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Describe the nonempty level curves of \(f(x, y) = x^2 + 4y^2\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Ellipses \(\dfrac{x^2}{k}+\dfrac{y^2}{k/4}=1\) centered at origin (\(k>0\))</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Describe the level curves of \(f(x, y) = y - x^2\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Parabolas \(y = x^2 + k\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Find the domain of \(f(x, y) = \ln(x + y - 1)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\{(x,y):\, x+y > 1\}\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Describe the level surfaces of \(f(x, y, z) = x^2 + y^2 + z^2\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Spheres of radius \(\sqrt{k}\) centered at origin (\(k>0\))</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson10" aria-labelledby="lesson10-heading">
+            <h2 id="lesson10-heading">Limits and Continuity [Lesson 10] (§15.2)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson10" class="lecture-link">Video</a>
+                <a href="Lesson10.html" class="lecture-link">Notes</a>
+            
+                <a href="#practice-lesson10" class="lecture-link">Practice</a></div>
+            
+            <h3>Limits</h3>
+            <p>We write \(\displaystyle\lim_{(x,y) \to (a,b)} f(x,y) = L\), if f(x,y) approaches L as (x,y) approaches (a,b) from <strong>any direction</strong>.</p>
+            
+            <h4>Proving a Limit Does Not Exist</h4>
+            <p>Find two different paths that give different limits:</p>
+            <ul>
+                <li>Along x-axis: \(y = 0\)</li>
+                <li>Along y-axis: \(x = 0\)</li>
+                <li>Along \(y = x\) or \(y = mx\)</li>
+                <li>Along parabolic paths: \(y = x^2\)</li>
+            </ul>
+            
+            <h3>Continuity</h3>
+            <p>f is <strong>continuous</strong> at (a,b) if:</p>
+            <div class="formula-box" role="region" aria-label="Continuity definition">
+                \[\lim_{(x,y) \to (a,b)} f(x,y) = f(a,b)\]
+            </div>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson10">
+                <h3 id="practice-lesson10">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Evaluate \(\displaystyle\lim_{(x,y) \to (0,0)} \frac{x^3 y}{x^4 + y^2}\), or show it does not exist.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>limit does not exist</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Evaluate \(\displaystyle\lim_{(x,y) \to (0,0)} \frac{3x^2 y}{x^2 + y^2}\), or show it does not exist.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>limit does not exist</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Find the value of \(k\) such that \(\displaystyle\lim_{(x,y) \to (0,0)} \frac{x^4 - 2k(x^2+y^2) - y^4}{x^2+y^2} = 6\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(k = -3\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Evaluate \(\displaystyle\lim_{(x,y) \to (0,0)} \frac{\sin(x^2 + y^2)}{x^2 + y^2}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(1\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Evaluate \(\displaystyle\lim_{(x,y) \to (0,0)} \frac{x^3 - y^3}{x^2 + y^2}\), or show it does not exist.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(0\)</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson11" aria-labelledby="lesson11-heading">
+            <h2 id="lesson11-heading">Partial Derivatives [Lesson 11] (§15.3)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson11" class="lecture-link">Video</a>
+                <a href="Lesson11.html" class="lecture-link">Notes</a>
+            
+                <a href="#practice-lesson11" class="lecture-link">Practice</a></div>
+            
+            <h3>First-Order Partial Derivatives</h3>
+            <p><strong>Partial derivative with respect to x</strong> (treat y as constant):</p>
+            <div class="formula-box" role="region" aria-label="Partial derivative wrt x">
+                \[\frac{\partial f}{\partial x} = f_x = \lim_{h \to 0} \frac{f(x+h,y) - f(x,y)}{h}\]
+            </div>
+            
+            <p><strong>Partial derivative with respect to y</strong> (treat x as constant):</p>
+            <div class="formula-box" role="region" aria-label="Partial derivative wrt y">
+                \[\frac{\partial f}{\partial y} = f_y = \lim_{h \to 0} \frac{f(x,y+h) - f(x,y)}{h}\]
+            </div>
+            
+            <h3>Higher-Order Partial Derivatives</h3>
+            <ul>
+                <li>\(f_{xx} = \frac{\partial^2 f}{\partial x^2}\)</li>
+                <li>\(f_{yy} = \frac{\partial^2 f}{\partial y^2}\)</li>
+                <li>\(f_{xy} = \frac{\partial^2 f}{\partial y \partial x}\)</li>
+                <li>\(f_{yx} = \frac{\partial^2 f}{\partial x \partial y}\)</li>
+            </ul>
+            
+            <h3>Clairaut's Theorem</h3>
+            <p>If \(f_{xy}\) and \(f_{yx}\) are both continuous:</p>
+            <div class="formula-box" role="region" aria-label="Clairaut's theorem">
+                \[f_{xy} = f_{yx}\]
+            </div>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson11">
+                <h3 id="practice-lesson11">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Let \(f(x,y,z)=\cos(xy)+e^{y^2z}+\ln(z^3)\). Compute \(f_{yxz}(0,1,1)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(f_{yxz}(0,1,1) = 0\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> If \(f(x, y) = x^3 y^2 + \sin(xy)\), find \(f_{xy}(0, 0)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(f_{xy}(0,0) = 1\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> If \(f(x,y) = e^{x^2 y}\), find \(f_x(1, 2)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(f_x(1,2) = 4e^2\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Let \(f(x,y)=x^2\ln(y)\). Find \(f_{xy}\) and verify Clairaut's theorem by also computing \(f_{yx}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(f_{xy} = f_{yx} = \dfrac{2x}{y}\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> If \(f(x,y) = \arctan\!\left(\frac{y}{x}\right)\), find \(f_x + f_y\) at \((1, 1)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(f_x + f_y = 0\) at \((1,1)\)</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson12" aria-labelledby="lesson12-heading">
+            <h2 id="lesson12-heading">The Chain Rule [Lesson 12] (§15.4)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson12" class="lecture-link">Video</a>
+                <a href="Lesson12.html" class="lecture-link">Notes</a>
+            
+                <a href="#practice-lesson12" class="lecture-link">Practice</a></div>
+            
+            <h3>Chain Rule - Case 1</h3>
+            <p>If \(z = f(x,y)\) where \(x = g(t)\) and \(y = h(t)\):</p>
+            <div class="formula-box" role="region" aria-label="Chain rule case 1">
+                \[\frac{dz}{dt} = \frac{\partial f}{\partial x}\frac{dx}{dt} + \frac{\partial f}{\partial y}\frac{dy}{dt}\]
+            </div>
+            
+            <h3>Chain Rule - Case 2</h3>
+            <p>If \(z = f(x,y)\) where \(x = g(s,t)\) and \(y = h(s,t)\):</p>
+            <div class="formula-box" role="region" aria-label="Chain rule case 2">
+                \[\frac{\partial z}{\partial s} = \frac{\partial f}{\partial x}\frac{\partial x}{\partial s} + \frac{\partial f}{\partial y}\frac{\partial y}{\partial s}\]
+            </div>
+            
+            <h3>Implicit Differentiation</h3>
+            <p>If \(F(x,y,z) = 0\) defines z implicitly:</p>
+            <div class="formula-box" role="region" aria-label="Implicit differentiation">
+                \[\frac{\partial z}{\partial x} = -\frac{F_x}{F_z}, \quad \frac{\partial z}{\partial y} = -\frac{F_y}{F_z}\]
+            </div>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson12">
+                <h3 id="practice-lesson12">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> If \(z = x^2 y\), where \(x = t^2\) and \(y = t^3\), find \(\frac{dz}{dt}\) at \(t = 1\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\left.\dfrac{dz}{dt}\right|_{t=1} = 7\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Suppose \(xz^2 + y^2z = 2\) defines \(z\) implicitly as a function of \(x\) and \(y\). Find \(\frac{\partial z}{\partial x}\) at the point \((1, 1, 1)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\dfrac{\partial z}{\partial x} = -\dfrac{1}{3}\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> If \(w=xy+yz\), \(x=s+t\), \(y=st\), \(z=s-t\), find \(\frac{\partial w}{\partial s}\) at \(s=1,\, t=0\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\left.\dfrac{\partial w}{\partial s}\right|_{s=1,t=0} = 0\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> If \(\sin(xy) = e^{2z}\), use implicit differentiation to find \(\frac{\partial z}{\partial x}\) at \(\left(1, \frac{\pi}{2}, 0\right)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\dfrac{\partial z}{\partial x} = 0\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> If \(z = f(x,y)\) with \(x = r\cos\theta\) and \(y = r\sin\theta\), express \(\frac{\partial z}{\partial r}\) in terms of \(f_x\) and \(f_y\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\dfrac{\partial z}{\partial r} = f_x\cos\theta + f_y\sin\theta\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 6.</strong> If \(F(x,y,z) = x^2+y^2+z^2-3xyz=0\) defines \(z\) implicitly, find \(\frac{\partial z}{\partial x}\) at \((1,1,1)\), or explain why it does not exist.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\left.\dfrac{\partial z}{\partial x}\right|_{(1,1,1)} = -1\)</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson13" aria-labelledby="lesson13-heading">
+            <h2 id="lesson13-heading">Directional Derivatives & Gradient [Lesson 13] (§15.5)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson13" class="lecture-link">Video</a>
+                <a href="Lesson13.html" class="lecture-link">Notes</a>
+            
+                <a href="#practice-lesson13" class="lecture-link">Practice</a></div>
+            
+            <h3>Directional Derivative</h3>
+            <p>The <strong>directional derivative</strong> \(D_{\vec{u}}f(a,b)\) measures rate of change in direction of unit vector \(\vec{u}\):</p>
+            <div class="formula-box" role="region" aria-label="Directional derivative">
+                \[D_{\vec{u}}f(a,b) = \nabla f(a,b) \cdot \vec{u} = f_x(a,b)u_1 + f_y(a,b)u_2\]
+            </div>
+            
+            <h3>Gradient Vector</h3>
+            <div class="formula-box" role="region" aria-label="Gradient">
+                \[\nabla f(x,y) = \langle f_x(x,y), f_y(x,y) \rangle\]
+            </div>
+            
+            <h3>Properties of the Gradient</h3>
+            <ul>
+                <li>\(\nabla f\) points in direction of <strong>maximum rate of increase</strong></li>
+                <li>\(|\nabla f|\) gives the <strong>maximum rate of increase</strong></li>
+                <li>\(-\nabla f\) points in direction of maximum decrease</li>
+                <li>\(\nabla f\) is <strong>orthogonal</strong> to level curves</li>
+            </ul>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson13">
+                <h3 id="practice-lesson13">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Find the directional derivative of \(f(x,y)=x^2y-3y^2\) at the point \((2,1)\) in the direction of the vector \(\vec{v}=\langle 3,4\rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(D_{\hat{u}}f(2,1) = \dfrac{4}{5}\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Find the maximum rate of change of \(f(x,y,z)=x\sqrt{yz}\) at the point \((4,1,4)\), and state the direction in which it occurs.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Max rate of change: \(\sqrt{21}\), in direction \(\langle 2,\, 4,\, 1\rangle\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> At \((1,2)\), in what direction does \(f(x,y)=xe^{-y}\) decrease most rapidly? What is that rate of decrease?</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Direction: \(\langle -1,\, 1\rangle\); rate of decrease: \(\sqrt{2}\,e^{-2}\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Find the directional derivative of \(f(x,y,z)=x^2+2y^2+3z^2\) at \((1,1,1)\) in the direction of \(\langle 1,-1,0\rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(D_{\hat{u}}f(1,1,1) = -\sqrt{2}\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Suppose \(\nabla f(2,3)=\langle 4,-3\rangle\). Find \(D_{\vec{u}}f(2,3)\) where \(\vec{u}\) is the unit vector in the direction of \(\langle 3,4\rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(D_{\hat{u}}f(2,3) = 0\)</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson14" aria-labelledby="lesson14-heading">
+            <h2 id="lesson14-heading">Tangent Planes & Linear Approximation [Lesson 14] (§15.6)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson14" class="lecture-link">Video</a>
+                <a href="Lesson14.html" class="lecture-link">Notes</a>
+            
+                <a href="#practice-lesson14" class="lecture-link">Practice</a></div>
+            
+            <h3>Tangent Plane</h3>
+            <p>Equation of <strong>tangent plane</strong> to \(z = f(x,y)\) at \((a, b, f(a,b))\):</p>
+            <div class="formula-box" role="region" aria-label="Tangent plane">
+                \[z = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)\]
+            </div>
+            
+            <h3>Linear Approximation</h3>
+            <div class="formula-box" role="region" aria-label="Linear approximation">
+                \[L(x,y) = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)\]
+            </div>
+            
+            <h3>Differential</h3>
+            <div class="formula-box" role="region" aria-label="Differential">
+                \[dz = f_x\,dx + f_y\,dy\]
+            </div>
+            
+            <h3>Normal Vector</h3>
+            <p>For \(z = f(x,y)\): \(\vec{n} = \langle f_x, f_y, -1 \rangle\)</p>
+            <p>For \(F(x,y,z) = 0\): \(\vec{n} = \nabla F = \langle F_x, F_y, F_z \rangle\)</p>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson14">
+                <h3 id="practice-lesson14">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Consider the surface \(2x^2-4x+y^3+z+2=0\). Find the point(s) on the surface where the tangent plane is parallel to the \(xy\)-plane.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\((1,\, 0,\, 0)\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Find the equation of the tangent plane to \(z = x^2 + 2xy\) at the point \((1, 1, 3)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(4x + 2y - z = 3\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Use the linear approximation of \(f(x,y)=\sqrt{x^2+y^2}\) at \((3,4)\) to estimate \(f(3.1, 3.9)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(L(3.1, 3.9) \approx 4.98\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> If \(z = x^3 y^2\), find the differential \(dz\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(dz = 3x^2y^2\,dx + 2x^3y\,dy\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Find the normal vector to the surface \(x^2+y^2-z = 0\) at the point \((1, 2, 5)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(\vec{n} = \langle 2,\, 4,\, -1\rangle\)</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lesson15-16" aria-labelledby="lesson15-16-heading">
+            <h2 id="lesson15-16-heading">Maximum and Minimum Problems [Lessons 15-16] (§15.7)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson15" class="lecture-link">Video (Lesson 15)</a>
+                <a href="Lesson15.html" class="lecture-link">Notes (Lesson 15)</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson16" class="lecture-link">Video (Lesson 16)</a>
+                <a href="Lesson16.html" class="lecture-link">Notes (Lesson 16)</a>
+            
+                <a href="#practice-lesson15-16" class="lecture-link">Practice</a></div>
+            
+            <h3>Critical Points</h3>
+            <p>Point (a,b) is a <strong>critical point</strong> if:</p>
+            <div class="formula-box" role="region" aria-label="Critical point">
+                \[f_x(a,b) = 0 \text{ and } f_y(a,b) = 0 \quad (\nabla f(a,b) = \vec{0})\]
+            </div>
+            
+            <h3>Second Derivative Test</h3>
+            <p>Let the <strong>discriminant</strong> be:</p>
+            <div class="formula-box" role="region" aria-label="Discriminant">
+                \[D = f_{xx}(a,b)f_{yy}(a,b) - [f_{xy}(a,b)]^2\]
+            </div>
+            
+            <h4>Classification</h4>
+            <ul>
+                <li>If \(D > 0\) and \(f_{xx} > 0\): <strong>local minimum</strong></li>
+                <li>If \(D > 0\) and \(f_{xx} < 0\): <strong>local maximum</strong></li>
+                <li>If \(D < 0\): <strong>saddle point</strong></li>
+                <li>If \(D = 0\): <strong>inconclusive</strong></li>
+            </ul>
+            
+            <h3>Absolute Max/Min on Closed Region</h3>
+            <p><strong>Step 1:</strong> Find all critical points <strong>inside</strong> region D</p>
+            <p><strong>Step 2:</strong> Find extreme values on the <strong>boundary</strong> of D</p>
+            <p><strong>Step 3:</strong> Compare all values - largest is absolute max, smallest is absolute min</p>
+        
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson15-16">
+                <h3 id="practice-lesson15-16">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Find the critical points of \(f(x,y) = x^2y - y + 3y^2\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\((0,\,\tfrac{1}{6}),\;(1,0),\;(-1,0)\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Classify the critical point of \(f(x,y) = x^2+xy+y^2+3x-3y+4\) using the second derivative test.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Local minimum at \((-3,\, 3)\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Let \(M\) and \(m\) be the absolute maximum and minimum values of \(f(x,y) = x^2 - 2x + y^2 + 4\) on the disk \(x^2 + y^2 \le 4\). Find \(M + m\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>\(M + m = 15\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Find and classify all critical points of \(f(x,y) = xy - x^3 - y^2\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Saddle point at \((0,0)\); local max at \((\tfrac{1}{6}, \tfrac{1}{12})\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Show that \(f(x,y) = x^2 - y^2\) has a saddle point at \((0,0)\) using the second derivative test.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Saddle point at \((0,0)\)</p></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 6.</strong> Find the absolute maximum and absolute minimum of \(f(x,y) = 4xy - x^2 - 2y^2 + 2\) on the region \(0 \le x \le 2\), \(0 \le y \le 1\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer</span><p>Abs. max \(= 4\) at \((2,1)\); abs. min \(= -2\) at \((2,0)\)</p></div>
+                </div>
+            </div>
+        </section>
+    
+    </main>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.practice-question').forEach(function(q) {
+            q.setAttribute('tabindex', '0');
+            q.setAttribute('role', 'button');
+            var answerBox = q.querySelector('.answer-box');
+            var hint = q.querySelector('.toggle-hint');
+            if (!answerBox) return;
+            function toggle() {
+                q.classList.toggle('answered');
+                var expanded = q.classList.contains('answered');
+                q.setAttribute('aria-expanded', expanded);
+                if (hint) hint.textContent = expanded ? '▲ Hide answer' : '▼ Show answer';
+                if (expanded && window.MathJax) {
+                    MathJax.typesetPromise([answerBox]);
+                }
+            }
+            q.addEventListener('click', toggle);
+            q.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+            });
+        });
+    });
+    </script>
+    <footer role="contentinfo">
+        <p style="margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--purdue-gold); text-align: center;">
+            MA 26100: Multivariate Calculus | Spring 2026 | Purdue University<br>
+            <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/">Return to Course Page</a>
+        </p>
+    </footer>
+</body>
+</html>

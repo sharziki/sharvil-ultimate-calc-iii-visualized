@@ -234,7 +234,7 @@ footer.efoot a{color:var(--contour)}
     <div class="fact"><b>Official exam date</b><span>Tuesday, February 25, 2026</span></div>
     <div class="fact"><b>Your exam</b><span>Mon Oct 5 · 8:00 pm<br>
       <span id="countdown" data-date="2026-10-05"></span></span></div>
-    <div class="fact"><b>Answers verified</b><span>57 of 69 by sympy</span></div>
+    <div class="fact"><b>Answers verified</b><span>57 of 69 recomputed<br>27 also re-read from the official page</span></div>
   </div>
 
   <p class="srcline">Source of truth:
@@ -3772,7 +3772,13 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
   room come from Brightspace &mdash; the date printed on that page is the Spring
   section's.<br>
   Worked solutions are mine; 57 of the 69 answers are recomputed
-  with sympy at build time and the build refuses to publish on a mismatch.
+  with sympy at build time and the build refuses to publish on a mismatch. A
+  second gate re-reads 27 answers straight out of the official page and
+  compares them to what was computed, so an answer mis-transcribed from the
+  guide cannot ship looking verified. The two corrected answers are not among
+  those 27: the guide states them in words ("limit does not exist"), which
+  no parser should pretend to read, so they were derived and checked by hand
+  and are shown struck through with the correction beside them.
   The remaining 12 are prose (&ldquo;elliptic cone with axis along the <i>z</i>-axis&rdquo;) and are
   checked by hand.<br>
   <a href="/guide.html">Read the full guide &rarr;</a> &nbsp;&middot;&nbsp;

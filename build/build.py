@@ -592,6 +592,8 @@ def main():
     print(f"exam1.html     {e1['problems']} official problems worked across "
           f"{e1['sections']} lessons ({e1['checked']} answers recomputed, "
           f"{e1['prose']} prose)")
+    print(f"               {e1['agreed']} answers re-read from the official page "
+          f"and matched, {e1['disagreed']} documented corrections")
     for tok, ln in e1["gaps"]:
         print(f"               ! §{tok} is on Fall Lesson {ln} and absent from "
               f"the Spring guide — flagged on the page")

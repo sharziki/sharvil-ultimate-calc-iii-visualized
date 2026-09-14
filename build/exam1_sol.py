@@ -101,7 +101,12 @@ SOL = {
         r"$\vec r(1)=\langle3,1,2\rangle$ — the second given point happens to lie on the plane.",
     ],
     trap=r"Sign errors in the direction vector. Notice the $x$ and $y$ parameters cancel, so the whole equation collapses to $3+3t$; if yours does not collapse, recheck $\vec v$.",
-    check=lambda: [1 + 2 * 1, 3 - 2 * 1, -1 + 3 * 1], want=[3, 1, 2],
+    # Derived from the two given points and the plane, not from the printed
+    # answer: build the line, solve for t, evaluate.
+    check=lambda: (lambda P, Q: (lambda r: list(r.subs(
+        t, solve(Eq(r[0] + r[1] + r[2], 6), t)[0])))(P + t * (Q - P))
+    )(V(1, 3, -1), V(3, 1, 2)),
+    want=[3, 1, 2],
 ),
 "L2P2": dict(
     steps=[
@@ -130,7 +135,11 @@ SOL = {
         r"Zero dot product $\Rightarrow\theta=\frac{\pi}{2}$: the planes are perpendicular.",
     ],
     trap=r"Reading coefficients off a plane written as $x-y=0$ and forgetting the missing $z$ is a coefficient of $0$, not of $1$.",
-    check=lambda: V(1, 1, 1).dot(V(1, -1, 0)), want=0,
+    # Compute the angle the page actually prints, not just the dot product, so
+    # the official-answer audit compares like for like.
+    check=lambda: acos(V(1, 1, 1).dot(V(1, -1, 0))
+                       / (V(1, 1, 1).norm() * V(1, -1, 0).norm())),
+    want=pi / 2,
 ),
 "L2P5": dict(
     steps=[
@@ -185,7 +194,11 @@ SOL = {
         r"Divide by $5$: $\dfrac{x^2}{20}+\dfrac{y^2}{45}=1$ — an **ellipse**.",
     ],
     trap=r"Stopping at $\frac{x^2}{4}+\frac{y^2}{9}=5$. A trace is named by its standard form, and the denominators change once you divide through.",
-    check=lambda: (4 * 5, 9 * 5), want=(20, 45),
+    # Substitute z=2 into the surface and read the ellipse's denominators off
+    # the normalised form, rather than asserting 4*5 and 9*5.
+    check=lambda: (lambda k: (4 * k, 9 * k))(
+        solve(Eq((x ** 2 / 4 + y ** 2 / 9) - 2 ** 2, 1), x ** 2 / 4 + y ** 2 / 9)[0]),
+    want=(20, 45),
 ),
 "L3-4P5": dict(
     steps=[
@@ -272,7 +285,11 @@ SOL = {
         r"$x=1+2(-\frac32)=-2$, $z=1+3(-\frac32)=-\frac72$. Point: $\left(-2,0,-\frac72\right)$.",
     ],
     trap=r"Using $t$ again for the tangent line. The line has its own parameter; reusing $t$ makes you solve on the curve instead of on its tangent.",
-    check=lambda: [1 + 2 * Rational(-3, 2), 1 + 3 * Rational(-3, 2)],
+    # Build the tangent line from r(t) itself, solve y=0, evaluate x and z.
+    check=lambda: (lambda r: (lambda L: [L[0].subs(u_, solve(Eq(L[1], 0), u_)[0]),
+                                          L[2].subs(u_, solve(Eq(L[1], 0), u_)[0])])(
+        r.subs(t, 1) + u_ * r.diff(t).subs(t, 1))
+    )(Matrix([t ** 2, 2 * t + 1, t ** 3])),
     want=[-2, Rational(-7, 2)],
 ),
 "L6P3": dict(
@@ -668,8 +685,14 @@ SOL = {
         r"$L=5+0.6(0.1)+0.8(-0.1)=5+0.06-0.08=4.98$.",
     ],
     trap=r"Sign of $\Delta y$. Moving from $4$ to $3.9$ is $-0.1$; getting that backwards gives $5.02$, and both look plausible.",
-    check=lambda: 5 + Rational(3, 5) * Rational(1, 10) + Rational(4, 5) * Rational(-1, 10),
-    want=Rational(498, 100),
+    # Build the linearisation from f and its partials at (3,4), then evaluate
+    # it at (3.1, 3.9).
+    check=lambda: (lambda f, a, b, at: (f.subs(at)
+                                        + diff(f, x).subs(at) * (a - 3)
+                                        + diff(f, y).subs(at) * (b - 4))
+                   )(sqrt(x ** 2 + y ** 2), Rational(31, 10), Rational(39, 10),
+                     {x: 3, y: 4}),
+    want=Rational(249, 50),
 ),
 "L14P4": dict(
     steps=[
@@ -702,9 +725,11 @@ SOL = {
         r"$y=0$: $x^2-1=0\Rightarrow x=\pm1$, giving $(1,0)$ and $(-1,0)$.",
     ],
     trap=r"Dividing $2xy=0$ by $x$. That silently discards the $x=0$ branch — and here it is a whole critical point.",
-    check=lambda: sorted([tuple(map(S, p)) for p in
-                          [(0, Rational(1, 6)), (1, 0), (-1, 0)]]),
-    want=sorted([(S(0), Rational(1, 6)), (S(1), S(0)), (S(-1), S(0))]),
+    # Actually solve the gradient system; the earlier version sorted a list of
+    # the answers I had already written down, which verified nothing.
+    check=lambda: sorted(solve([diff(x ** 2 * y - y + 3 * y ** 2, x),
+                                diff(x ** 2 * y - y + 3 * y ** 2, y)], [x, y])),
+    want=sorted([(S(-1), S(0)), (S(0), Rational(1, 6)), (S(1), S(0))]),
 ),
 "L15P2": dict(
     steps=[
@@ -725,7 +750,13 @@ SOL = {
         r"Compare everything: $M=12$, $m=3$, so $M+m=15$.",
     ],
     trap=r"Ignoring the interior critical point because the boundary already gave a max and a min. The absolute minimum here is *inside*, at $(1,0)$.",
-    check=lambda: 12 + 3, want=15,
+    # Interior critical point plus the boundary extremes, all computed.
+    check=lambda: (lambda f: (lambda vals: max(vals) + min(vals))(
+        [f.subs(solve([diff(f, x), diff(f, y)], [x, y], dict=True)[0])]
+        + [simplify(f.subs({x: 2 * cos(u_), y: 2 * sin(u_)})).subs(u_, c)
+           for c in (0, pi)])
+    )(x ** 2 - 2 * x + y ** 2 + 4),
+    want=15,
 ),
 "L15P4": dict(
     steps=[
@@ -735,8 +766,12 @@ SOL = {
         r"$f_{xx}=-6x$, $f_{yy}=-2$, $f_{xy}=1$, so $D=12x-1$. At $(0,0)$: $D=-1<0$, **saddle**. At $\left(\frac16,\frac1{12}\right)$: $D=1>0$ and $f_{xx}=-1<0$, **local maximum**.",
     ],
     trap=r"$D$ depends on $x$ here, so it must be re-evaluated at each point. A single computed $D$ cannot classify two different critical points.",
-    check=lambda: [(12 * S(0) - 1), (12 * Rational(1, 6) - 1), (-6 * Rational(1, 6))],
-    want=[-1, 1, -1],
+    # Solve for the critical points and evaluate the discriminant at each.
+    check=lambda: (lambda f: [simplify((diff(f, x, 2) * diff(f, y, 2)
+                                        - diff(f, x, y) ** 2).subs(c))
+                              for c in solve([diff(f, x), diff(f, y)], [x, y], dict=True)]
+                   )(x * y - x ** 3 - y ** 2),
+    want=[-1, 1],
 ),
 "L15P5": dict(
     steps=[
@@ -759,7 +794,20 @@ SOL = {
         r"Absolute max $=4$ at $(2,1)$; absolute min $=-2$ at $(2,0)$.",
     ],
     trap=r"Forgetting the four **corners**. Both extremes here happen to be corner points, which the edge parametrisations only catch at their endpoints.",
-    check=lambda: [(4 * 2 * 1 - 4 - 2 + 2), (4 * 2 * 0 - 4 - 0 + 2)],
+    # Sweep the four edges (endpoints and interior critical points) and take
+    # the extremes, instead of evaluating f at the two answers I expected.
+    check=lambda: (lambda f: (lambda v: [max(v), min(v)])(
+        [f.subs({x: a, y: b})
+         for a in (0, 2) for b in (0, 1)]
+        + [f.subs({x: a, y: b})
+           for a in (0, 2)
+           for b in [r for r in solve(diff(f.subs(x, a), y), y)
+                     if r.is_real and 0 <= r <= 1]]
+        + [f.subs({x: a, y: b})
+           for b in (0, 1)
+           for a in [r for r in solve(diff(f.subs(y, b), x), x)
+                     if r.is_real and 0 <= r <= 2]])
+    )(4 * x * y - x ** 2 - 2 * y ** 2 + 2),
     want=[4, -2],
 ),
 }

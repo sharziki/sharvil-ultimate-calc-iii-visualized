@@ -25,6 +25,7 @@ import sys
 from pathlib import Path
 
 import course
+import exam1_audit
 import exam1_src
 import exam1_sol
 
@@ -425,6 +426,10 @@ def coverage_gap(data):
 def build(M, MM):
     data = exam1_src.read()
     checked, prose = exam1_sol.verify()
+    # verify() proves our steps reach our own value. gate() proves that value
+    # still matches what the instructor printed, so a mis-transcribed answer
+    # cannot ship looking verified.
+    agreed, disagreed, _ = exam1_audit.gate()
     gaps = coverage_gap(data)
 
     # every piece of TeX on the page, primed in one node call
@@ -541,7 +546,7 @@ def build(M, MM):
     <div class="fact"><b>Official exam date</b><span>{data["exam_date"]}</span></div>
     <div class="fact"><b>Your exam</b><span>{m1["when"]}<br>
       <span id="countdown" data-date="{m1["date"]}"></span></span></div>
-    <div class="fact"><b>Answers verified</b><span>{checked} of {n_problems} by sympy</span></div>
+    <div class="fact"><b>Answers verified</b><span>{checked} of {n_problems} recomputed<br>{agreed} also re-read from the official page</span></div>
   </div>
 
   <p class="srcline">Source of truth:
@@ -567,7 +572,13 @@ def build(M, MM):
   room come from Brightspace &mdash; the date printed on that page is the Spring
   section's.<br>
   Worked solutions are mine; {checked} of the {n_problems} answers are recomputed
-  with sympy at build time and the build refuses to publish on a mismatch.
+  with sympy at build time and the build refuses to publish on a mismatch. A
+  second gate re-reads {agreed} answers straight out of the official page and
+  compares them to what was computed, so an answer mis-transcribed from the
+  guide cannot ship looking verified. The two corrected answers are not among
+  those {agreed}: the guide states them in words ("limit does not exist"), which
+  no parser should pretend to read, so they were derived and checked by hand
+  and are shown struck through with the correction beside them.
   The remaining {prose} are prose (&ldquo;elliptic cone with axis along the <i>z</i>-axis&rdquo;) and are
   checked by hand.<br>
   <a href="/guide.html">Read the full guide &rarr;</a> &nbsp;&middot;&nbsp;
@@ -582,4 +593,5 @@ def build(M, MM):
 """
     (ROOT / "exam1.html").write_text(html, encoding="utf-8")
     return dict(problems=n_problems, checked=checked, prose=prose,
-                sections=len(data["sections"]), gaps=gaps)
+                sections=len(data["sections"]), gaps=gaps,
+                agreed=agreed, disagreed=disagreed)

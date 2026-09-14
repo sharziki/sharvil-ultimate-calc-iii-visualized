@@ -12,6 +12,7 @@ were computed rather than asserted.
 | [`index.html`](index.html) | The landing page: two ways in, plus the Fall 2026 calendar with whichever stop is next surfaced. |
 | [`guide.html`](guide.html) | **Study all the material** — 40 sections, 41 figures (12 interactive 3-D), 41 algorithms, 86 check-yourself questions. Each section badged with the quiz that tests it. |
 | [`quiz.html`](quiz.html) | **Study by quiz** — pick a quiz and get only the sections it covers, in full, then questions on exactly those sections. 152 in all; Quizzes 1–4 carry 24, 42, 16 and 32. |
+| [`exam1.html`](exam1.html) | **The official Exam 1 study guide, worked** — Purdue's own guide, its 69 practice problems with the work filled in, the answer held behind a commitment step, 57 answers recomputed with sympy, and two published answers corrected. |
 
 ## Where the schedule comes from
 
@@ -60,6 +61,11 @@ python3 build.py
   against the MyLab set actually assigned for Lessons 8–10
 - `guide_121.py` — the 12.1 section the guide was missing
 - `patch_guide.py` — reads `guide.src.html`, writes `../guide.html`
+- `exam1_src.py` — strict parser over the vendored official Exam 1 guide in
+  `build/sources/`; exits rather than shipping a partial page if Purdue
+  republishes it in a different shape
+- `exam1_sol.py` — the worked steps, traps and corrections, each with a sympy check
+- `exam1page.py` — builds `exam1.html`
 - `quizpage.py` — builds `quiz.html` by re-hosting the guide's own sections,
   stylesheet and 3-D engine inside each quiz tab
 
@@ -87,6 +93,25 @@ covers the 22 of 37 scalar answers its small TeX dialect can read; prose options
 and vector/plane answers are skipped rather than guessed at. The original 55 were built the
 same way, which caught two real errors during authoring (a Green's theorem answer
 keyed to 243π/2 when it's 243π/4, and a work integral keyed to 14 when it's 18).
+
+## The official Exam 1 guide
+
+The department publishes a [study guide for Exam 1](https://www.math.purdue.edu/~msunkula/MA261/Sp26/StudyGuide-Exam1.html),
+and it is the source of truth for coverage. It is also poor practice material:
+each problem's answer sits one click away with no work in between.
+
+`exam1.html` keeps the instructor's structure and prose verbatim and adds the
+work, a commitment step before the answer opens, and verification.
+
+**Two of its published answers are wrong.** Lesson 10, Problems 1 and 2 are both
+marked "limit does not exist"; both limits exist and equal 0 — by AM–GM for
+`x³y/(x⁴+y²)`, and by `|3x²y/(x²+y²)| ≤ 3|y|` for the other. The page strikes
+the official answer, prints the correct one beside it and explains the
+difference rather than silently substituting, because that official answer is
+still on the real study guide and is worth recognising before the exam. A third
+problem is commented out of the published HTML; the skill is on the syllabus, so
+it is restored and labelled as restored (its stated answer, 5/3, was also wrong
+— it is 2).
 
 ## Design
 

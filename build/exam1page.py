@@ -481,6 +481,9 @@ def build_one(M, MM, guide, SOL, EXTRA, checked, prose, agreed, disagreed):
                     texts.append(sol[extra_key])
     for e in EXTRA:
         texts += [e["stem"], e["answer"], e["trap"]] + e["steps"]
+        for k in ("fix", "right"):
+            if e.get(k):
+                texts.append(e[k])
     MM(*texts)
 
     # Only the restored problems whose lesson is actually in THIS guide. EXTRA
@@ -677,4 +680,7 @@ def build(M, MM):
                 gaps=[g for p in pages for g in p["gaps"]],
                 checked=checked, prose=prose,
                 agreed=agreed, disagreed=disagreed,
-                fixes=sum(1 for v in bank.values() if v.get("fix")))
+                # EXTRA lives outside the bank but its corrections are shown
+                # on the page exactly like the others, so they count too.
+                fixes=sum(1 for v in bank.values() if v.get("fix"))
+                      + sum(1 for e in exam1_sol.EXTRA if e.get("fix")))

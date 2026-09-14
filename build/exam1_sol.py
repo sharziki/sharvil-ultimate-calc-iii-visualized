@@ -822,7 +822,13 @@ EXTRA = [
     dict(
         pid="L2X1", lesson="L2", after=2,
         stem=r"Find the distance from the point $(1,-2,3)$ to the plane $2x-y+2z=4$.",
-        answer=r"$2$",
+        # Shown exactly as the commented-out source has it, so the correction
+        # below is visible rather than silently applied like the others are not.
+        answer=r"$\dfrac{5}{3}$",
+        right=r"$2$",
+        fix=r"The commented-out source gives $\frac53$. The numerator is "
+            r"$|2+2+6-4|=6$, not $5$, so the distance is $\frac63=2$. This may "
+            r"be exactly why the problem was commented out.",
         steps=[
             r"$D=\dfrac{|ax_0+by_0+cz_0-d|}{\sqrt{a^2+b^2+c^2}}$ with $\vec n=\langle2,-1,2\rangle$.",
             r"Numerator: $|2(1)-(-2)+2(3)-4|=|2+2+6-4|=6$.",

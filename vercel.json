@@ -11,6 +11,16 @@
       "permanent": true
     },
     {
+      "source": "/exam1.html",
+      "destination": "https://study.sharvilsaxena.com/ma261/exam1.html",
+      "permanent": true
+    },
+    {
+      "source": "/exam1",
+      "destination": "https://study.sharvilsaxena.com/ma261/exam1.html",
+      "permanent": true
+    },
+    {
       "source": "/(practice|drill)(\\.html)?",
       "destination": "https://study.sharvilsaxena.com/ma261/quiz.html",
       "permanent": true

@@ -204,6 +204,19 @@ header.top .sub{margin-top:16px;font-size:18.5px;color:var(--ink-2);max-width:62
   font-size:16px;line-height:1.55;color:var(--ink-2)}
 .pnote b{color:var(--ink)}
 .pnote a{color:var(--contour)}
+/* the instructor's own problems, surfaced on every quiz tab */
+.official-first{margin-top:18px;border:1px solid var(--rule);border-left:3px solid var(--veg);
+  border-radius:2px;background:var(--card);padding:14px 17px}
+.official-first>b{display:block;font:700 10px/1 var(--mono);letter-spacing:.13em;
+  text-transform:uppercase;color:var(--veg)}
+.ofrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.ofrow a{display:flex;flex-direction:column;gap:4px;text-decoration:none;
+  border:1px solid var(--rule);border-radius:2px;padding:9px 12px;
+  background:var(--paper);color:var(--ink);font:600 13.5px/1.2 var(--disp);
+  transition:border-color .16s ease,color .16s ease}
+.ofrow a:hover{border-color:var(--veg);color:var(--veg)}
+.ofrow i{font:500 9.5px/1 var(--mono);font-style:normal;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3)}
 .step-h{margin-top:52px;display:flex;align-items:baseline;gap:14px;
   border-top:2px solid var(--ink);padding-top:18px}
 .step-h .n{font:700 12px/1 var(--mono);letter-spacing:.14em;color:var(--contour);flex:none}
@@ -539,7 +552,7 @@ def section_html(parts, sid, stop_id):
     return html
 
 
-def build(buckets, M, sid_label, coverage_chips):
+def build(buckets, M, sid_label, coverage_chips, official=None):
     parts = guide_parts(M)
     tabs, panes = [], []
 
@@ -567,17 +580,41 @@ def build(buckets, M, sid_label, coverage_chips):
         )
         if s.get("extra"):
             head += f'<div class="pnote"><b>Worth knowing.</b> {s["extra"]}</div>'
-        if s["id"] == "m1":
+        # Every exam the department publishes a study guide for points at it
+        # first. Those guides are the source of truth for coverage, and their
+        # problems are the ones actually worth rehearsing.
+        OFFICIAL = {"m1": ("/exam1.html", "Exam&nbsp;1, worked"),
+                    "m2": ("/exam2.html", "Exam&nbsp;2, worked"),
+                    "fin": ("/final.html", "the Final guide, worked")}
+        if s["id"] in OFFICIAL:
+            href, name = OFFICIAL[s["id"]]
             head += ('<div class="pnote"><b>The department publishes a study guide '
                      'for this exam</b>, and it is the source of truth for coverage. '
                      'Every one of its practice problems is worked out, with the '
                      'answer held back until you commit to an attempt, at '
-                     '<a href="/exam1.html">Exam&nbsp;1, worked</a>. Start there; '
+                     f'<a href="{href}">{name}</a>. Start there; '
                      'use this tab for the sections no quiz ever tested.</div>')
         if s["kind"] == "exam":
             head += ('<div class="pnote">Only the sections <b>no quiz ever covers</b> '
                      'are shown here. Everything from the earlier quizzes is on this '
                      'exam too &mdash; work those tabs as well.</div>')
+        # The instructor's own problems for exactly these lessons, whichever
+        # official guide they live in. Sharvil studies the official questions
+        # first; this tab is the supplement, not the other way round.
+        if official:
+            seen, rows = set(), []
+            for ln in s["lessons"]:
+                hit = official.get(ln)
+                if not hit or hit[:2] in seen:
+                    continue
+                seen.add(hit[:2])
+                page, anchor, title, n = hit
+                rows.append(f'<a href="/{page}#{anchor}">{title}'
+                            f'<i>{n} official problems</i></a>')
+            if rows:
+                head += ('<div class="official-first"><b>Official problems for '
+                         'these lessons</b><div class="ofrow">'
+                         + "".join(rows) + '</div></div>')
         head += "</div>"
 
         n_sec = len(sids)

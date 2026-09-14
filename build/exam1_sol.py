@@ -854,6 +854,24 @@ def _same(got, want):
     return simplify(S(got) - S(want)) == 0
 
 
+def all_solutions():
+    """The Exam 1 bank plus the Exam 2 / Final banks, as one dict.
+
+    Kept in separate files because Exam 1 is hand-written and the later guides
+    were produced in parallel passes, but every consumer — the page builder,
+    verify(), and the official-answer audit — sees one merged bank held to one
+    standard.
+    """
+    import exam2_sol
+    merged = dict(SOL)
+    clash = set(merged) & set(exam2_sol.SOL)
+    if clash:
+        import sys
+        sys.exit(f"exam1_sol: duplicate solution ids across banks: {sorted(clash)}")
+    merged.update(exam2_sol.SOL)
+    return merged
+
+
 def verify():
     """Recompute every checkable answer; die on a mismatch.
 
@@ -862,14 +880,14 @@ def verify():
     """
     import sys
     checked = prose = 0
-    for pid, sol in SOL.items():
+    for pid, sol in all_solutions().items():
         fn = sol.get("check")
         if fn is None:
             prose += 1
             continue
         got = fn()
         if not _same(got, sol["want"]):
-            sys.exit(f"exam1_sol: {pid} check failed — computed {got!r}, "
+            sys.exit(f"solutions: {pid} check failed — computed {got!r}, "
                      f"expected {sol['want']!r}")
         checked += 1
     for e in EXTRA:

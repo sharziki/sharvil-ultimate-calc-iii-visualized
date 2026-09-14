@@ -19,6 +19,8 @@ import re
 import sys
 from pathlib import Path
 
+import course
+
 HERE = Path(__file__).resolve().parent
 SRC = HERE / "sources" / "StudyGuide-Exam1.html"
 
@@ -63,31 +65,56 @@ def _dollars(frag):
     return t
 
 
-def read():
-    if not SRC.exists():
-        sys.exit(f"exam1_src: {SRC} missing — vendor the official guide first")
-    h = SRC.read_text(encoding="utf-8")
+def read(path=None, expect=None):
+    """Parse one official study guide.
+
+    `path` defaults to the Exam 1 guide. `expect` is the live problem count the
+    caller believes the page has; a mismatch is fatal, because a silently
+    half-parsed guide is worse than no guide.
+
+    Sections are discovered from the page rather than hardcoded, so the Exam 2
+    and Final guides parse with the same code. Only the mapping from a lesson to
+    *our* guide's section ids is a lookup, and lessons we have no section for
+    simply deep-link to nothing rather than failing.
+    """
+    src = Path(path) if path else SRC
+    if not src.exists():
+        sys.exit(f"exam1_src: {src} missing — vendor the official guide first")
+    h = src.read_text(encoding="utf-8")
     # The published page carries one commented-out problem (a distance from a
     # point to a plane, in Lesson 2). It is not live on the instructor's page,
     # so it is not live here either — but the *skill* is still examinable, and
     # exam1_sol.py restores it as an explicitly-labelled extra.
     h = re.sub(r"<!--.*?-->", "", h, flags=re.S)
 
+    # The Final guide publishes no date — the registrar sets it — so a missing
+    # date is information, not a parse failure.
     m = re.search(r"<strong>Exam Date:</strong>\s*([^<]+)<", h)
-    if not m:
-        sys.exit("exam1_src: exam date not found")
-    exam_date = m.group(1).strip()
+    exam_date = m.group(1).strip() if m else ""
     m = re.search(r"<strong>Time:</strong>\s*([^<]+)<", h)
     exam_time = m.group(1).strip() if m else ""
     m = re.search(r"<strong>Coverage:</strong>\s*([^<]+)<", h)
-    coverage = m.group(1).strip() if m else ""
+    coverage = _html.unescape(m.group(1)).strip() if m else ""
+
+    known = {sid: (key, lessons, gids) for sid, key, lessons, gids in LESSON_MAP}
 
     out = []
-    for sid, key, lessons, guide_ids in LESSON_MAP:
-        sm = re.search(rf'<section id="{re.escape(sid)}".*?</section>', h, re.S)
-        if not sm:
-            sys.exit(f"exam1_src: section {sid} not found")
+    for sm in re.finditer(r'<section id="(lesson[^"]*)".*?</section>', h, re.S):
+        sid = sm.group(1)
         block = sm.group(0)
+        if '<div class="practice-problems"' not in block:
+            continue
+        key, lessons, guide_ids = known.get(sid, (None, None, None))
+        if key is None:
+            # Not in the Exam 1 map: derive both from the id, e.g.
+            # "lesson31-33" -> key "L31", lessons [31, 32, 33].
+            nums = [int(n) for n in re.findall(r"\d+", sid)]
+            if not nums:
+                sys.exit(f"exam1_src: cannot read a lesson number out of {sid!r}")
+            lessons = list(range(nums[0], nums[-1] + 1))
+            key = f"L{nums[0]}"
+            guide_ids = [g for ln in lessons if ln in course.LESSONS
+                         for g in course.LESSONS[ln][1]]
 
         hm = re.search(r"<h2[^>]*>(.*?)</h2>", block, re.S)
         title_full = _text(hm.group(1))
@@ -108,9 +135,14 @@ def read():
                 r'<div class="practice-question".*?>\s*'
                 r'<div class="question-prompt"><p>(.*?)</p>'
                 r'<span class="toggle-hint">.*?</span></div>\s*'
-                r'<div class="answer-box"><span class="answer-label">Answer</span>'
-                r'(.*?)</div>\s*</div>', block, re.S):
+                r'<div class="answer-box"><span class="answer-label">Answer'
+                # Exam 1 writes "Answer</span><p>value</p>"; the Exam 2 and
+                # Final guides write "Answer: value</span>" with no <p>. Accept
+                # either, and capture whichever side carries the value.
+                r'(?::\s*(?P<inline>[^<]*))?</span>'
+                r'(?P<block>.*?)</div>\s*</div>', block, re.S):
             stem_raw, ans_raw = pm.group(1), pm.group(2)
+            ans_raw = (pm.group("inline") or "") + (pm.group("block") or "")
             nm = re.match(r"\s*<strong>Problem\s+(\d+)\.</strong>\s*(.*)$",
                           stem_raw, re.S)
             if not nm:
@@ -131,15 +163,18 @@ def read():
             notes_html=_dollars(body).strip(), problems=probs,
         ))
 
+    if not out:
+        sys.exit(f"exam1_src: no lesson sections found in {src.name}")
     total = sum(len(s["problems"]) for s in out)
-    if total != 68:
-        sys.exit(f"exam1_src: expected 68 live practice problems, found {total}")
+    if expect is not None and total != expect:
+        sys.exit(f"exam1_src: {src.name}: expected {expect} live practice "
+                 f"problems, found {total}")
     return dict(exam_date=exam_date, exam_time=exam_time, coverage=coverage,
                 sections=out, total=total)
 
 
 if __name__ == "__main__":
-    d = read()
+    d = read(expect=68)
     print(d["exam_date"], "|", d["exam_time"], "|", d["coverage"])
     for s in d["sections"]:
         print(f'{s["key"]:<7} {s["title"][:44]:<46} {s["secs_label"]:<16} '

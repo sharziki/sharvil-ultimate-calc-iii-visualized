@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Exam Study Guide - MA 261 Spring 2026</title>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']],
+                packages: {'[+]': ['ams']}
+            },
+            options: {
+                skipHtmlTags: ['script','noscript','style','textarea','pre']
+            },
+            startup: {
+                ready() {
+                    MathJax.startup.defaultReady();
+                }
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --purdue-gold: #C28E0E;
+            --purdue-black: #000000;
+            --text-color: #000000;
+            --background-color: #FFFFFF;
+            --border-color: #000000;
+            --link-color: #0066CC;
+            --link-visited: #551A8B;
+            --focus-color: #C28E0E;
+            --accent-bg: #FFF8DC;
+            --section-bg: #F7F7F7;
+        }
+        .skip-link {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+            background: var(--purdue-gold);
+            color: var(--purdue-black);
+            font-weight: bold;
+            text-decoration: none;
+            z-index: 100;
+        }
+        .skip-link:focus {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            padding: 8px 16px;
+            margin: 0;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+        }
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        a:focus, button:focus, summary:focus {
+            outline: 3px solid var(--focus-color);
+            outline-offset: 2px;
+        }
+        header {
+            border-bottom: 3px solid var(--purdue-gold);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em;
+            color: var(--purdue-black);
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .course-info {
+            font-size: 1.1em;
+            color: var(--purdue-black);
+            margin: 10px 0;
+        }
+        .exam-info {
+            background-color: var(--accent-bg);
+            border-left: 4px solid var(--purdue-gold);
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .exam-info strong { color: var(--purdue-black); }
+        .lecture-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .lecture-link {
+            background-color: var(--background-color);
+            color: var(--purdue-black);
+            padding: 6px 12px;
+            text-decoration: none;
+            border: 2px solid var(--purdue-gold);
+            border-radius: 4px;
+            font-size: 0.9em;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .lecture-link:hover {
+            background-color: var(--purdue-gold);
+            color: var(--background-color);
+        }
+        .lecture-link:focus { background-color: var(--accent-bg); }
+        h2 {
+            font-size: 1.5em;
+            color: var(--purdue-black);
+            margin: 30px 0 0 0;
+            padding: 15px;
+            background-color: var(--section-bg);
+            border-left: 4px solid var(--purdue-gold);
+        }
+        h3 {
+            font-size: 1.2em;
+            color: var(--purdue-black);
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: var(--purdue-black);
+            margin: 15px 0 8px 0;
+            font-weight: bold;
+        }
+        section { margin-bottom: 40px; }
+        p { margin: 10px 0; }
+        .formula-box {
+            border: 2px solid var(--purdue-black);
+            background-color: #FFFEF7;
+            padding: 15px;
+            margin: 15px 0;
+            display: block;
+        }
+        .important-box {
+            border: 2px solid var(--purdue-gold);
+            background-color: var(--accent-bg);
+            padding: 15px;
+            margin: 15px 0;
+        }
+        ul, ol { margin: 10px 0 10px 30px; }
+        li { margin: 8px 0; }
+        a { color: var(--link-color); text-decoration: underline; }
+        a:visited { color: var(--link-visited); }
+        a:hover { color: var(--purdue-gold); background-color: #FFFEF7; }
+        strong, .important { font-weight: bold; color: var(--purdue-black); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: var(--background-color);
+        }
+        caption {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            text-align: left;
+            color: var(--purdue-black);
+        }
+        th, td {
+            border: 1px solid var(--purdue-black);
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--section-bg);
+            font-weight: bold;
+            color: var(--purdue-black);
+        }
+        tr:nth-child(even) { background-color: #FAFAFA; }
+        .note {
+            font-style: italic;
+            margin: 10px 0;
+            padding-left: 20px;
+            border-left: 3px solid var(--purdue-gold);
+        }
+        /* Practice Problems */
+        .practice-problems {
+            background-color: #F9F6F0;
+            border: 2px solid var(--purdue-gold);
+            border-radius: 4px;
+            padding: 20px;
+            margin: 30px 0 10px 0;
+        }
+        .practice-problems h3 {
+            color: var(--purdue-black);
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--purdue-gold);
+            font-size: 1.2em;
+        }
+        .practice-question {
+            margin: 15px 0;
+            padding: 14px 18px;
+            background-color: var(--background-color);
+            border: 1px solid #DDD;
+            border-left: 3px solid var(--purdue-gold);
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+        .practice-question:hover { background-color: #FFFBF0; }
+        .practice-question p { margin: 0; }
+        .practice-question .question-prompt {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .practice-question .toggle-hint {
+            font-size: 0.8em;
+            color: #888;
+            white-space: nowrap;
+            padding-top: 2px;
+            flex-shrink: 0;
+            font-family: Georgia, serif;
+        }
+        .practice-question.answered .toggle-hint { color: #2a7a2a; }
+        .answer-box {
+            display: none;
+            margin-top: 14px;
+            padding: 12px 16px;
+            background-color: #F0F7F0;
+            border: 1px solid #5A9E5A;
+            border-left: 4px solid #2a7a2a;
+            border-radius: 2px;
+        }
+        .answer-box .answer-label {
+            font-weight: bold;
+            color: #2a7a2a;
+            font-size: 0.9em;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .answer-box p { margin: 6px 0 0 0; color: #000; }
+        .practice-question.answered .answer-box { display: block; }
+        @media print {
+            body { font-size: 12pt; max-width: 100%; padding: 0.5in; }
+            .skip-link, .lecture-links { display: none; }
+            h2 { page-break-after: avoid; }
+            .formula-box, .important-box { page-break-inside: avoid; }
+            a { color: var(--purdue-black); text-decoration: none; }
+            a[href^="http"]:after { content: " (" attr(href) ")"; font-size: 0.8em; }
+            .toggle-hint { display: none; }
+            .answer-box { display: none; }
+        }
+        @media screen and (max-width: 768px) {
+            body { padding: 10px; font-size: 14px; }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.3em; }
+            h3 { font-size: 1.1em; }
+            .formula-box, .important-box { padding: 10px; }
+            table { font-size: 0.9em; }
+            th, td { padding: 8px; }
+        }
+        @media (prefers-contrast: high) {
+            :root { --text-color: #000000; --background-color: #FFFFFF; }
+            .formula-box, .important-box { border-width: 3px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header role="banner">
+        <h1>Final Exam Study Guide</h1>
+        <p class="course-info">MA 26100: Multivariate Calculus, Spring 2026</p>
+        <p class="course-info">Purdue University</p>
+    </header>
+
+    <main id="main-content" role="main">
+        <div class="exam-info" role="region" aria-label="Exam Information">
+            <strong>Final Exam</strong><br>
+            <strong>Date:</strong> Monday, May 5, 2026 &nbsp;|&nbsp; <strong>Time:</strong> 1:30 PM – 3:30 PM<br>
+            <strong>Location:</strong> TBA — check Brightspace<br>
+            <strong>Coverage:</strong> Comprehensive — all course material (Lessons 1–37)
+        </div>
+
+        <nav aria-label="Table of Contents" class="important-box">
+            <h2>Contents</h2>
+            <p style="margin-bottom: 6px; font-weight: bold;">Prior Exam Topics:</p>
+            <ul style="margin-bottom: 14px;">
+                <li><a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/StudyGuide-Exam1.html">Exam 1 Study Guide</a></li>
+                <li><a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/StudyGuide-Exam2.html">Exam 2 Study Guide</a></li>
+            </ul>
+            <p style="margin-bottom: 6px; font-weight: bold;">New Material (since Exam 2):</p>
+            <ol>
+                <li><a href="#lesson34-35">Stokes' Theorem [Lessons 34–35] (§17.7)</a></li>
+                <li><a href="#lesson36-37">Divergence Theorem [Lessons 36–37] (§17.8)</a></li>
+            </ol>
+        </nav>
+
+        <!-- ============================================================ -->
+        <section id="lesson34-35" aria-labelledby="lesson34-35-heading">
+            <h2 id="lesson34-35-heading">Stokes' Theorem [Lessons 34–35] (§17.7)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson34" class="lecture-link">Video (Lesson 34)</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lesson34.html" class="lecture-link">Notes (Lesson 34)</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson35" class="lecture-link">Video (Lesson 35)</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lesson35.html" class="lecture-link">Notes (Lesson 35)</a>
+                <a href="#practice-lesson34-35" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Stokes' Theorem</h3>
+            <p>Let \(S\) be an oriented, piecewise-smooth surface bounded by a simple closed curve \(C = \partial S\). Let \(\vec{F} = \langle P, Q, R \rangle\) have continuous partial derivatives on an open region containing \(S\). Then:</p>
+            <div class="formula-box" role="region" aria-label="Stokes theorem">
+                \[\oint_C \vec{F}\cdot d\vec{r} = \iint_S \operatorname{curl}(\vec{F})\cdot d\vec{S}\]
+            </div>
+            <p>Equivalently, using \(d\vec{S} = \hat{n}\,dS\):</p>
+            <div class="formula-box" role="region" aria-label="Stokes theorem normal form">
+                \[\oint_C \vec{F}\cdot d\vec{r} = \iint_S \operatorname{curl}(\vec{F})\cdot\hat{n}\,dS\]
+            </div>
+
+            <h3>Orientation Convention</h3>
+            <p>The boundary curve \(C\) is <strong>positively oriented</strong> relative to \(S\) when, walking along \(C\) with the surface on your left, \(\hat{n}\) points away from your head. Equivalently: \(\hat{n}\) and the direction of traversal of \(C\) satisfy the right-hand rule.</p>
+
+            <h3>Curl Formula</h3>
+            <p>For \(\vec{F} = \langle P, Q, R \rangle\):</p>
+            <div class="formula-box" role="region" aria-label="Curl formula">
+                \[\operatorname{curl}(\vec{F}) = \nabla \times \vec{F} = \begin{vmatrix}\vec{i} & \vec{j} & \vec{k} \\ \partial_x & \partial_y & \partial_z \\ P & Q & R\end{vmatrix} = \langle R_y - Q_z,\; P_z - R_x,\; Q_x - P_y \rangle\]
+            </div>
+
+            <h3>Computing the Surface Integral Side</h3>
+            <p>For surface \(z = g(x,y)\) with upward normal over region \(D\):</p>
+            <div class="formula-box" role="region" aria-label="Stokes surface computation">
+                \[\iint_S \operatorname{curl}(\vec{F})\cdot d\vec{S} = \iint_D \left[-(R_y-Q_z)\,g_x - (P_z-R_x)\,g_y + (Q_x-P_y)\right]dA\]
+            </div>
+
+            <p class="note"><strong>Key:</strong> Stokes' theorem converts a line integral into a surface integral (or vice versa). It generalizes Green's Theorem: when \(S\) is flat in the \(xy\)-plane, Stokes' theorem reduces exactly to Green's theorem.</p>
+
+            <h3>Connection to Green's Theorem</h3>
+            <p>Green's Theorem is the special case of Stokes' Theorem where \(S\) lies in the \(xy\)-plane (\(z=0\), \(\hat{n}=\vec{k}\)):</p>
+            <div class="formula-box" role="region" aria-label="Green's as special case">
+                \[\oint_C P\,dx + Q\,dy = \iint_D (Q_x - P_y)\,dA\]
+            </div>
+
+            <h3>Consequences</h3>
+            <ul>
+                <li>If \(\operatorname{curl}(\vec{F}) = \vec{0}\) (i.e., \(\vec{F}\) is conservative), then \(\oint_C \vec{F}\cdot d\vec{r} = 0\) for every closed curve \(C\).</li>
+                <li>Two surfaces \(S_1\) and \(S_2\) with the same oriented boundary \(C\) give the same surface integral of \(\operatorname{curl}(\vec{F})\).</li>
+                <li>Stokes' theorem can simplify computation by replacing a hard surface with an easier one sharing the same boundary.</li>
+            </ul>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson34-35">
+                <h3 id="practice-lesson34-35">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Use Stokes' Theorem to evaluate \(\displaystyle\oint_C \vec{F}\cdot d\vec{r}\) where \(\vec{F}=\langle y^2, x, z^2\rangle\) and \(C\) is the boundary of the triangle with vertices \((1,0,0)\), \((0,1,0)\), \((0,0,1)\), oriented counterclockwise when viewed from above.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\dfrac{1}{6}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Let \(\vec{F}=\langle -y^2, x, z^2\rangle\). Use Stokes' Theorem to evaluate \(\displaystyle\oint_C\vec{F}\cdot d\vec{r}\) where \(C\) is the circle \(x^2+y^2=4\) in the plane \(z=3\), traversed counterclockwise when viewed from above.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(4\pi\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Evaluate \(\displaystyle\iint_S \operatorname{curl}(\vec{F})\cdot d\vec{S}\) where \(\vec{F}=\langle yz, xz, xy\rangle\) and \(S\) is the part of the sphere \(x^2+y^2+z^2=4\) with \(z\ge0\), oriented with upward normal. (Hint: use Stokes' Theorem and evaluate the line integral on \(\partial S\) instead.)</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(0\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Use Stokes' Theorem to evaluate \(\displaystyle\oint_C \vec{F}\cdot d\vec{r}\) where \(\vec{F}=\langle xz, yz, xy\rangle\) and \(C\) is the boundary of the surface \(z = 1 - x^2 - y^2\) above the \(xy\)-plane, traversed counterclockwise when viewed from above.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(0\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Let \(S\) be the part of the paraboloid \(z=9-x^2-y^2\) above \(z=0\) with upward normal, and \(\vec{F}=\langle -y^3, x^3, -z^3\rangle\). Use Stokes' Theorem to find \(\displaystyle\iint_S \operatorname{curl}(\vec{F})\cdot d\vec{S}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\dfrac{243\pi}{2} \)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson36-37" aria-labelledby="lesson36-37-heading">
+            <h2 id="lesson36-37-heading">Divergence Theorem [Lessons 36–37] (§17.8)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson36" class="lecture-link">Video (Lesson 36)</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lesson36.html" class="lecture-link">Notes (Lesson 36)</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson37" class="lecture-link">Video (Lesson 37)</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lesson37.html" class="lecture-link">Notes (Lesson 37)</a>
+                <a href="#practice-lesson36-37" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Divergence Theorem (Gauss's Theorem)</h3>
+            <p>Let \(E\) be a simple solid region with outward-oriented boundary surface \(S = \partial E\). Let \(\vec{F} = \langle P, Q, R \rangle\) have continuous partial derivatives on an open region containing \(E\). Then:</p>
+            <div class="formula-box" role="region" aria-label="Divergence theorem">
+                \[\iint_S \vec{F}\cdot d\vec{S} = \iiint_E \operatorname{div}(\vec{F})\,dV\]
+            </div>
+
+            <h3>Divergence Formula</h3>
+            <div class="formula-box" role="region" aria-label="Divergence formula">
+                \[\operatorname{div}(\vec{F}) = \nabla\cdot\vec{F} = \frac{\partial P}{\partial x} + \frac{\partial Q}{\partial y} + \frac{\partial R}{\partial z}\]
+            </div>
+
+            <h3>Orientation Convention</h3>
+            <p>The boundary surface \(S = \partial E\) must be oriented with the <strong>outward</strong> normal (pointing away from the interior of \(E\)). If the surface is given with inward normal, multiply the result by \(-1\).</p>
+
+            <p class="note"><strong>Key:</strong> The Divergence Theorem converts a flux surface integral into a triple integral over the enclosed volume — often much easier to evaluate. It is especially useful when the surface consists of multiple pieces.</p>
+
+            <h3>Physical Interpretation</h3>
+            <p>The Divergence Theorem states that the net flux of \(\vec{F}\) out of a closed surface equals the total divergence (source/sink density) integrated over the enclosed volume. If \(\operatorname{div}(\vec{F}) = 0\) everywhere in \(E\), then the net flux through \(\partial E\) is zero.</p>
+
+            <h3>Strategy: Replacing a Hard Surface</h3>
+            <p>If \(S\) is an open surface (not closed), close it by adding a cap \(S_{\text{cap}}\), apply the Divergence Theorem to the closed surface \(S \cup S_{\text{cap}}\), then subtract the cap's contribution:</p>
+            <div class="formula-box" role="region" aria-label="Closing surface strategy">
+                \[\iint_S \vec{F}\cdot d\vec{S} = \iiint_E \operatorname{div}(\vec{F})\,dV - \iint_{S_{\text{cap}}} \vec{F}\cdot d\vec{S}\]
+            </div>
+
+            <h3>Key Identities</h3>
+            <ul>
+                <li>\(\operatorname{div}(\operatorname{curl}(\vec{F})) = 0\) for any smooth \(\vec{F}\) &nbsp;— so \(\iint_S \operatorname{curl}(\vec{F})\cdot d\vec{S} = 0\) for any closed \(S\)</li>
+                <li>If \(\operatorname{div}(\vec{F}) = 0\) in \(E\), the net outward flux through \(\partial E\) is zero</li>
+                <li>Volume of \(E\): \(V = \frac{1}{3}\iint_S \vec{r}\cdot\hat{n}\,dS = \frac{1}{3}\iint_S \langle x,y,z\rangle\cdot d\vec{S}\)</li>
+            </ul>
+
+            <h3>Regions with Holes (Two Boundaries)</h3>
+            <p>If \(D\) is a solid region with boundary \(S_1\) (outer) and \(S_2\) (inner), where \(S_1\) has normal outward and \(S_2\) has normal inward (into \(D\)):</p>
+            <div class="formula-box" role="region" aria-label="Two boundary divergence theorem">
+                \[\iiint_D \operatorname{div}(\vec{F})\,dV = \iint_{S_1}\vec{F}\cdot d\vec{S} - \iint_{S_2}\vec{F}\cdot d\vec{S}\]
+            </div>
+            <p class="note">Use this when a smaller solid (e.g., a sphere of radius \(r_1\)) is removed from inside a larger one (e.g., a sphere of radius \(r_2\)). The integral over the annular region equals the outer flux minus the inner flux.</p>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson36-37">
+                <h3 id="practice-lesson36-37">Practice Problems</h3>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Use the Divergence Theorem to evaluate \(\displaystyle\iint_S \vec{F}\cdot d\vec{S}\) where \(\vec{F}=\langle x^3, y^3, z^3\rangle\) and \(S\) is the sphere \(x^2+y^2+z^2=1\) with outward normal.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\dfrac{12\pi}{5}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Use the Divergence Theorem to compute the flux of \(\vec{F}=\langle xy, y^2, yz\rangle\) outward through the surface of the unit cube \([0,1]^3\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(2\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Let \(S\) be the closed surface consisting of the hemisphere \(z=\sqrt{4-x^2-y^2}\) and the disk \(x^2+y^2\le4\) in the \(xy\)-plane, both with outward normal. Evaluate \(\displaystyle\iint_S \vec{F}\cdot d\vec{S}\) where \(\vec{F}=\langle x,y,z\rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(16\pi\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Use the Divergence Theorem to find the outward flux of \(\vec{F}=\langle x^2z, y^2z, z^2\rangle\) through the boundary of the solid region \(E = \{(x,y,z)\mid x^2+y^2\le4,\;0\le z\le3\}\) (a cylinder).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(36\pi\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Let \(S\) be the outward-oriented boundary of the region between the spheres \(x^2+y^2+z^2=1\) and \(x^2+y^2+z^2=4\). Evaluate \(\displaystyle\iint_S \vec{F}\cdot d\vec{S}\) where \(\vec{F}=\langle x, y, z\rangle\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(28\pi\)</span></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.practice-question').forEach(function(q) {
+            q.setAttribute('tabindex', '0');
+            q.setAttribute('role', 'button');
+            var answerBox = q.querySelector('.answer-box');
+            var hint = q.querySelector('.toggle-hint');
+            if (!answerBox) return;
+            function toggle() {
+                q.classList.toggle('answered');
+                var expanded = q.classList.contains('answered');
+                q.setAttribute('aria-expanded', expanded);
+                if (hint) hint.textContent = expanded ? '▲ Hide answer' : '▼ Show answer';
+                if (expanded && window.MathJax && MathJax.typesetPromise) {
+                    MathJax.typesetPromise([answerBox]).catch(function(err) {
+                        console.log('MathJax typeset error:', err);
+                    });
+                }
+            }
+            q.addEventListener('click', toggle);
+            q.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+            });
+        });
+    });
+    </script>
+
+    <footer role="contentinfo">
+        <p style="margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--purdue-gold); text-align: center;">
+            MA 26100: Multivariate Calculus | Spring 2026 | Purdue University<br>
+            <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/">Return to Course Page</a>
+        </p>
+    </footer>
+</body>
+</html>

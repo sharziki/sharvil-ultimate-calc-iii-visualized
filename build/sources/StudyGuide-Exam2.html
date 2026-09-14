@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GYYJ8D8VH8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GYYJ8D8VH8');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam 2 Study Guide - MA 261 Spring 2026</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --purdue-gold: #C28E0E;
+            --purdue-black: #000000;
+            --text-color: #000000;
+            --background-color: #FFFFFF;
+            --border-color: #000000;
+            --link-color: #0066CC;
+            --link-visited: #551A8B;
+            --focus-color: #C28E0E;
+            --accent-bg: #FFF8DC;
+            --section-bg: #F7F7F7;
+        }
+        .skip-link {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+            background: var(--purdue-gold);
+            color: var(--purdue-black);
+            font-weight: bold;
+            text-decoration: none;
+            z-index: 100;
+        }
+        .skip-link:focus {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            padding: 8px 16px;
+            margin: 0;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+        }
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        a:focus, button:focus, summary:focus {
+            outline: 3px solid var(--focus-color);
+            outline-offset: 2px;
+        }
+        header {
+            border-bottom: 3px solid var(--purdue-gold);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em;
+            color: var(--purdue-black);
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .course-info {
+            font-size: 1.1em;
+            color: var(--purdue-black);
+            margin: 10px 0;
+        }
+        .exam-info {
+            background-color: var(--accent-bg);
+            border-left: 4px solid var(--purdue-gold);
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .exam-info strong { color: var(--purdue-black); }
+        .lecture-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .lecture-link {
+            background-color: var(--background-color);
+            color: var(--purdue-black);
+            padding: 6px 12px;
+            text-decoration: none;
+            border: 2px solid var(--purdue-gold);
+            border-radius: 4px;
+            font-size: 0.9em;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .lecture-link:hover {
+            background-color: var(--purdue-gold);
+            color: var(--background-color);
+        }
+        .lecture-link:focus { background-color: var(--accent-bg); }
+        h2 {
+            font-size: 1.5em;
+            color: var(--purdue-black);
+            margin: 30px 0 0 0;
+            padding: 15px;
+            background-color: var(--section-bg);
+            border-left: 4px solid var(--purdue-gold);
+        }
+        h3 {
+            font-size: 1.2em;
+            color: var(--purdue-black);
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+        h4 {
+            font-size: 1.1em;
+            color: var(--purdue-black);
+            margin: 15px 0 8px 0;
+            font-weight: bold;
+        }
+        section { margin-bottom: 40px; }
+        p { margin: 10px 0; }
+        .formula-box {
+            border: 2px solid var(--purdue-black);
+            background-color: #FFFEF7;
+            padding: 15px;
+            margin: 15px 0;
+            display: block;
+        }
+        .important-box {
+            border: 2px solid var(--purdue-gold);
+            background-color: var(--accent-bg);
+            padding: 15px;
+            margin: 15px 0;
+        }
+        ul, ol { margin: 10px 0 10px 30px; }
+        li { margin: 8px 0; }
+        a { color: var(--link-color); text-decoration: underline; }
+        a:visited { color: var(--link-visited); }
+        a:hover { color: var(--purdue-gold); background-color: #FFFEF7; }
+        strong, .important { font-weight: bold; color: var(--purdue-black); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: var(--background-color);
+        }
+        caption {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            text-align: left;
+            color: var(--purdue-black);
+        }
+        th, td {
+            border: 1px solid var(--purdue-black);
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--section-bg);
+            font-weight: bold;
+            color: var(--purdue-black);
+        }
+        tr:nth-child(even) { background-color: #FAFAFA; }
+        .note {
+            font-style: italic;
+            margin: 10px 0;
+            padding-left: 20px;
+            border-left: 3px solid var(--purdue-gold);
+        }
+        /* Practice Problems */
+        .practice-problems {
+            background-color: #F9F6F0;
+            border: 2px solid var(--purdue-gold);
+            border-radius: 4px;
+            padding: 20px;
+            margin: 30px 0 10px 0;
+        }
+        .practice-problems h3 {
+            color: var(--purdue-black);
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--purdue-gold);
+            font-size: 1.2em;
+        }
+        .practice-question {
+            margin: 15px 0;
+            padding: 14px 18px;
+            background-color: var(--background-color);
+            border: 1px solid #DDD;
+            border-left: 3px solid var(--purdue-gold);
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+        .practice-question:hover { background-color: #FFFBF0; }
+        .practice-question p { margin: 0; }
+        .practice-question .question-prompt {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .practice-question .toggle-hint {
+            font-size: 0.8em;
+            color: #888;
+            white-space: nowrap;
+            padding-top: 2px;
+            flex-shrink: 0;
+            font-family: Georgia, serif;
+        }
+        .practice-question.answered .toggle-hint { color: #2a7a2a; }
+        .answer-box {
+            display: none;
+            margin-top: 14px;
+            padding: 12px 16px;
+            background-color: #F0F7F0;
+            border: 1px solid #5A9E5A;
+            border-left: 4px solid #2a7a2a;
+            border-radius: 2px;
+        }
+        .answer-box .answer-label {
+            font-weight: bold;
+            color: #2a7a2a;
+            font-size: 0.9em;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .answer-box p { margin: 6px 0 0 0; color: #000; }
+        .practice-question.answered .answer-box { display: block; }
+        @media print {
+            body { font-size: 12pt; max-width: 100%; padding: 0.5in; }
+            .skip-link, .lecture-links { display: none; }
+            h2 { page-break-after: avoid; }
+            .formula-box, .important-box { page-break-inside: avoid; }
+            a { color: var(--purdue-black); text-decoration: none; }
+            a[href^="http"]:after { content: " (" attr(href) ")"; font-size: 0.8em; }
+            .toggle-hint { display: none; }
+            .answer-box { display: none; }
+        }
+        @media screen and (max-width: 768px) {
+            body { padding: 10px; font-size: 14px; }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.3em; }
+            h3 { font-size: 1.1em; }
+            .formula-box, .important-box { padding: 10px; }
+            table { font-size: 0.9em; }
+            th, td { padding: 8px; }
+        }
+        @media (prefers-contrast: high) {
+            :root { --text-color: #000000; --background-color: #FFFFFF; }
+            .formula-box, .important-box { border-width: 3px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header role="banner">
+        <h1>Exam 2 Study Guide</h1>
+        <p class="course-info">MA 26100: Multivariate Calculus, Spring 2026</p>
+        <p class="course-info">Purdue University</p>
+    </header>
+
+
+  <main id="main-content" role="main">
+        <div class="exam-info" role="region" aria-label="Exam Information">
+            <p><strong>Coverage:</strong> Lessons 17–33 &nbsp;(§15.8, §16.1–16.6, §17.1–17.6)</p>
+            <p><strong>Exam Date:</strong> Tuesday, April 21, 2026</p>
+            <p><strong>Time:</strong> 8:00 PM - 9:00 PM</p>
+            <p><strong>Location:</strong> Announced on Brightspace</p>
+        </div>
+        <nav aria-label="Table of Contents" class="important-box">
+            <h2>Contents</h2>
+            <ol>
+                <li><a href="#lesson17">Lagrange Multipliers [Lesson 17] (§15.8)</a></li>
+                <li><a href="#lesson18">Double Integrals over Rectangular Regions [Lesson 18] (§16.1)</a></li>
+                <li><a href="#lesson19">Double Integrals over General Regions [Lesson 19] (§16.2)</a></li>
+                <li><a href="#lesson20">Double Integrals in Polar Coordinates [Lesson 20] (§16.3)</a></li>
+                <li><a href="#lesson21">Triple Integrals [Lesson 21] (§16.4)</a></li>
+                <li><a href="#lesson22">Triple Integrals in Cylindrical Coordinates [Lesson 22] (§16.5)</a></li>
+                <li><a href="#lesson23">Triple Integrals in Spherical Coordinates [Lesson 23] (§16.5)</a></li>
+                <li><a href="#lesson24">Integrals in Mass Calculations [Lesson 24] (§16.6)</a></li>
+                <li><a href="#lesson25">Vector Fields [Lesson 25] (§17.1)</a></li>
+                <li><a href="#lesson26">Line Integrals of Functions [Lesson 26] (§17.2)</a></li>
+                <li><a href="#lesson27">Line Integrals of Vector Fields [Lesson 27] (§17.2)</a></li>
+                <li><a href="#lesson28">Fundamental Theorem of Line Integrals [Lesson 28] (§17.3)</a></li>
+                <li><a href="#lesson29">Green's Theorem [Lesson 29] (§17.4)</a></li>
+                <li><a href="#lesson30">Curl and Divergence [Lesson 30] (§17.5)</a></li>
+                <li><a href="#lesson31-33">Surface Integrals [Lessons 31–33] (§17.6)</a></li>
+            </ol>
+        </nav>
+
+        <!-- ============================================================ -->
+        <section id="lesson17" aria-labelledby="lesson17-heading">
+            <h2 id="lesson17-heading">Lagrange Multipliers [Lesson 17] (§15.8)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson17" class="lecture-link">Video</a>
+                <a href="Lesson17.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson17" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Method of Lagrange Multipliers</h3>
+            <p>To find the extreme values of \(f(x,y)\) subject to a constraint \(g(x,y) = k\), solve the system:</p>
+            <div class="formula-box" role="region" aria-label="Lagrange multiplier conditions">
+                \[\nabla f = \lambda\,\nabla g \qquad \text{and} \qquad g(x,y) = k\]
+            </div>
+            <p>That is:</p>
+            <ul>
+                <li>\(f_x = \lambda\, g_x\)</li>
+                <li>\(f_y = \lambda\, g_y\)</li>
+                <li>\(g(x,y) = k\)</li>
+            </ul>
+
+            <h3>Three Variables</h3>
+            <p>To optimize \(f(x,y,z)\) subject to \(g(x,y,z) = k\):</p>
+            <div class="formula-box" role="region" aria-label="Lagrange 3 variables">
+                \[\nabla f = \lambda\,\nabla g \qquad \text{and} \qquad g(x,y,z) = k\]
+            </div>
+
+            <p class="note"><strong>Note:</strong> Evaluate \(f\) at all solution points and compare to identify absolute max/min.</p>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson17">
+                <h3 id="practice-lesson17">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Find the maximum value of \(f(x,y) = 3 + 2x - y\) subject to the constraint \(x^2 + 2xy + 4y^2 = 7\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: 10</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Find the maximum value of \(f(x,y) = 8x - 6y\) subject to the constraint \((x-1)^2 + y^2 = 1\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: 18</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> The maximum and minimum values of \(f(x,y)=(x-2)^2+(y-4)^2\) subject to \(x^2+y^2=5\) are, respectively:</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: Maximum 45, Minimum 5</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Find the maximum of \(f(x,y,z) = x+y+z\) subject to \((x-1)^2+y^2+z^2=1\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(1+\sqrt{3}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Find the absolute maximum value \(M\) and absolute minimum value \(m\) of \(f(x,y)=x+y\) subject to \(x^2-xy+y^2=1\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(M=2,\;m=-2\)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson18" aria-labelledby="lesson18-heading">
+            <h2 id="lesson18-heading">Double Integrals over Rectangular Regions [Lesson 18] (§16.1)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson18" class="lecture-link">Video</a>
+                <a href="Lesson18.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson18" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Double Integral over a Rectangle</h3>
+            <p>For \(R = [a,b] \times [c,d]\):</p>
+            <div class="formula-box" role="region" aria-label="Double integral rectangle">
+                \[\iint_R f(x,y)\,dA = \int_a^b \int_c^d f(x,y)\,dy\,dx = \int_c^d \int_a^b f(x,y)\,dx\,dy\]
+            </div>
+
+            <h3>Fubini's Theorem</h3>
+            <p>If \(f\) is continuous on \(R = [a,b]\times[c,d]\), the order of integration may be switched:</p>
+            <div class="formula-box" role="region" aria-label="Fubini's theorem">
+                \[\int_a^b\int_c^d f(x,y)\,dy\,dx = \int_c^d\int_a^b f(x,y)\,dx\,dy\]
+            </div>
+
+            <h3>Riemann Sum Definition</h3>
+            <p>Partition \([a,b]\) into \(m\) subintervals and \([c,d]\) into \(n\) subintervals, each of width \(\Delta x = \frac{b-a}{m}\) and \(\Delta y = \frac{d-c}{n}\). Choose sample points \((x_{ij}^*, y_{ij}^*)\) in each subrectangle \(R_{ij}\):</p>
+            <div class="formula-box" role="region" aria-label="Riemann sum definition">
+                \[\iint_R f(x,y)\,dA = \lim_{m,n\to\infty}\sum_{i=1}^{m}\sum_{j=1}^{n} f(x_{ij}^*,\, y_{ij}^*)\,\Delta A\]
+            </div>
+            <p>where \(\Delta A = \Delta x\,\Delta y\) is the area of each subrectangle.</p>
+            <ul>
+                <li>Using <strong>midpoints</strong>: \(x_i^* = \frac{x_{i-1}+x_i}{2}\), \(y_j^* = \frac{y_{j-1}+y_j}{2}\)</li>
+                <li>The double integral gives the <strong>signed volume</strong> between the surface \(z = f(x,y)\) and the \(xy\)-plane</li>
+            </ul>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson18">
+                <h3 id="practice-lesson18">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Compute \(\displaystyle\int_0^1\int_0^4 \sqrt{xy}\,dx\,dy\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{32}{9}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Find the volume enclosed by \(x=0\), \(x=3\), \(y=0\), \(y=2\), \(z=1\), and \(z=e^{x+y}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(e^5-e^3-e^2-5\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Find the average value of \(f(x,y)=x^2y\) over the rectangle \(R\) with vertices \((-1,0)\), \((-1,5)\), \((1,5)\), \((1,0)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{5}{6}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Evaluate \(\displaystyle\int_0^1\int_0^1\int_0^{2-y} e^x\,dz\,dx\,dy\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{3}{2}(e-1)\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Evaluate \(\displaystyle\iint_R \frac{x^2y}{2+x^3}\,dA\) over \(R=\{1\le x\le 2,\;0\le y\le 4\}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{8}{3}(\ln10-\ln3)\)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson19" aria-labelledby="lesson19-heading">
+            <h2 id="lesson19-heading">Double Integrals over General Regions [Lesson 19] (§16.2)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson19" class="lecture-link">Video</a>
+                <a href="Lesson19.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson19" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Type I Region (vertical strips)</h3>
+            <p>Region bounded by functions of \(x\): \(g_1(x) \le y \le g_2(x)\), \(a \le x \le b\)</p>
+            <div class="formula-box" role="region" aria-label="Type I double integral">
+                \[\iint_D f(x,y)\,dA = \int_a^b\int_{g_1(x)}^{g_2(x)} f(x,y)\,dy\,dx\]
+            </div>
+
+            <h3>Type II Region (horizontal strips)</h3>
+            <p>Region bounded by functions of \(y\): \(h_1(y) \le x \le h_2(y)\), \(c \le y \le d\)</p>
+            <div class="formula-box" role="region" aria-label="Type II double integral">
+                \[\iint_D f(x,y)\,dA = \int_c^d\int_{h_1(y)}^{h_2(y)} f(x,y)\,dx\,dy\]
+            </div>
+
+            <h3>Reversing Order of Integration</h3>
+            <p>Sketch the region, identify bounds for the opposite order, then re-write the integral. This is often necessary when the inner integral has no elementary antiderivative.</p>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson19">
+                <h3 id="practice-lesson19">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Evaluate (switching order of integration):</p><p>\(\displaystyle\int_0^{27}\int_{\sqrt[3]{x}}^{3} 4e^{y^4}\,dy\,dx\)</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(e^{81}-1\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Evaluate \(\displaystyle\iint_R \frac{\sin x}{x}\,dA\) where \(R\) is bounded by the \(x\)-axis, \(y=x\), and \(x=1\) (integrate in \(y\) first, then \(x\)).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(1-\cos(1)\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Find the volume of the solid under \(z=2x\) and above the region in the first quadrant bounded by the coordinate axes and \(x+y=1\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{1}{3}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Change the order of integration for \(\displaystyle\int_0^2\int_{x^2}^{2x}f(x,y)\,dy\,dx\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: (original) — \(\displaystyle\int_0^4\int_{\sqrt{y}}^{y/2}f\,dx\,dy\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Reverse the order and evaluate: \(\displaystyle\int_0^{2\sqrt{\ln3}}\!\int_{y/2}^{\sqrt{\ln3}} e^{x^2}\,dx\,dy\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(2\)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson20" aria-labelledby="lesson20-heading">
+            <h2 id="lesson20-heading">Double Integrals in Polar Coordinates [Lesson 20] (§16.3)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson20" class="lecture-link">Video</a>
+                <a href="Lesson20.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson20" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Polar Coordinate Substitution</h3>
+            <p>Use \(x = r\cos\theta\), \(y = r\sin\theta\), \(x^2+y^2=r^2\):</p>
+            <div class="formula-box" role="region" aria-label="Polar double integral">
+                \[\iint_D f(x,y)\,dA = \int_\alpha^\beta\int_{r_1(\theta)}^{r_2(\theta)} f(r\cos\theta,\, r\sin\theta)\,r\,dr\,d\theta\]
+            </div>
+
+            <p class="note"><strong>Key:</strong> Don't forget the Jacobian factor \(r\) in \(dA = r\,dr\,d\theta\).</p>
+
+            <h3>When to Use Polar Coordinates</h3>
+            <ul>
+                <li>Region is a disk, annulus, or sector</li>
+                <li>Integrand contains \(x^2 + y^2\)</li>
+                <li>Region has circular symmetry</li>
+            </ul>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson20">
+                <h3 id="practice-lesson20">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Evaluate \(\displaystyle\int_0^3\!\int_0^{\sqrt{9-x^2}}\!\sqrt{x^2+y^2}\,dy\,dx\) by converting to polar.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{9\pi}{2}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Compute \(\displaystyle\iint_R e^{-(x^2+y^2)}\,dA\) where \(R\) is the disk \(x^2+y^2\le4\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\pi(1-e^{-4})\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Rewrite in polar (do not evaluate): \(\displaystyle\int_0^1\int_{-\sqrt{1-y^2}}^{\sqrt{1-y^2}}(x^2+y^2)^{1/2}\,dx\,dy\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\displaystyle\int_0^\pi\!\int_0^1 r^2\,dr\,d\theta\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Evaluate \(\displaystyle\int_0^{\sqrt{\pi}}\!\int_0^{\sqrt{\pi-y^2}}\sin(x^2+y^2)\,dx\,dy\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{\pi}{2}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Compute \(\displaystyle\int_{-3}^{3}\int_{-\sqrt{9-y^2}}^{\sqrt{9-y^2}} e^{x^2+y^2}\,dx\,dy\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\pi(e^9-1)\)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson21" aria-labelledby="lesson21-heading">
+            <h2 id="lesson21-heading">Triple Integrals [Lesson 21] (§16.4)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson21" class="lecture-link">Video</a>
+                <a href="Lesson21.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson21" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Iterated Triple Integral</h3>
+            <div class="formula-box" role="region" aria-label="Triple integral">
+                \[\iiint_E f(x,y,z)\,dV = \int_a^b\int_{g_1(x)}^{g_2(x)}\int_{u_1(x,y)}^{u_2(x,y)} f(x,y,z)\,dz\,dy\,dx\]
+            </div>
+
+            <h3>Applications</h3>
+            <ul>
+                <li><strong>Volume:</strong> \(V = \displaystyle\iiint_E dV\)</li>
+                <li><strong>Average value:</strong> \(\bar{f} = \dfrac{1}{V}\displaystyle\iiint_E f\,dV\)</li>
+            </ul>
+
+            <p class="note"><strong>Note:</strong> There are 6 possible orders of integration — choose the order that fits the region and integrand most naturally.</p>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson21">
+                <h3 id="practice-lesson21">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Evaluate \(\displaystyle\int_0^1\!\int_0^1\!\int_0^{2-y} e^x\,dz\,dx\,dy\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{3}{2}(e-1)\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Let \(E\) be the solid in the first octant above the \(xy\)-plane and below \(4x+2y+z=8\). For \(\displaystyle \iiint_E f\,dV=\int_0^a\!\int_0^b\!\int_0^c f\,dz\,dy\,dx\):</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(a=2,\;b=4-2x\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Let \(D\) be the solid bounded by \(x=0\), \(z=0\), \(y=x\), and \(x+y+z=2\). Write \(\iiint_D f\,dV\) as an iterated integral.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: e.g. \(\displaystyle\int_0^1\!\int_x^{2-x}\!\int_0^{2-x-y}f\,dz\,dy\,dx\) , or  \(\displaystyle\int_0^1\!\int_0^{2-x}\!\int_x^{2-x-z}f\,dy\,dz\,dx\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Let \(V\) be bounded by \(z=6-x^2-y^2\) and \(z=x^2+y^2\). If \(V=\displaystyle\int_{-\sqrt{3}}^{\sqrt{3}}\!\int_a^b\!\int_{x^2+y^2}^{6-x^2-y^2}dz\,dy\,dx\), what are \(a\) and \(b\)?</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(a=-\sqrt{3-x^2},\;b=\sqrt{3-x^2}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Evaluate \(\displaystyle\int_{-1}^{1}\!\int_{-\sqrt{1-y^2}}^{\sqrt{1-y^2}}\!\int_{-1}^{1}(x^2+y^2)^{3/2}\,dz\,dx\,dy\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{4\pi}{5}\)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson22" aria-labelledby="lesson22-heading">
+            <h2 id="lesson22-heading">Triple Integrals in Cylindrical Coordinates [Lesson 22] (§16.5)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson22" class="lecture-link">Video</a>
+                <a href="Lesson22.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson22" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Cylindrical Coordinates</h3>
+            <p>Relation to rectangular coordinates:</p>
+            <div class="formula-box" role="region" aria-label="Cylindrical coordinates">
+                \[x = r\cos\theta,\quad y = r\sin\theta,\quad z = z\]
+                \[r^2 = x^2+y^2,\quad \tan\theta = \frac{y}{x}\]
+            </div>
+
+            <h3>Triple Integral in Cylindrical Coordinates</h3>
+            <div class="formula-box" role="region" aria-label="Cylindrical triple integral">
+                \[\iiint_E f(x,y,z)\,dV = \int_\alpha^\beta\int_{r_1}^{r_2}\int_{u_1}^{u_2} f(r\cos\theta,r\sin\theta,z)\,r\,dz\,dr\,d\theta\]
+            </div>
+
+            <p class="note"><strong>Key:</strong> Don't forget the Jacobian factor \(r\) in \(dV = r\,dz\,dr\,d\theta\).</p>
+
+            <h3>When to Use Cylindrical Coordinates</h3>
+            <ul>
+                <li>Region has an axis of symmetry along the \(z\)-axis</li>
+                <li>Integrand or region involves \(x^2 + y^2\)</li>
+                <li>Region is bounded by a cylinder \(x^2+y^2 = a^2\), cone, or paraboloid</li>
+            </ul>
+
+                <div class="practice-problems" role="region" aria-labelledby="practice-lesson22">
+                <h3 id="practice-lesson22">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Rewrite \(\displaystyle\int_0^{\sqrt{2}}\!\int_0^{\sqrt{4-x^2}}\!\int_{2}^{6}\!e^{-x^2-y^2}\,dz\,dy\,dx\) in cylindrical coordinates.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\displaystyle\int_2^6\!\int_{\pi/4}^{\pi/2}\!\int_0^2 re^{-r^2}\,dr\,d\theta\,dz\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Evaluate \(\displaystyle\int_0^2\!\int_0^{\sqrt{4-x^2}}\!\int_{\sqrt{x^2+y^2}}^{\sqrt{2(x^2+y^2)}} dz\,dy\,dx\) using cylindrical coordinates.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{4\pi}{3}(\sqrt{2}-1)\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Convert to cylindrical and evaluate \(\displaystyle\int_0^{10}\!\int_0^{\sqrt{100-x^2}}\!\int_0^{\sqrt{x^2+y^2}}\!\frac{1}{\sqrt{x^2+y^2}}\,dz\,dy\,dx\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(25\pi\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Find the volume of the solid bounded by \(z=x^2+y^2-9\) and \(z=-2(x^2+y^2)\) using cylindrical coordinates.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{27\pi}{2}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Write the volume of the solid bounded by the cone \(z^2=x^2+y^2\) between the planes \(z=1\) and \(z=2\) as a spherical-coordinates integral.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\displaystyle\int_0^{2\pi}\!\int_0^{\pi/4}\!\int_{\sec\phi}^{2\sec\phi}\rho^2\sin\phi\,d\rho\,d\phi\,d\theta\)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson23" aria-labelledby="lesson23-heading">
+            <h2 id="lesson23-heading">Triple Integrals in Spherical Coordinates [Lesson 23] (§16.5)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson23" class="lecture-link">Video</a>
+                <a href="Lesson23.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson23" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Spherical Coordinates</h3>
+            <div class="formula-box" role="region" aria-label="Spherical coordinates">
+                \[x = \rho\sin\phi\cos\theta,\quad y = \rho\sin\phi\sin\theta,\quad z = \rho\cos\phi\]
+                \[\rho^2 = x^2+y^2+z^2, \quad \rho \ge 0,\quad 0 \le \phi \le \pi,\quad 0 \le \theta \le 2\pi\]
+            </div>
+
+            <h3>Triple Integral in Spherical Coordinates</h3>
+            <div class="formula-box" role="region" aria-label="Spherical triple integral">
+                \[\iiint_E f\,dV = \int_0^{2\pi}\int_0^{\phi_{\max}}\int_0^{\rho_{\max}} f\,\rho^2\sin\phi\,d\rho\,d\phi\,d\theta\]
+            </div>
+
+            <p class="note"><strong>Key:</strong> The Jacobian is \(\rho^2\sin\phi\). Don't forget it!</p>
+
+            <h4>Useful Identities</h4>
+            <ul>
+                <li>Sphere: \(\rho = a\)</li>
+                <li>Cone: \(\phi = \phi_0\) (half-angle from positive \(z\)-axis)</li>
+                <li>\(z = \rho\cos\phi\), \(\;r = \rho\sin\phi\)</li>
+            </ul>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson23">
+                <h3 id="practice-lesson23">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> The volume of the region inside \(x^2+y^2+z^2=4\) and inside the cone \(z=\sqrt{3x^2+3y^2}\) is \(\displaystyle\int_0^{2\pi}\!\int_0^a\!\int_0^b c\,d\rho\,d\phi\,d\theta\). What are \(a\), \(b\), and \(c\)?</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(a=\pi/6,\;b=2,\;c=\rho^2\sin\phi\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Write the volume of the solid bounded by the cone \(z=\sqrt{x^2+y^2}\) and the sphere \(x^2+y^2+z^2=8\) as a spherical-coordinates integral.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\displaystyle\int_0^{2\pi}\!\int_0^{\pi/4}\!\int_0^{\sqrt{8}}\rho^2\sin\phi\,d\rho\,d\phi\,d\theta\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Write the volume of the region inside the sphere of radius 2 centered at \((0,0,2)\) and outside the sphere of radius 2 centered at the origin as a spherical-coordinates integral.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\displaystyle\int_0^{2\pi}\!\int_0^{\pi/3}\!\int_2^{4\cos\phi}\rho^2\sin\phi\,d\rho\,d\phi\,d\theta\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Converting \(\displaystyle\int_{-1}^{1}\!\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}}\!\int_{\sqrt{3(x^2+y^2)}}^{\sqrt{4-x^2-y^2}} f\,dz\,dy\,dx\) to spherical gives \(\displaystyle\int_0^a\!\int_0^b\!\int_0^c f\cdot\rho^2\sin\phi\,d\rho\,d\phi\,d\theta\) (order: \(d\rho\,d\phi\,d\theta\), so \(a\) is the upper limit on \(\theta\), \(b\) on \(\phi\), \(c\) on \(\rho\)). Find \(\dfrac{bc}{a}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{1}{6}\) &ensp; (\(a=2\pi,\;b=\tfrac{\pi}{6},\;c=2\))</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Find the volume of the solid region enclosed by the surface \(\rho=12\cos\phi\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(288\pi\)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson24" aria-labelledby="lesson24-heading">
+            <h2 id="lesson24-heading">Integrals in Mass Calculations [Lesson 24] (§16.6)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson24" class="lecture-link">Video</a>
+                <a href="Lesson24.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson24" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Mass, Moments, and Center of Mass</h3>
+            <p>For a lamina (2D) with density \(\delta(x,y)\):</p>
+            <div class="formula-box" role="region" aria-label="2D mass and center of mass">
+                \[m = \iint_D \delta(x,y)\,dA\]
+                \[\bar{x} = \frac{1}{m}\iint_D x\,\delta(x,y)\,dA, \qquad \bar{y} = \frac{1}{m}\iint_D y\,\delta(x,y)\,dA\]
+            </div>
+
+            <h3>3D Solid</h3>
+            <p>For a solid \(E\) with density \(\delta(x,y,z)\):</p>
+            <div class="formula-box" role="region" aria-label="3D mass">
+                \[m = \iiint_E \delta(x,y,z)\,dV\]
+                \[\bar{x} = \frac{1}{m}\iiint_E x\,\delta\,dV,\quad \bar{y} = \frac{1}{m}\iiint_E y\,\delta\,dV,\quad \bar{z} = \frac{1}{m}\iiint_E z\,\delta\,dV\]
+            </div>
+
+            <h3>Moments of Inertia</h3>
+            <div class="formula-box" role="region" aria-label="Moments of inertia">
+                \[I_x = \iint_D y^2\,\delta\,dA,\quad I_y = \iint_D x^2\,\delta\,dA,\quad I_0 = \iint_D (x^2+y^2)\,\delta\,dA\]
+            </div>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson24">
+                <h3 id="practice-lesson24">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Find the center of mass of the rectangle \(\{(x,y)\mid 0\le x\le 2,\;0\le y\le 4\}\) with density \(\rho(x,y)=1+y\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\left(1,\;\tfrac{22}{9}\right)\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> A cube \(0\le x,y,z\le 1\) has density \(\delta=x+yz\). Find the \(x\)-coordinate of the center of mass, given \(\iiint_{\text{cube}}\delta\,dV=\tfrac{3}{4}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{11}{18}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Find the \(x\)-coordinate of the center of mass of the plate bounded by \(y=x\), \(y=\tfrac{1}{2}x\), \(x=1\) with density \(\delta(x,y)=2x\). (Given: \(M_x=\iint y\delta\,dA\), \(M_y=\iint x\delta\,dA\).)</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{3}{4}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Calculate the mass of the tetrahedron with corners \((0,0,0)\), \((1,0,0)\), \((0,2,0)\), \((0,0,4)\) with density \(\rho(x,y,z)=2z\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{8}{3}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> A lamina with density \(\rho(x,y)=xy\) occupies the region bounded by \(y=x^2\), \(y=1\), \(x=0\). The mass is \(\tfrac{1}{6}\). Find the \(y\)-coordinate of the center of mass.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{3}{4}\)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson25" aria-labelledby="lesson25-heading">
+            <h2 id="lesson25-heading">Vector Fields [Lesson 25] (§17.1)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson25" class="lecture-link">Video</a>
+                <a href="Lesson25.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson25" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Definition</h3>
+            <p>A <strong>vector field</strong> assigns a vector to each point in a region:</p>
+            <div class="formula-box" role="region" aria-label="Vector field definition">
+                \[\vec{F}(x,y) = P(x,y)\,\vec{i} + Q(x,y)\,\vec{j} = \langle P, Q \rangle\]
+                \[\vec{F}(x,y,z) = P\,\vec{i} + Q\,\vec{j} + R\,\vec{k} = \langle P, Q, R \rangle\]
+            </div>
+
+            <h3>Conservative Vector Fields</h3>
+            <p>A vector field \(\vec{F}\) is <strong>conservative</strong> if there exists a scalar function \(f\) (the <strong>potential function</strong>) such that:</p>
+            <div class="formula-box" role="region" aria-label="Conservative field condition">
+                \[\vec{F} = \nabla f \qquad \Longleftrightarrow \qquad P = f_x,\; Q = f_y \; (\text{and }R = f_z)\]
+            </div>
+
+            <h4>Test for Conservative Field in 2D</h4>
+            <div class="formula-box" role="region" aria-label="Conservative test 2D">
+                \[\vec{F} = \langle P, Q \rangle \text{ is conservative} \iff \frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}\]
+            </div>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson25">
+                <h3 id="practice-lesson25">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Consider \(\vec{F}=\langle e^{yz}-y\sin(xy),\;zxe^{yz}-x\sin(xy),\;xye^{yz}\rangle\). Find a potential function \(\varphi\) if one exists.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(xe^{yz}+\cos(xy)\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Let \(a\ne0\) and \(C\) be the curve \(x^2-2y^2=a\). Which \(\vec{F}\) is orthogonal to the tangent of \(C\) at every point \((x_0,y_0)\) on \(C\)?</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\langle 2x,-4y\rangle\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Which vector field corresponds to the field with vectors rotating counterclockwise (pointing left above the \(x\)-axis, right below it)?</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\langle -y,x\rangle\)</span></div>
+                </div>
+                
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Suppose \(f(x,y,z)=xy^2z^3\). Find \(\operatorname{div}(\nabla f)\) at the point \((2,-1,1)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: 16</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson26" aria-labelledby="lesson26-heading">
+            <h2 id="lesson26-heading">Line Integrals of Functions [Lesson 26] (§17.2)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson26" class="lecture-link">Video</a>
+                <a href="Lesson26.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson26" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Line Integral of a Scalar Function</h3>
+            <p>For curve \(C\) parametrized by \(\vec{r}(t)\), \(a \le t \le b\):</p>
+            <div class="formula-box" role="region" aria-label="Scalar line integral">
+                \[\int_C f(x,y,z)\,ds = \int_a^b f(\vec{r}(t))\,|\vec{r}'(t)|\,dt\]
+            </div>
+
+            <h3>Interpretations</h3>
+            <ul>
+                <li>Arc length: \(\displaystyle\int_C ds = \int_a^b |\vec{r}'(t)|\,dt\)</li>
+                <li>Mass of a wire with linear density \(\delta\): \(m = \displaystyle\int_C \delta\,ds\)</li>
+            </ul>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson26">
+                <h3 id="practice-lesson26">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Compute \(\displaystyle\int_C f(x,y)\,ds\) where \(f(x,y)=\sin(2\pi x)+xy\) and \(C\colon\vec{r}(t)=\langle t,t\rangle\), \(0\le t\le1\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{\sqrt{2}}{3}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Let \(C\) be the helix \(\vec{r}(t)=\langle\cos t,\sin t,t\rangle\), \(0\le t\le\pi/2\). Compute \(\displaystyle\int_C xy\,ds\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{\sqrt{2}}{2}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Calculate \(\displaystyle\int_C\frac{1}{(x-y)^2}\,ds\) where \(C\) is the straight line segment from \((1,0)\) to \((5,3)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{5}{2}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Let \(C\) be the half-circle \(x^2+y^2=4\) with \(x\ge0\). Compute \(\displaystyle\int_C x\,ds\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(8\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Find the arc length of \(\vec{r}(t) = \langle 4\cos t,\, 4\sin t,\, 3t\rangle\) for \(0\le t\le 2\pi\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(10\pi\)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson27" aria-labelledby="lesson27-heading">
+            <h2 id="lesson27-heading">Line Integrals of Vector Fields [Lesson 27] (§17.2)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson27" class="lecture-link">Video</a>
+                <a href="Lesson27.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson27" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Line Integral of a Vector Field (Work)</h3>
+            <p>The work done by \(\vec{F}\) along curve \(C\):</p>
+            <div class="formula-box" role="region" aria-label="Vector field line integral">
+                \[\int_C \vec{F}\cdot d\vec{r} = \int_a^b \vec{F}(\vec{r}(t))\cdot\vec{r}'(t)\,dt = \int_C P\,dx + Q\,dy + R\,dz\]
+            </div>
+
+            <h3>Key Properties</h3>
+            <ul>
+                <li>Reversing orientation changes the sign: \(\displaystyle\int_{-C}\vec{F}\cdot d\vec{r} = -\int_C \vec{F}\cdot d\vec{r}\)</li>
+                <li>Linearity: \(\displaystyle\int_C (a\vec{F}+b\vec{G})\cdot d\vec{r} = a\int_C\vec{F}\cdot d\vec{r} + b\int_C\vec{G}\cdot d\vec{r}\)</li>
+            </ul>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson27">
+                <h3 id="practice-lesson27">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Given force field \(\vec{F}(x,y)=\langle-y,x\rangle\), find the work to move an object along the ellipse \(\vec{r}(t)=\langle2\cos t,3\sin t\rangle\) from \((2,0)\) to \((0,3)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(3\pi\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Compute the flux of \(\vec{F}(x,y)=\langle x,y\rangle\) across the curve \(\vec{r}(t)=\langle3\cos t,2\sin t\rangle\), \(-\pi\le t\le\pi\). (Flux \(=\displaystyle\int_C P\,dy-Q\,dx\).)</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(12\pi\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Given force field \(\vec{F}(x,y,z)=\langle y,z,x\rangle\), find the work to move an object along the straight line from \((0,0,0)\) to \((2,3,4)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\tfrac{26}{2}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Find \(\displaystyle\int_C\vec{F}\cdot\vec{T}\,ds\) where \(\vec{F}(x,y,z)=\langle ye^z,e^y+xe^z,xye^z\rangle\) on a smooth curve from \((0,0,0)\) to \((-1,1,1)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(-1\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Evaluate \(\displaystyle\int_C\vec{F}\cdot d\vec{r}\) where \(\vec{F}(x,y,z)=\langle2xy-yz,\;x^2-xz,\;-xy\rangle\) on a smooth curve from \((2,1,0)\) to \((3,2,-1)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: 20</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson28" aria-labelledby="lesson28-heading">
+            <h2 id="lesson28-heading">Fundamental Theorem of Line Integrals [Lesson 28] (§17.3)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson28" class="lecture-link">Video</a>
+                <a href="Lesson28.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson28" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Fundamental Theorem of Line Integrals</h3>
+            <p>If \(\vec{F} = \nabla f\) (conservative) and \(C\) goes from \(A\) to \(B\):</p>
+            <div class="formula-box" role="region" aria-label="FTLI">
+                \[\int_C \nabla f \cdot d\vec{r} = f(B) - f(A)\]
+            </div>
+
+            <h3>Independence of Path</h3>
+            <p>\(\displaystyle\int_C \vec{F}\cdot d\vec{r}\) is <strong>path-independent</strong> if and only if \(\vec{F}\) is conservative.</p>
+
+            <h3>Closed Curves</h3>
+            <div class="formula-box" role="region" aria-label="Closed curve conservative">
+                \[\oint_C \vec{F}\cdot d\vec{r} = 0 \iff \vec{F} \text{ is conservative}\]
+            </div>
+
+            <h3>Finding the Potential Function</h3>
+            <p>Given \(\vec{F} = \langle P, Q \rangle\) is conservative:</p>
+            <ul>
+                <li>Integrate \(P\) with respect to \(x\) to get \(f(x,y) = \int P\,dx + g(y)\)</li>
+                <li>Differentiate with respect to \(y\) and set equal to \(Q\) to find \(g'(y)\), then integrate</li>
+            </ul>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson28">
+                <h3 id="practice-lesson28">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Find \(\displaystyle\int_C\vec{F}\cdot d\vec{r}\) where \(\vec{F}(x,y,z)=\langle2xy-yz,\;x^2-xz,\;-xy\rangle\) on a smooth curve from \((2,1,0)\) to \((3,2,-1)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: 20</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> For \(\vec{F}=\langle e^{yz}-y\sin(xy),\;zxe^{yz}-x\sin(xy),\;xye^{yz}\rangle\), find a potential function.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\varphi=xe^{yz}+\cos(xy)\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> A potential for \(\vec{F}=\langle\sin y,\;x\cos y\rangle\) is:</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(x\sin y+1\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Find \(\displaystyle\int_C\vec{F}\cdot\vec{T}\,ds\) where \(\vec{F}=\langle ye^z,\;e^y+xe^z,\;xye^z\rangle\) on a smooth curve from \((0,0,0)\) to \((-1,1,1)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(-1\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Evaluate \(\displaystyle\int_C\nabla(x^2y-xyz)\cdot d\vec{r}\) where \(C\) is any path from \((1,0,0)\) to \((2,1,-1)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: 6</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson29" aria-labelledby="lesson29-heading">
+            <h2 id="lesson29-heading">Green's Theorem [Lesson 29] (§17.4)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson29" class="lecture-link">Video</a>
+                <a href="Lesson29.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson29" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Green's Theorem</h3>
+            <p>Let \(C\) be a positively oriented (counterclockwise), simple closed curve bounding region \(D\):</p>
+            <div class="formula-box" role="region" aria-label="Green's theorem">
+                \[\oint_C P\,dx + Q\,dy = \iint_D \left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right)dA\]
+            </div>
+
+            <h3>Area via Green's Theorem</h3>
+            <div class="formula-box" role="region" aria-label="Area via Green's theorem">
+                \[A = \oint_C x\,dy = -\oint_C y\,dx = \frac{1}{2}\oint_C x\,dy - y\,dx\]
+            </div>
+
+            <p class="note"><strong>Note:</strong> Green's theorem converts a difficult line integral into a double integral, or vice versa.</p>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson29">
+                <h3 id="practice-lesson29">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Use Green's Theorem to evaluate \(\displaystyle\oint_C x\,dx+(x^2+y^2)\,dy\) where \(C\) is the boundary of the rectangle with vertices \((0,0)\), \((2,0)\), \((2,3)\), \((0,3)\), counterclockwise.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: 12</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Let \(R\) be the triangle with vertices \((0,0)\), \((2,0)\), \((1,1)\) and \(C\) its CCW boundary. Compute \(\displaystyle\int_C\cos^3(x)\,dx+e^x\,dy\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(e^2-2e+1\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Use Green's Theorem to evaluate \(\displaystyle\oint_C y\,dx + 2x\,dy\) where \(C\) is the square with vertices \((\pm1,\pm1)\), counterclockwise.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(4\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Use Green's theorem to evaluate \(\displaystyle\oint_C(y^3)\,dx-(x^3)\,dy\) where \(C\) is the circle \(x^2+y^2=1\), CCW.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\frac{-3\pi}{2}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Use Green's theorem to find the area of the ellipse \(\tfrac{x^2}{a^2}+\tfrac{y^2}{b^2}=1\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\pi ab\)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson30" aria-labelledby="lesson30-heading">
+            <h2 id="lesson30-heading">Curl and Divergence [Lesson 30] (§17.5)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson30" class="lecture-link">Video</a>
+                <a href="Lesson30.html" class="lecture-link">Notes</a>
+                <a href="#practice-lesson30" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Curl</h3>
+            <p>For \(\vec{F} = \langle P, Q, R \rangle\):</p>
+            <div class="formula-box" role="region" aria-label="Curl formula">
+                \[\text{curl}\,\vec{F} = \nabla \times \vec{F} = \begin{vmatrix}\vec{i} & \vec{j} & \vec{k} \\ \partial_x & \partial_y & \partial_z \\ P & Q & R\end{vmatrix} = \left\langle R_y - Q_z,\, P_z - R_x,\, Q_x - P_y \right\rangle\]
+            </div>
+
+            <h3>Divergence</h3>
+            <div class="formula-box" role="region" aria-label="Divergence formula">
+                \[\text{div}\,\vec{F} = \nabla \cdot \vec{F} = \frac{\partial P}{\partial x} + \frac{\partial Q}{\partial y} + \frac{\partial R}{\partial z}\]
+            </div>
+
+            <h3>Key Identities</h3>
+            <ul>
+                <li>\(\vec{F}\) conservative \(\Rightarrow\) \(\text{curl}\,\vec{F} = \vec{0}\)</li>
+                <li>\(\text{div}(\text{curl}\,\vec{F}) = 0\) always</li>
+                <li>\(\text{curl}(\nabla f) = \vec{0}\) always (gradient fields are irrotational)</li>
+            </ul>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson30">
+                <h3 id="practice-lesson30">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> If \(\vec{F}=\langle xy,\sin z,\cos y\rangle\), find \(\operatorname{curl}(\vec{F})\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\langle-\sin y-\cos z,\,0,\,-x\rangle\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Let \(f(x,y,z)=xy^2z^3\). Compute \(\operatorname{div}(\nabla f)\) at \((2,-1,1)\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: 16</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> For \(\vec{F}=\langle e^{yz}-y\sin(xy),\;zxe^{yz}-x\sin(xy),\;xye^{yz}\rangle\), verify that \(\operatorname{curl}\vec{F}=\vec{0}\) and state what this implies.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\vec{F}\) is conservative</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Determine if \(\vec{F}=\langle yz,xz,xy\rangle\) is conservative using \(\operatorname{curl}\vec{F}\). If so, find \(\varphi\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: Conservative; \(\varphi=xyz+C\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Find \(\operatorname{div}\vec{F}\) for \(\vec{F}=\langle e^{xy},e^{yz},e^{xz}\rangle\), and verify the identity \(\operatorname{div}(\operatorname{curl}\vec{G})=0\) for any smooth \(\vec{G}\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\operatorname{div}\vec{F}=ye^{xy}+ze^{yz}+xe^{xz}\)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="lesson31-33" aria-labelledby="lesson31-33-heading">
+            <h2 id="lesson31-33-heading">Surface Integrals [Lessons 31–33] (§17.6)</h2>
+            <div class="lecture-links">
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson31" class="lecture-link">Video (Lesson 31)</a>
+                <a href="Lesson31.html" class="lecture-link">Notes (Lesson 31)</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson32" class="lecture-link">Video (Lesson 32)</a>
+                <a href="Lesson32.html" class="lecture-link">Notes (Lesson 32)</a>
+                <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/Lectures.html#lesson33" class="lecture-link">Video (Lesson 33)</a>
+                <a href="Lesson33.html" class="lecture-link">Notes (Lesson 33)</a>
+                <a href="#practice-lesson31-33" class="lecture-link">Practice</a>
+            </div>
+
+            <h3>Surface Integral of a Scalar Function</h3>
+            <p>For surface \(z = g(x,y)\) over region \(D\):</p>
+            <div class="formula-box" role="region" aria-label="Scalar surface integral">
+                \[\iint_S f(x,y,z)\,dS = \iint_D f(x,y,g(x,y))\sqrt{g_x^2 + g_y^2 + 1}\,dA\]
+            </div>
+
+            <h3>Surface Area</h3>
+            <div class="formula-box" role="region" aria-label="Surface area">
+                \[A(S) = \iint_S dS = \iint_D \sqrt{g_x^2 + g_y^2 + 1}\,dA\]
+            </div>
+
+            <h3>Flux Integral (Surface Integral of a Vector Field)</h3>
+            <p>For \(\vec{F} = \langle P, Q, R \rangle\) and oriented surface \(S\) with unit normal \(\hat{n}\):</p>
+            <div class="formula-box" role="region" aria-label="Flux integral">
+                \[\iint_S \vec{F}\cdot d\vec{S} = \iint_S \vec{F}\cdot\hat{n}\,dS\]
+            </div>
+
+            <p>For \(z = g(x,y)\) with upward orientation (\(\hat{n}\) pointing upward):</p>
+            <div class="formula-box" role="region" aria-label="Flux upward orientation">
+                \[\iint_S \vec{F}\cdot d\vec{S} = \iint_D \left(-P g_x - Q g_y + R\right)dA\]
+            </div>
+
+            <h3>Parametric Surface</h3>
+            <p>For surface \(\vec{r}(u,v)\):</p>
+            <div class="formula-box" role="region" aria-label="Parametric surface integral">
+                \[\iint_S f\,dS = \iint_D f(\vec{r}(u,v))\,|\vec{r}_u \times \vec{r}_v|\,dA\]
+            </div>
+            <div class="formula-box" role="region" aria-label="Parametric flux">
+                \[\iint_S \vec{F}\cdot d\vec{S} = \iint_D \vec{F}(\vec{r}(u,v))\cdot(\vec{r}_u \times \vec{r}_v)\,dA\]
+            </div>
+
+            <div class="practice-problems" role="region" aria-labelledby="practice-lesson31-33">
+                <h3 id="practice-lesson31-33">Practice Problems</h3>                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 1.</strong> Find the area of the part of the plane \(2x+5y+z=10\) that lies in the first octant.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(5\sqrt{30}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 2.</strong> Compute the flux of \(\vec{F}(x,y)=\langle x,y\rangle\) across \(\vec{r}(t)=\langle3\cos t,2\sin t\rangle\), \(-\pi\le t\le\pi\). (Flux \(=\displaystyle\int_C P\,dy-Q\,dx\).)</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(12\pi\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 3.</strong> Evaluate \(\iint_S 1\,dS\) where \(S\) is the portion of the paraboloid \(z=x^2+y^2\) below \(z=4\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\dfrac{\pi}{6}(17\sqrt{17}-1)\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 4.</strong> Find the flux of \(\vec{F}=\langle x,y,z\rangle\) upward through the surface \(z=4-x^2-y^2\) above the \(xy\)-plane.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(24\pi\) </span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 5.</strong> Find the surface area of the cone \(z=\sqrt{x^2+y^2}\) below \(z=3\).</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(9\pi\sqrt{2}\)</span></div>
+                </div>
+                <div class="practice-question" aria-expanded="false">
+                    <div class="question-prompt"><p><strong>Problem 6.</strong> Evaluate \(\iint_S\vec{F}\cdot d\vec{S}\) where \(\vec{F}=\langle y,-x,1\rangle\) and \(S\) is the disk \(z=1\), \(x^2+y^2\le1\), oriented upward.</p><span class="toggle-hint">▼ Show answer</span></div>
+                    <div class="answer-box"><span class="answer-label">Answer: \(\pi\)</span></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.practice-question').forEach(function(q) {
+            q.setAttribute('tabindex', '0');
+            q.setAttribute('role', 'button');
+            var answerBox = q.querySelector('.answer-box');
+            var hint = q.querySelector('.toggle-hint');
+            if (!answerBox) return;
+            function toggle() {
+                q.classList.toggle('answered');
+                var expanded = q.classList.contains('answered');
+                q.setAttribute('aria-expanded', expanded);
+                if (hint) hint.textContent = expanded ? '▲ Hide answer' : '▼ Show answer';
+                if (expanded && window.MathJax) {
+                    MathJax.typesetPromise([answerBox]);
+                }
+            }
+            q.addEventListener('click', toggle);
+            q.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+            });
+        });
+    });
+    </script>
+
+    <footer role="contentinfo">
+        <p style="margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--purdue-gold); text-align: center;">
+            MA 26100: Multivariate Calculus | Spring 2026 | Purdue University<br>
+            <a href="https://www.math.purdue.edu/~msunkula/MA261/Sp26/">Return to Course Page</a>
+        </p>
+    </footer>
+</body>
+</html>

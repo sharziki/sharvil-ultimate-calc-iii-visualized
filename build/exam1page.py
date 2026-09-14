@@ -389,21 +389,59 @@ def _prob_html(M, p, sol, extra=False):
     )
 
 
-def coverage_gap(data):
-    """Sections on Sharvil's Fall Midterm 1 that this Spring guide never covers.
+GUIDES = [
+    dict(key="exam1", file="StudyGuide-Exam1.html", expect=68, out="exam1.html",
+         stop="m1", label="Exam 1", nav="Exam 1",
+         url="https://www.math.purdue.edu/~msunkula/MA261/Sp26/StudyGuide-Exam1.html",
+         blurb="Lessons 1&ndash;16 &mdash; everything through max/min."),
+    dict(key="exam2", file="StudyGuide-Exam2.html", expect=75, out="exam2.html",
+         stop="m2", label="Exam 2", nav="Exam 2",
+         url="https://www.math.purdue.edu/~msunkula/MA261/Sp26/StudyGuide-Exam2.html",
+         blurb="Lessons 17&ndash;33 &mdash; Lagrange through surface integrals."),
+    dict(key="final", file="StudyGuide-Final.html", expect=10, out="final.html",
+         stop="fin", label="Final", nav="Final",
+         url="https://www.math.purdue.edu/~msunkula/MA261/Sp26/StudyGuide-Final.html",
+         blurb="Stokes and the divergence theorem &mdash; on the final and nowhere else."),
+]
 
-    The guide is msunkula's Spring 2026 section. It is authoritative for the
-    *material*, and it is not his calendar: his exam is Mon Oct 5, Mummert's
-    Fall section. The lesson->section split also differs slightly, and the one
-    difference that costs marks is Lesson 2 — Fall reaches back to 12.1
-    (parametric curves in the plane) before 13.5, and the Spring guide has no
-    12.1 section at all.
+
+def official_index():
+    """lesson number -> (page, anchor, title, n_problems) across every guide.
+
+    This is what lets every quiz tab point at the instructor's own problems for
+    exactly the lessons that quiz covers, instead of only the three exam pages
+    carrying them. All 37 lessons are covered by one guide or another.
+    """
+    out = {}
+    for g in GUIDES:
+        data = exam1_src.read(exam1_src.HERE / "sources" / g["file"],
+                              expect=g["expect"])
+        for sec in data["sections"]:
+            for ln in sec["lessons"]:
+                out.setdefault(ln, (g["out"], sec["id"], sec["title"],
+                                    len(sec["problems"])))
+    return out
+
+
+def coverage_gap(data):
+    """Sections the Fall calendar teaches that this Spring guide never covers.
+
+    The guides are msunkula's Spring 2026 section. They are authoritative for
+    the *material*; they are not Sharvil's calendar, and the lesson->section
+    split differs slightly between the two semesters.
+
+    The comparison is scoped to the lessons this guide itself claims, not to the
+    whole exam. Otherwise the Final guide — which covers only Lessons 34-37,
+    because 1-33 live in the other two guides — would report thirty spurious
+    gaps. Within its own lessons, a missing section is real: Fall Lesson 2
+    reaches back to 12.1 before 13.5, and no Spring guide has a 12.1 section.
 
     Computed rather than asserted, so if either calendar changes the warning
     follows instead of going quietly stale.
     """
-    covered = set()
+    covered, claimed = set(), set()
     for sec in data["sections"]:
+        claimed.update(sec["lessons"])
         label = sec["secs_label"]
         # "13.1-13.4" is a range and means 13.1, 13.2, 13.3, 13.4
         for ch, lo, hi in re.findall(r"(\d+)\.(\d+)\s*[-\u2013]\s*\d+\.(\d+)", label):
@@ -412,9 +450,8 @@ def coverage_gap(data):
         # and any bare section number, range endpoints included
         covered.update(re.findall(r"\d+\.\d+", label))
 
-    m1 = next(s for s in course.STOPS if s["id"] == "m1")
     missing = []
-    for ln in m1["lessons"]:
+    for ln in sorted(claimed):
         if ln not in course.LESSONS:
             continue
         for tok in re.findall(r"\d+\.\d+", course.LESSONS[ln][0]):
@@ -423,13 +460,9 @@ def coverage_gap(data):
     return missing
 
 
-def build(M, MM):
-    data = exam1_src.read()
-    checked, prose = exam1_sol.verify()
-    # verify() proves our steps reach our own value. gate() proves that value
-    # still matches what the instructor printed, so a mis-transcribed answer
-    # cannot ship looking verified.
-    agreed, disagreed, _ = exam1_audit.gate()
+def build_one(M, MM, guide, SOL, EXTRA, checked, prose, agreed, disagreed):
+    data = exam1_src.read(exam1_src.HERE / "sources" / guide["file"],
+                          expect=guide["expect"])
     gaps = coverage_gap(data)
 
     # every piece of TeX on the page, primed in one node call
@@ -438,29 +471,33 @@ def build(M, MM):
         texts.append(s["notes_html"])
         for p in s["problems"]:
             texts += [p["stem"], p["answer"]]
-            sol = exam1_sol.SOL.get(p["pid"])
+            sol = SOL.get(p["pid"])
             if sol is None:
-                sys.exit(f"exam1page: no worked solution for {p['pid']} "
+                sys.exit(f"exam1page: {guide['key']}: no worked solution for {p['pid']} "
                          f"({p['stem'][:60]}...)")
             texts += sol["steps"] + [sol["trap"]]
             for extra_key in ("fix", "right"):
                 if sol.get(extra_key):
                     texts.append(sol[extra_key])
-    for e in exam1_sol.EXTRA:
+    for e in EXTRA:
         texts += [e["stem"], e["answer"], e["trap"]] + e["steps"]
     MM(*texts)
 
-    n_problems = data["total"] + len(exam1_sol.EXTRA)
+    # Only the restored problems whose lesson is actually in THIS guide. EXTRA
+    # is one shared list, so counting all of it inflated every page by one.
+    mine = [e for e in EXTRA
+            if any(e["lesson"] == sec["key"] for sec in data["sections"])]
+    n_problems = data["total"] + len(mine)
 
     toc, blocks = [], []
     for i, s in enumerate(data["sections"], 1):
-        extras = [e for e in exam1_sol.EXTRA if e["lesson"] == s["key"]]
+        extras = [e for e in EXTRA if e["lesson"] == s["key"]]
 
         toc.append(f'<a href="#{s["id"]}"><i>{i:02d}</i>{s["title"]}</a>')
 
         items = []
         for p in s["problems"]:
-            items.append(_prob_html(M, p, exam1_sol.SOL[p["pid"]]))
+            items.append(_prob_html(M, p, SOL[p["pid"]]))
             for e in extras:
                 if e.get("after") == p["n"]:
                     items.append(_prob_html(
@@ -488,7 +525,39 @@ def build(M, MM):
             f'<ol class="probs">\n' + "\n".join(items) + "\n</ol>\n</section>"
         )
 
-    m1 = next(s for s in course.STOPS if s["id"] == "m1")
+    m1 = next(s for s in course.STOPS if s["id"] == guide["stop"])
+    lab = guide["label"]
+    # Counts that describe THIS page, not the whole bank.
+    pids = [p["pid"] for sec in data["sections"] for p in sec["problems"]] \
+        + [e["pid"] for e in EXTRA]
+    here = {k: v for k, v in SOL.items() if k in pids}
+    n_check = sum(1 for v in here.values() if v.get("check"))
+    n_prose = sum(1 for v in here.values() if not v.get("check"))
+    n_fix = sum(1 for v in here.values() if v.get("fix"))
+    # cross-links to the sibling guides
+    others = "".join(
+        f' &nbsp;&middot;&nbsp; <a href="/{g["out"]}">{g["nav"]} &rarr;</a>'
+        for g in GUIDES if g["key"] != guide["key"])
+    # Only Exam 1 carries a restored problem; say so only on the page that has one.
+    keys_here = {sec["key"] for sec in data["sections"]}
+    n_extra = len([e for e in EXTRA if e["lesson"] in keys_here])
+    if n_extra == 1:
+        extra_line = (f' All {data["total"]} of its live problems, plus one it'
+                      f' leaves commented out.')
+    elif n_extra:
+        extra_line = (f' All {data["total"]} of its live problems, plus'
+                      f' {n_extra} it leaves commented out.')
+    else:
+        extra_line = f' All {data["total"]} of its problems.'
+    date_fact = (f'<div class="fact"><b>Official exam date</b>'
+                 f'<span>{data["exam_date"]}</span></div>'
+                 if data["exam_date"] else
+                 '<div class="fact"><b>Official exam date</b>'
+                 '<span>Not published &mdash; set by the registrar</span></div>')
+    fixline = (f'<a href="#lesson10">Two of the published answers are wrong</a> '
+               f'&mdash; the page shows the official answer and the correction '
+               f'side by side.' if n_fix else
+               'Every answer below matched what was computed for it.')
 
     # The guide is a different section of the same course, so its coverage can
     # drift from the one Sharvil is actually sitting. Say so where it costs
@@ -516,10 +585,10 @@ def build(M, MM):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Exam 1 study guide, worked &middot; MA 261</title>
-<meta name="description" content="Purdue's official MA 261 Exam 1 study guide with every one of its {n_problems} practice problems worked out, {checked} answers recomputed with sympy, and two published answers corrected.">
+<title>{lab} study guide, worked &middot; MA 261</title>
+<meta name="description" content="Purdue's official MA 261 {lab} study guide with every one of its {n_problems} practice problems worked out and {n_check} answers recomputed with sympy.">
 <meta name="color-scheme" content="light dark">
-<meta property="og:title" content="Exam 1 study guide, worked &middot; MA 261">
+<meta property="og:title" content="{lab} study guide, worked &middot; MA 261">
 <meta property="og:description" content="The official study guide, with the work filled in and the answers verified.">
 <meta property="og:type" content="website">
 {FONTS}
@@ -532,31 +601,29 @@ def build(M, MM):
 
 <div class="wrap">
 <header class="top">
-  <p class="eyebrow">Purdue MA 26100 &middot; official Exam 1 study guide</p>
-  <h1>Exam 1, <em>worked.</em></h1>
+  <p class="eyebrow">Purdue MA 26100 &middot; official {lab} study guide</p>
+  <h1>{lab}, <em>worked.</em></h1>
   <p class="sub">The department's own study guide is the source of truth for what
-  Exam&nbsp;1 covers, and it gives you a bare answer under each problem with no work
+  {lab} covers, and it gives you a bare answer under each problem with no work
   in between. This is that guide, section for section and problem for problem
   &mdash; with the work filled in, the traps named, and the answer kept shut until
-  you commit to an attempt. All {data["total"]} of its live problems, plus one it
-  leaves commented out.</p>
+  you commit to an attempt.{extra_line}</p>
 
   <div class="facts">
     <div class="fact"><b>Coverage</b><span>{data["coverage"]}</span></div>
-    <div class="fact"><b>Official exam date</b><span>{data["exam_date"]}</span></div>
+    {date_fact}
     <div class="fact"><b>Your exam</b><span>{m1["when"]}<br>
       <span id="countdown" data-date="{m1["date"]}"></span></span></div>
-    <div class="fact"><b>Answers verified</b><span>{checked} of {n_problems} recomputed<br>{agreed} also re-read from the official page</span></div>
+    <div class="fact"><b>Answers verified</b><span>{n_check} of {n_problems} recomputed<br>{n_prose} prose, checked by hand</span></div>
   </div>
 
   <p class="srcline">Source of truth:
-  <a href="{exam1_src.SOURCE_URL}" target="_blank" rel="noopener">the official
-  Exam&nbsp;1 study guide</a>, read {exam1_src.VERIFIED}. Every section heading,
+  <a href="{guide["url"]}" target="_blank" rel="noopener">the official
+  {lab} study guide</a>, read {exam1_src.VERIFIED}. Every section heading,
   formula box and problem statement below is the instructor's, unedited.
   The worked steps, trap notes and corrections are mine.
-  <a href="#lesson10">Two of the published answers are wrong</a> &mdash; the page
-  shows the official answer and the correction side by side.
-  &nbsp;&middot;&nbsp; <a href="#" id="resetall">Reset my progress</a></p>
+  {fixline}
+  &nbsp;&middot;&nbsp; <a href="#" id="resetall">Reset my progress</a>{others}</p>
 </header>
 
 {gapbox}
@@ -567,22 +634,19 @@ def build(M, MM):
 
 <footer class="efoot">
   Structure, prose and problems from the official
-  <a href="{exam1_src.SOURCE_URL}" target="_blank" rel="noopener">MA&nbsp;261 Exam&nbsp;1
+  <a href="{guide["url"]}" target="_blank" rel="noopener">MA&nbsp;261 {lab}
   study guide</a> (Spring 2026), read {exam1_src.VERIFIED}. Your own exam date and
-  room come from Brightspace &mdash; the date printed on that page is the Spring
+  room come from Brightspace &mdash; any date printed on that page is the Spring
   section's.<br>
-  Worked solutions are mine; {checked} of the {n_problems} answers are recomputed
-  with sympy at build time and the build refuses to publish on a mismatch. A
-  second gate re-reads {agreed} answers straight out of the official page and
-  compares them to what was computed, so an answer mis-transcribed from the
-  guide cannot ship looking verified. The two corrected answers are not among
-  those {agreed}: the guide states them in words ("limit does not exist"), which
-  no parser should pretend to read, so they were derived and checked by hand
-  and are shown struck through with the correction beside them.
-  The remaining {prose} are prose (&ldquo;elliptic cone with axis along the <i>z</i>-axis&rdquo;) and are
-  checked by hand.<br>
+  Worked solutions are mine; {n_check} of the {n_problems} answers on this page are
+  recomputed with sympy at build time and the build refuses to publish on a
+  mismatch. Across all three guides a second gate re-reads {agreed} answers
+  straight out of the official pages and compares them to what was computed, so
+  an answer mis-transcribed from a guide cannot ship looking verified. The
+  remaining {n_prose} here are prose or a described object, and are checked by hand
+  rather than guessed at by a parser.<br>
   <a href="/guide.html">Read the full guide &rarr;</a> &nbsp;&middot;&nbsp;
-  <a href="/quiz.html#m1">Practise Midterm 1 by section &rarr;</a><br>
+  <a href="/quiz.html#{guide["stop"]}">Practise {m1["label"]} by section &rarr;</a><br>
   Not affiliated with or endorsed by Purdue University.
 </footer>
 </div>
@@ -591,7 +655,26 @@ def build(M, MM):
 </body>
 </html>
 """
-    (ROOT / "exam1.html").write_text(html, encoding="utf-8")
-    return dict(problems=n_problems, checked=checked, prose=prose,
-                sections=len(data["sections"]), gaps=gaps,
-                agreed=agreed, disagreed=disagreed)
+    (ROOT / guide["out"]).write_text(html, encoding="utf-8")
+    return dict(key=guide["key"], out=guide["out"], problems=n_problems,
+                sections=len(data["sections"]), gaps=gaps)
+
+
+def build(M, MM):
+    """Emit one page per official guide, sharing one solution bank and gate."""
+    checked, prose = exam1_sol.verify()
+    # verify() proves our steps reach our own value. gate() proves that value
+    # still matches what the instructor printed, so a mis-transcribed answer
+    # cannot ship looking verified.
+    agreed, disagreed, _ = exam1_audit.gate()
+
+    bank = exam1_sol.all_solutions()
+    pages = [build_one(M, MM, g, bank, exam1_sol.EXTRA,
+                       checked, prose, agreed, disagreed) for g in GUIDES]
+    return dict(pages=pages,
+                problems=sum(p["problems"] for p in pages),
+                sections=sum(p["sections"] for p in pages),
+                gaps=[g for p in pages for g in p["gaps"]],
+                checked=checked, prose=prose,
+                agreed=agreed, disagreed=disagreed,
+                fixes=sum(1 for v in bank.values() if v.get("fix")))

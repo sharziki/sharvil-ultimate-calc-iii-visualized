@@ -317,6 +317,16 @@ header.hero{position:relative;padding:96px 0 40px;overflow:hidden}
 .door h2{font-size:28px;font-weight:800;letter-spacing:-.028em;margin-top:12px;line-height:1.02}
 .door p{margin-top:12px;font-size:16.5px;line-height:1.5;color:var(--ink-2)}
 .door .go{margin-top:18px;display:inline-block;font:600 13px/1 var(--disp);color:var(--contour)}
+/* This card holds three destinations, so it is a <div> with its own links
+   rather than one big <a> — an anchor inside an anchor is invalid and browsers
+   silently close the outer one, which breaks the whole card. */
+.door.c{cursor:default}
+.door.c:hover{transform:none;border-color:var(--rule);border-left-color:var(--revise)}
+.door .go2{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.door .go2 a{font:600 12.5px/1 var(--disp);color:var(--revise);text-decoration:none;
+  border:1px solid var(--rule);border-radius:2px;padding:9px 12px;
+  transition:border-color .16s ease,background .16s ease}
+.door .go2 a:hover{border-color:var(--revise);background:var(--paper-2)}
 .door.b{border-left:3px solid var(--water)}
 .door.b .k,.door.b .go{color:var(--water)}
 .door.c{border-left:3px solid var(--revise)}
@@ -463,14 +473,17 @@ def build_index(buckets, total, e1):
     in full, then {total} questions on exactly those sections.</p>
     <span class="go">Pick a quiz &rarr;</span>
   </a>
-  <a class="door c" href="/exam1.html">
-    <span class="k">The official guide</span>
-    <h2>Exam 1, worked</h2>
-    <p>Purdue's own Exam&nbsp;1 study guide, every one of its {e1["problems"]} practice problems
-    worked out, the answer shut until you commit. {e1["checked"]} answers recomputed with
-    sympy &mdash; two of the published ones are wrong.</p>
-    <span class="go">Work the official guide &rarr;</span>
-  </a>
+  <div class="door c">
+    <span class="k">The official guides</span>
+    <h2>The department's own problems, worked</h2>
+    <p>All three official study guides, with every one of their
+    {e1["problems"]} practice problems worked out and the answer shut until you
+    commit. {e1["checked"]} recomputed with sympy; three of the published answers
+    are wrong.</p>
+    <span class="go2"><a href="/exam1.html">Exam 1</a>
+      <a href="/exam2.html">Exam 2</a>
+      <a href="/final.html">Final</a></span>
+  </div>
 </div>
 
 <div class="next" id="next" hidden>
@@ -570,7 +583,8 @@ def main():
 
     for q in new_qs:
         buckets[q["quiz"]].append(q)
-    total = quizpage.build(buckets, M, SID_LABEL, coverage_chips)
+    total = quizpage.build(buckets, M, SID_LABEL, coverage_chips,
+                           official=exam1page.official_index())
 
     global INDEX_JS
     INDEX_JS = INDEX_JS.replace("@@STOPS@@", json.dumps([
@@ -589,11 +603,13 @@ def main():
         print(f"   {s['label']:<12} {len(coverage_chips(s)):>2} sections  {n:>3} questions")
     print("index.html     semester map")
     print("guide.html     patched")
-    print(f"exam1.html     {e1['problems']} official problems worked across "
-          f"{e1['sections']} lessons ({e1['checked']} answers recomputed, "
-          f"{e1['prose']} prose)")
-    print(f"               {e1['agreed']} answers re-read from the official page "
-          f"and matched, {e1['disagreed']} documented corrections")
+    for pg in e1["pages"]:
+        print(f"{pg['out']:<14} {pg['problems']:>3} official problems worked "
+              f"across {pg['sections']:>2} lessons")
+    print(f"               {e1['checked']} of {e1['problems']} answers recomputed "
+          f"({e1['prose']} prose), {e1['agreed']} re-read from the official pages "
+          f"and matched")
+    print(f"               {e1['fixes']} official answers corrected")
     for tok, ln in e1["gaps"]:
         print(f"               ! §{tok} is on Fall Lesson {ln} and absent from "
               f"the Spring guide — flagged on the page")

@@ -1426,6 +1426,135 @@ import q4bank                                                    # noqa: E402
 QUESTIONS += q4bank.QUESTIONS
 
 
+# --------------------------------------------------------- key checking ----
+
+_TEX_CLEAN = [
+    (r"\\left", ""), (r"\\right", ""), (r"\\!", ""), (r"\\,", ""),
+    (r"\\;", ""), (r"\\ ", ""), (r"\\text\{[^}]*\}", ""),
+    (r"\\displaystyle", ""), (r"\\[dt]frac", r"\\frac"),
+]
+
+
+def _grab(t, i):
+    """Read the balanced {...} starting at t[i]; return (inner, next index)."""
+    assert t[i] == "{"
+    depth, j = 0, i
+    while j < len(t):
+        if t[j] == "{":
+            depth += 1
+        elif t[j] == "}":
+            depth -= 1
+            if depth == 0:
+                return t[i + 1:j], j + 1
+        j += 1
+    raise ValueError("unbalanced")
+
+
+def _brace_expand(t):
+    """Rewrite \\frac{a}{b} and \\sqrt{a} using real brace matching."""
+    import re as _re
+    t = _re.sub(r"\\sqrt(\d+)", r"\\sqrt{\1}", t)
+    for _ in range(8):
+        m = _re.search(r"\\(frac|sqrt)\{", t)
+        if not m:
+            break
+        name, i = m.group(1), m.end() - 1
+        try:
+            a, j = _grab(t, i)
+            if name == "frac":
+                b, j = _grab(t, j)
+                rep = f"(({a})/({b}))"
+            else:
+                rep = f"(sqrt({a}))"
+        except (ValueError, AssertionError, IndexError):
+            return t
+        t = t[:m.start()] + rep + t[j:]
+    return t
+
+
+def tex_to_sympy(tex):
+    """Parse the small TeX dialect the options actually use. None if unsure.
+
+    Deliberately narrow: integers, fractions, square roots, pi, powers and
+    products of those, which covers most keyed scalars. Anything it does not
+    fully recognise returns None and the key check skips that option — a miss
+    is acceptable here, a false accusation is not.
+    """
+    import re as _re
+    from sympy import sympify
+    t = tex
+    # "c=-2" / "t=3" style: the value is whatever follows the single '='
+    if t.count("=") == 1 and _re.match(r"^\s*[a-zA-Z]\s*=", t):
+        t = t.split("=", 1)[1]
+    for pat, rep in _TEX_CLEAN:
+        t = _re.sub(pat, rep, t)
+    t = t.strip()
+    # Superscript braces are the only other user of {}, and they confuse the
+    # brace-matching below, so turn ^{..} into ^(..) up front. \frac and \sqrt
+    # are then expanded innermost-first by real brace matching, not by regex.
+    t = _re.sub(r"\^\{([^{}]*)\}", r"^(\1)", t)
+    t = _brace_expand(t)
+    if "\\frac" in t or "\\sqrt" in t:
+        return None                                 # beyond this dialect
+    t = t.replace("\\pi", "pi")
+    t = t.replace("^", "**")
+    t = _re.sub(r"\{([^{}]*)\}", r"(\1)", t)
+    # implicit multiplication: 216sqrt(26) -> 216*sqrt(26), 3pi -> 3*pi
+    t = _re.sub(r"(\d)\s*(?=[a-zA-Z(])", r"\1*", t)
+    t = _re.sub(r"\)\s*(?=[a-zA-Z0-9(])", r")*", t)
+    if "\\" in t or "langle" in t or "&" in t:
+        return None
+    try:
+        return sympify(t, rational=True)
+    except Exception:                              # noqa: BLE001 - unparsed is fine
+        return None
+
+
+def _align(parsed, want):
+    """sympify() invents assumption-free symbols; the bank's carry real=True.
+
+    Symbol("t") != Symbol("t", real=True), so an otherwise perfect match would
+    be reported as a mismatch. Re-point the parsed expression at the symbols
+    the keyed answer actually uses.
+    """
+    sub = {p: w for p in parsed.free_symbols
+           for w in want.free_symbols if p.name == w.name}
+    return parsed.subs(sub) if sub else parsed
+
+
+def keycheck(q):
+    """Is q['key'] the option whose value equals q['want']? '' if fine."""
+    from sympy import simplify
+    want = q.get("want")
+    if want is None or isinstance(want, (tuple, list, Matrix)):
+        return ""                                   # multi-part: nothing to match
+    opts = q["opts"]
+    keyed = opts.get(q["key"])
+    if isinstance(keyed, dict):
+        return ""                                   # prose option, not a value
+    parsed = tex_to_sympy(keyed)
+    if parsed is None:
+        return ""                                   # outside the dialect; skip
+    try:
+        if simplify(_align(parsed, want) - want) == 0:
+            return ""
+    except Exception:                               # noqa: BLE001
+        return ""
+    # The keyed option disagrees. Only complain if some OTHER option matches —
+    # otherwise the parser, not the question, is probably at fault.
+    for letter, v in opts.items():
+        if letter == q["key"] or isinstance(v, dict):
+            continue
+        other = tex_to_sympy(v)
+        try:
+            if other is not None and simplify(_align(other, want) - want) == 0:
+                return (f"key is {q['key']} but the computed answer {want} "
+                        f"is option {letter}")
+        except Exception:                           # noqa: BLE001
+            continue
+    return ""
+
+
 def verify():
     """Recompute every keyed answer. Raises on any mismatch."""
     from sympy import simplify
@@ -1453,6 +1582,14 @@ def verify():
         if "check" not in q or "want" not in q:
             problems.append(f"{q['id']}: no check — add one, or mark concept=True")
             continue
+
+        # The check above proves the *keyed value* is right. It says nothing
+        # about whether q["key"] points at the option that displays that value —
+        # editing an option letter would slip through silently. keycheck closes
+        # that, for every option it can parse back into sympy.
+        bad_key = keycheck(q)
+        if bad_key:
+            problems.append(f"{q['id']}: {bad_key}")
 
         got, want = q["check"](), q["want"]
         try:

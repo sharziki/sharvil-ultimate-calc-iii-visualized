@@ -72,7 +72,11 @@ python3 build.py
 - **Diagrams** — hand-authored inline SVG, themed through `currentColor`.
 
 **Practice answers are verified, not asserted.** Every added question carries a
-`sympy` check function that recomputes the keyed answer. The original 55 were built the
+`sympy` check function that recomputes the keyed answer, and a second guard
+re-parses the keyed *option* back out of its TeX to confirm the letter points at
+the value that was computed — a wrong `key="C"` used to ship silently. That guard
+covers the 22 of 37 scalar answers its small TeX dialect can read; prose options
+and vector/plane answers are skipped rather than guessed at. The original 55 were built the
 same way, which caught two real errors during authoring (a Green's theorem answer
 keyed to 243π/2 when it's 243π/4, and a work integral keyed to 14 when it's 18).
 

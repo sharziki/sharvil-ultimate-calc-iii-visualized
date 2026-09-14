@@ -12,7 +12,7 @@ were computed rather than asserted.
 | [`index.html`](index.html) | The landing page: two ways in, plus the Fall 2026 calendar with whichever stop is next surfaced. |
 | [`guide.html`](guide.html) | **Study all the material** — 40 sections, 41 figures (12 interactive 3-D), 41 algorithms, 86 check-yourself questions. Each section badged with the quiz that tests it. |
 | [`quiz.html`](quiz.html) | **Study by quiz** — pick a quiz and get only the sections it covers, in full, then questions on exactly those sections. 152 in all; Quizzes 1–4 carry 24, 42, 16 and 32. |
-| [`exam1.html`](exam1.html) | **The official Exam 1 study guide, worked** — Purdue's own guide, its 69 practice problems with the work filled in, the answer held behind a commitment step, 57 answers recomputed with sympy, and two published answers corrected. |
+| [`exam1.html`](exam1.html) · [`exam2.html`](exam2.html) · [`final.html`](final.html) | **The official study guides, worked** — all three of Purdue's own guides, their 154 practice problems with the work filled in, the answer held behind a commitment step, 139 answers recomputed with sympy, and six published answers corrected. |
 
 ## Where the schedule comes from
 
@@ -94,24 +94,33 @@ and vector/plane answers are skipped rather than guessed at. The original 55 wer
 same way, which caught two real errors during authoring (a Green's theorem answer
 keyed to 243π/2 when it's 243π/4, and a work integral keyed to 14 when it's 18).
 
-## The official Exam 1 guide
+## The official guides are the spine
 
-The department publishes a [study guide for Exam 1](https://www.math.purdue.edu/~msunkula/MA261/Sp26/StudyGuide-Exam1.html),
-and it is the source of truth for coverage. It is also poor practice material:
-each problem's answer sits one click away with no work in between.
+The department publishes **three** study guides — [Exam 1](https://www.math.purdue.edu/~msunkula/MA261/Sp26/StudyGuide-Exam1.html),
+[Exam 2](https://www.math.purdue.edu/~msunkula/MA261/Sp26/StudyGuide-Exam2.html)
+and the [Final](https://www.math.purdue.edu/~msunkula/MA261/Sp26/StudyGuide-Final.html)
+— and they are the source of truth for both coverage and questions. They are also
+poor practice material as published: each problem's answer sits one click away
+with no work in between.
 
-`exam1.html` keeps the instructor's structure and prose verbatim and adds the
-work, a commitment step before the answer opens, and verification.
+Each page keeps the instructor's structure and prose verbatim and adds the work,
+a commitment step before the answer opens, and verification. All 37 lessons of
+the course map to an official section, so **every quiz tab leads with the
+instructor's own problems** for exactly the lessons that quiz covers.
 
-**Two of its published answers are wrong.** Lesson 10, Problems 1 and 2 are both
-marked "limit does not exist"; both limits exist and equal 0 — by AM–GM for
-`x³y/(x⁴+y²)`, and by `|3x²y/(x²+y²)| ≤ 3|y|` for the other. The page strikes
-the official answer, prints the correct one beside it and explains the
-difference rather than silently substituting, because that official answer is
-still on the real study guide and is worth recognising before the exam. A third
-problem is commented out of the published HTML; the skill is on the syllabus, so
-it is restored and labelled as restored (its stated answer, 5/3, was also wrong
-— it is 2).
+**Six published answers are wrong**, each verified independently before being
+called wrong, each struck through with the correction beside it rather than
+silently replaced — the official answer is still on the real guide and is worth
+recognising before the exam:
+
+| Problem | Published | Actually |
+|---|---|---|
+| Ex 1, L10 P1 | limit does not exist | `0`, by AM–GM on `x³y/(x⁴+y²)` |
+| Ex 1, L10 P2 | limit does not exist | `0`, since `|3x²y/(x²+y²)| ≤ 3|y|` |
+| Ex 1, L2 (restored) | `5/3` | `2` — the problem is commented out of the HTML |
+| Ex 2, L19 P4 | `∫_{√y}^{y/2}` | limits reversed; `y/2 < √y` on `(0,4)`, so the printed form is the negative |
+| Ex 2, L21 P3 | `z` to `2-x` | inner limits cross at `z = 2-2x`; printed form gives `1/2`, true volume `2/3` |
+| Ex 2, L22 P1 | wedge only | stem and answer are different regions, areas `1+π/2` vs `π/2` |
 
 ## Design
 

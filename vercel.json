@@ -21,6 +21,26 @@
       "permanent": true
     },
     {
+      "source": "/exam2.html",
+      "destination": "https://study.sharvilsaxena.com/ma261/exam2.html",
+      "permanent": true
+    },
+    {
+      "source": "/exam2",
+      "destination": "https://study.sharvilsaxena.com/ma261/exam2.html",
+      "permanent": true
+    },
+    {
+      "source": "/final.html",
+      "destination": "https://study.sharvilsaxena.com/ma261/final.html",
+      "permanent": true
+    },
+    {
+      "source": "/final",
+      "destination": "https://study.sharvilsaxena.com/ma261/final.html",
+      "permanent": true
+    },
+    {
       "source": "/(practice|drill)(\\.html)?",
       "destination": "https://study.sharvilsaxena.com/ma261/quiz.html",
       "permanent": true

@@ -11,7 +11,7 @@ were computed rather than asserted.
 |---|---|
 | [`index.html`](index.html) | The landing page: two ways in, plus the Fall 2026 calendar with whichever stop is next surfaced. |
 | [`guide.html`](guide.html) | **Study all the material** — 40 sections, 41 figures (12 interactive 3-D), 41 algorithms, 86 check-yourself questions. Each section badged with the quiz that tests it. |
-| [`quiz.html`](quiz.html) | **Study by quiz** — pick a quiz and get only the sections it covers, in full, then questions on exactly those sections. 102 in all; Quizzes 1–3 carry 24, 17 and 16. |
+| [`quiz.html`](quiz.html) | **Study by quiz** — pick a quiz and get only the sections it covers, in full, then questions on exactly those sections. 152 in all; Quizzes 1–4 carry 24, 42, 16 and 32. |
 
 ## Where the schedule comes from
 
@@ -54,8 +54,10 @@ python3 build.py
 
 - `course.py` — the Fall 2026 calendar, weights and deadlines
 - `bank.html` — the 55 original questions, pre-rendered
-- `newbank.py` — 47 further questions for Quizzes 1–3, each recomputed with
+- `newbank.py` — 72 further questions for Quizzes 1–3, each recomputed with
   `sympy` at build time; the build refuses to emit on a mismatch
+- `q4bank.py` — 25 Quiz 4 questions (14.4, 14.5, 15.1, 15.2), written
+  against the MyLab set actually assigned for Lessons 8–10
 - `guide_121.py` — the 12.1 section the guide was missing
 - `patch_guide.py` — reads `guide.src.html`, writes `../guide.html`
 - `quizpage.py` — builds `quiz.html` by re-hosting the guide's own sections,

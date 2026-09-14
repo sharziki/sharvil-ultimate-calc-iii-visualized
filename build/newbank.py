@@ -19,7 +19,8 @@ refuses to emit if a computed value disagrees with the keyed option.
 Text markup: $...$ is inline TeX, everything else is literal HTML.
 """
 
-from sympy import Matrix, Rational, S, sqrt, cos, pi, exp, symbols, integrate, solve
+from sympy import (Matrix, Rational, S, sqrt, cos, sin, pi, exp, log, symbols,
+                   integrate, solve, simplify, diff, limit, Abs)
 
 t, s_ = symbols("t s", real=True)   # real: keeps norms out of Abs(...)**2 form
 
@@ -1416,6 +1417,13 @@ QUESTIONS = [
         want=S(20),
     ),
 ]
+
+
+# Quiz 4 (14.4 / 14.5 / 15.1 / 15.2) lives in its own module — same schema,
+# same verify() guard — because it was written from the actual MyLab set for
+# Lessons 8-10 and is long enough to deserve its own file.
+import q4bank                                                    # noqa: E402
+QUESTIONS += q4bank.QUESTIONS
 
 
 def verify():

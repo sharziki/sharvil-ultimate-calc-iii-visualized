@@ -1616,7 +1616,7 @@ def verify():
     # that carries the homework's own numbers rehearses a remembered answer
     # rather than the method, and the README promises originality.
     import hwcheck
-    overlap = hwcheck.check(q4bank.QUESTIONS)
+    overlap = hwcheck.check(QUESTIONS)
     if overlap:
         raise SystemExit("HOMEWORK OVERLAP:\n  " + "\n  ".join(overlap))
 

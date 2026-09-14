@@ -83,10 +83,10 @@ def check(questions):
 
 
 if __name__ == "__main__":
-    import q4bank
-    problems = check(q4bank.QUESTIONS)
+    import newbank
+    problems = check(newbank.QUESTIONS)
     if problems:
         print("HOMEWORK OVERLAP:\n  " + "\n  ".join(problems))
         sys.exit(1)
-    print(f"no overlap: {len(q4bank.QUESTIONS)} questions vs "
+    print(f"no overlap: {len(newbank.QUESTIONS)} questions vs "
           f"{len(ASSIGNED)} assigned problems")

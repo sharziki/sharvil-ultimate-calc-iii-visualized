@@ -68,6 +68,16 @@ header.top .sub{margin-top:18px;font-size:19px;line-height:1.5;color:var(--ink-2
   font-size:16px;letter-spacing:-.015em;line-height:1.25}
 .srcline{margin-top:20px;font:400 13px/1.7 var(--mono);color:var(--ink-3)}
 .srcline a{color:var(--contour)}
+.gapbox{margin-top:22px;border:1px solid var(--revise);border-left:3px solid var(--revise);
+  border-radius:3px;background:color-mix(in srgb,var(--revise) 7%,transparent);
+  padding:16px 19px;max-width:78ch}
+.gapbox>b{display:block;font-family:var(--disp);font-size:17px;letter-spacing:-.015em;
+  color:var(--ink)}
+.gapbox p{margin-top:9px;font-size:16.5px;line-height:1.55;color:var(--ink-2)}
+.gapbox ul{margin:9px 0 0;padding-left:20px;font-size:16.5px;color:var(--ink-2)}
+.gapbox li{margin-top:5px}
+.gapbox li b{color:var(--ink)}
+.gapbox a{color:var(--contour)}
 
 /* ---- the contents rail ------------------------------------------------ */
 .toc{position:sticky;top:0;z-index:20;background:var(--paper);
@@ -214,9 +224,10 @@ footer.efoot a{color:var(--contour)}
   <h1>Exam 1, <em>worked.</em></h1>
   <p class="sub">The department's own study guide is the source of truth for what
   Exam&nbsp;1 covers, and it gives you a bare answer under each problem with no work
-  in between. This is the same guide, same sections, same 68 problems &mdash;
-  with the work filled in, the traps named, and the answer kept shut until you
-  commit to an attempt.</p>
+  in between. This is that guide, section for section and problem for problem
+  &mdash; with the work filled in, the traps named, and the answer kept shut until
+  you commit to an attempt. All 68 of its live problems, plus one it
+  leaves commented out.</p>
 
   <div class="facts">
     <div class="fact"><b>Coverage</b><span>Lessons 1-16 (Sections 13.1-15.7)</span></div>
@@ -235,6 +246,8 @@ footer.efoot a{color:var(--contour)}
   shows the official answer and the correction side by side.
   &nbsp;&middot;&nbsp; <a href="#" id="resetall">Reset my progress</a></p>
 </header>
+
+<div class="gapbox"><b>This guide is the Spring section’s, and it is missing one thing your exam covers.</b><p>Everything below is the source of truth for the material. But the Fall lesson split is not identical to the Spring one, and the difference is examinable:</p><ul><li><b>&sect;12.1</b> &mdash; on Fall Lesson 2, and this guide has no section for it. <a href="/guide.html#s121">Read &sect;12.1 in the full guide &rarr;</a></li></ul><p>The date printed on the official guide is the Spring exam. Yours is <b>Mon Oct 5 · 8:00 pm</b>.</p></div>
 
 <nav class="toc" aria-label="Lessons"><div class="toc-in"><a href="#lesson1"><i>01</i>Review of Vectors</a><a href="#lesson2"><i>02</i>Lines and Planes in Space</a><a href="#lesson3-4"><i>03</i>Quadric Surfaces</a><a href="#lesson5"><i>04</i>Vector-Valued Functions</a><a href="#lesson6-7"><i>05</i>Calculus of Vector-Valued Functions & Motion in Space</a><a href="#lesson8"><i>06</i>Arc Length and Curvature</a><a href="#lesson9"><i>07</i>Functions of Several Variables</a><a href="#lesson10"><i>08</i>Limits and Continuity</a><a href="#lesson11"><i>09</i>Partial Derivatives</a><a href="#lesson12"><i>10</i>The Chain Rule</a><a href="#lesson13"><i>11</i>Directional Derivatives & Gradient</a><a href="#lesson14"><i>12</i>Tangent Planes & Linear Approximation</a><a href="#lesson15-16"><i>13</i>Maximum and Minimum Problems</a></div></nav>
 

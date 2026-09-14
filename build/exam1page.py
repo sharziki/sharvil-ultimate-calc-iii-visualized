@@ -103,6 +103,16 @@ header.top .sub{margin-top:18px;font-size:19px;line-height:1.5;color:var(--ink-2
   font-size:16px;letter-spacing:-.015em;line-height:1.25}
 .srcline{margin-top:20px;font:400 13px/1.7 var(--mono);color:var(--ink-3)}
 .srcline a{color:var(--contour)}
+.gapbox{margin-top:22px;border:1px solid var(--revise);border-left:3px solid var(--revise);
+  border-radius:3px;background:color-mix(in srgb,var(--revise) 7%,transparent);
+  padding:16px 19px;max-width:78ch}
+.gapbox>b{display:block;font-family:var(--disp);font-size:17px;letter-spacing:-.015em;
+  color:var(--ink)}
+.gapbox p{margin-top:9px;font-size:16.5px;line-height:1.55;color:var(--ink-2)}
+.gapbox ul{margin:9px 0 0;padding-left:20px;font-size:16.5px;color:var(--ink-2)}
+.gapbox li{margin-top:5px}
+.gapbox li b{color:var(--ink)}
+.gapbox a{color:var(--contour)}
 
 /* ---- the contents rail ------------------------------------------------ */
 .toc{position:sticky;top:0;z-index:20;background:var(--paper);
@@ -378,9 +388,44 @@ def _prob_html(M, p, sol, extra=False):
     )
 
 
+def coverage_gap(data):
+    """Sections on Sharvil's Fall Midterm 1 that this Spring guide never covers.
+
+    The guide is msunkula's Spring 2026 section. It is authoritative for the
+    *material*, and it is not his calendar: his exam is Mon Oct 5, Mummert's
+    Fall section. The lesson->section split also differs slightly, and the one
+    difference that costs marks is Lesson 2 — Fall reaches back to 12.1
+    (parametric curves in the plane) before 13.5, and the Spring guide has no
+    12.1 section at all.
+
+    Computed rather than asserted, so if either calendar changes the warning
+    follows instead of going quietly stale.
+    """
+    covered = set()
+    for sec in data["sections"]:
+        label = sec["secs_label"]
+        # "13.1-13.4" is a range and means 13.1, 13.2, 13.3, 13.4
+        for ch, lo, hi in re.findall(r"(\d+)\.(\d+)\s*[-\u2013]\s*\d+\.(\d+)", label):
+            for n in range(int(lo), int(hi) + 1):
+                covered.add(f"{ch}.{n}")
+        # and any bare section number, range endpoints included
+        covered.update(re.findall(r"\d+\.\d+", label))
+
+    m1 = next(s for s in course.STOPS if s["id"] == "m1")
+    missing = []
+    for ln in m1["lessons"]:
+        if ln not in course.LESSONS:
+            continue
+        for tok in re.findall(r"\d+\.\d+", course.LESSONS[ln][0]):
+            if tok not in covered and tok not in [m[0] for m in missing]:
+                missing.append((tok, ln))
+    return missing
+
+
 def build(M, MM):
     data = exam1_src.read()
     checked, prose = exam1_sol.verify()
+    gaps = coverage_gap(data)
 
     # every piece of TeX on the page, primed in one node call
     texts = []
@@ -440,6 +485,27 @@ def build(M, MM):
 
     m1 = next(s for s in course.STOPS if s["id"] == "m1")
 
+    # The guide is a different section of the same course, so its coverage can
+    # drift from the one Sharvil is actually sitting. Say so where it costs
+    # marks, with the gap computed from both calendars rather than asserted.
+    if gaps:
+        items = "".join(
+            f'<li><b>&sect;{tok}</b> &mdash; on Fall Lesson {ln}, and this guide '
+            f'has no section for it. '
+            f'<a href="/guide.html#s121">Read &sect;{tok} in the full guide &rarr;</a></li>'
+            for tok, ln in gaps)
+        gapbox = (
+            '<div class="gapbox"><b>This guide is the Spring section\u2019s, and it '
+            'is missing one thing your exam covers.</b>'
+            '<p>Everything below is the source of truth for the material. But the '
+            'Fall lesson split is not identical to the Spring one, and the '
+            'difference is examinable:</p>'
+            f'<ul>{items}</ul>'
+            '<p>The date printed on the official guide is the Spring exam. '
+            f'Yours is <b>{m1["when"]}</b>.</p></div>')
+    else:
+        gapbox = ""
+
     html = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -465,9 +531,10 @@ def build(M, MM):
   <h1>Exam 1, <em>worked.</em></h1>
   <p class="sub">The department's own study guide is the source of truth for what
   Exam&nbsp;1 covers, and it gives you a bare answer under each problem with no work
-  in between. This is the same guide, same sections, same {data["total"]} problems &mdash;
-  with the work filled in, the traps named, and the answer kept shut until you
-  commit to an attempt.</p>
+  in between. This is that guide, section for section and problem for problem
+  &mdash; with the work filled in, the traps named, and the answer kept shut until
+  you commit to an attempt. All {data["total"]} of its live problems, plus one it
+  leaves commented out.</p>
 
   <div class="facts">
     <div class="fact"><b>Coverage</b><span>{data["coverage"]}</span></div>
@@ -486,6 +553,8 @@ def build(M, MM):
   shows the official answer and the correction side by side.
   &nbsp;&middot;&nbsp; <a href="#" id="resetall">Reset my progress</a></p>
 </header>
+
+{gapbox}
 
 <nav class="toc" aria-label="Lessons"><div class="toc-in">{"".join(toc)}</div></nav>
 
@@ -513,4 +582,4 @@ def build(M, MM):
 """
     (ROOT / "exam1.html").write_text(html, encoding="utf-8")
     return dict(problems=n_problems, checked=checked, prose=prose,
-                sections=len(data["sections"]))
+                sections=len(data["sections"]), gaps=gaps)

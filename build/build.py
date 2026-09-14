@@ -592,6 +592,9 @@ def main():
     print(f"exam1.html     {e1['problems']} official problems worked across "
           f"{e1['sections']} lessons ({e1['checked']} answers recomputed, "
           f"{e1['prose']} prose)")
+    for tok, ln in e1["gaps"]:
+        print(f"               ! §{tok} is on Fall Lesson {ln} and absent from "
+              f"the Spring guide — flagged on the page")
 
 
 if __name__ == "__main__":

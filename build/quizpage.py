@@ -801,7 +801,12 @@ def build(buckets, M, sid_label, coverage_chips, official=None,
         panes.append(
             f'<section class="pane" id="pane-{s["id"]}" role="tabpanel" '
             f'aria-labelledby="tab-{s["id"]}" tabindex="0" hidden>\n{head}\n'
-            f'{primer.html(s["id"], M)}\n'
+            + (f'<a class="cram" href="/MA261-Quiz3-cram.pdf">'
+               f'<b>Everything on 9 pages &mdash; the PDF</b>'
+               f'<span>theory derived, 8 algorithms, all 24 problems worked '
+               f'&middot; print it or read it on your phone</span></a>'
+               if s["id"] == "q3" else "")
+            + f'{primer.html(s["id"], M)}\n'
             f'<div class="step-h"><span class="n">STEP 01</span>'
             f'<h2>The material</h2><span class="x">{n_sec} {what}</span></div>\n'
             f'<p class="step-note">{chips} &mdash; and nothing else. '

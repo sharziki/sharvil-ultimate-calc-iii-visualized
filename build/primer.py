@@ -335,6 +335,16 @@ PRIMERS = {
 
 
 CSS = """
+/* ---- the cram PDF, offered above the primer --------------------------- */
+.cram{display:block;margin-top:20px;text-decoration:none;
+  border:1px solid var(--revise);border-left:3px solid var(--revise);
+  border-radius:3px;background:color-mix(in srgb,var(--revise) 7%,transparent);
+  padding:14px 18px;max-width:86ch;transition:background .16s ease}
+.cram b{display:block;font-family:var(--disp);font-size:17px;
+  letter-spacing:-.015em;color:var(--ink)}
+.cram span{display:block;margin-top:5px;font:500 12.5px/1.5 var(--mono);color:var(--ink-3)}
+.cram:hover{background:color-mix(in srgb,var(--revise) 13%,transparent)}
+
 /* ---- from-zero primer ------------------------------------------------- */
 .primer{margin-top:26px;border:1px solid var(--rule);border-left:3px solid var(--veg);
   border-radius:3px;background:var(--card);overflow:hidden;max-width:86ch}

@@ -449,16 +449,31 @@ def mine_section():
     out.append("\\end{enumerate}")
 
     out.append("\\clearpage\n\\section{Answers and solutions}")
-    out.append("\\begin{enumerate}[label=\\textbf{\\color{contour}\\arabic*.},leftmargin=1.9em]")
-    for q in qs:
-        out.append(f"\\item \\textbf{{\\color{{veg}}{q['key']}}} "
-                   f"\\quad\\textit{{\\small\\color{{contour}}{tex(q['title'])}}}")
-        out.append("\\begin{itemize}[leftmargin=1.2em,itemsep=1pt]")
+    out.append("Each one restates the problem, then works straight down. "
+               "Read it as a worked example of its type --- the heading names "
+               "the type, so the same steps carry to every question shaped "
+               "like it.\n")
+    for i, q in enumerate(qs, 1):
+        # Restate the problem in full. Reading a solution detached from its
+        # question means re-finding the question first, which is exactly the
+        # friction that makes an answer key feel like homework.
+        out.append("\\begin{card}")
+        out.append(f"\\qnum{{{i}}} \\textit{{\\small\\color{{contour}}"
+                   f"{tex(q['title'])}}}\\\\[2pt]")
+        out.append(f"{tex(q['stem'])}\\\\[4pt]")
+        ans = q["opts"][q["key"]]
+        body = (tex(ans.get("text", "")) + (f" ${ans['tex']}$" if "tex" in ans else "")
+                if isinstance(ans, dict) else f"${ans}$")
+        out.append(f"\\textbf{{\\color{{veg}}Answer: ({q['key']})}}\\ \\ {body}")
+        out.append("\\vspace{3pt}\\hrule height 0.3pt\\vspace{4pt}")
+        out.append("\\textbf{\\footnotesize THE WORK}")
+        out.append("\\begin{enumerate}[label=\\textit{\\arabic*.},leftmargin=1.7em,"
+                   "itemsep=3.5pt,topsep=3pt]")
         for st in q["sol"]:
-            out.append(f"\\item {tex(st)}")
-        out.append("\\end{itemize}")
+            out.append(f"\\item {display(st)}")
+        out.append("\\end{enumerate}")
         out.append(f"\\trapl{{{tex(q['trap'])}}}")
-    out.append("\\end{enumerate}")
+        out.append("\\end{card}\n")
     return "\n".join(out), len(qs)
 
 

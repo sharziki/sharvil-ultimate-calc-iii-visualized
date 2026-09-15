@@ -15,6 +15,7 @@ from pathlib import Path
 
 import course
 import exam1page
+import primer
 import newbank
 import guide_121
 import patch_guide
@@ -586,6 +587,9 @@ def main():
 
     for q in new_qs:
         buckets[q["quiz"]].append(q)
+    # Prime KaTeX for every primer in one node call, instead of one call per
+    # expression while the page is being assembled.
+    MM(*[t for st in course.STOPS for t in primer.texts(st["id"])])
     total = quizpage.build(buckets, M, SID_LABEL, coverage_chips,
                            official=exam1page.official_index(),
                            official_problems=lambda lessons, prefix="":

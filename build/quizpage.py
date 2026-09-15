@@ -15,6 +15,7 @@ from pathlib import Path
 
 import course
 import drill
+import primer
 import guide_121
 import guide_136
 
@@ -800,6 +801,7 @@ def build(buckets, M, sid_label, coverage_chips, official=None,
         panes.append(
             f'<section class="pane" id="pane-{s["id"]}" role="tabpanel" '
             f'aria-labelledby="tab-{s["id"]}" tabindex="0" hidden>\n{head}\n'
+            f'{primer.html(s["id"], M)}\n'
             f'<div class="step-h"><span class="n">STEP 01</span>'
             f'<h2>The material</h2><span class="x">{n_sec} {what}</span></div>\n'
             f'<p class="step-note">{chips} &mdash; and nothing else. '
@@ -839,7 +841,7 @@ def build(buckets, M, sid_label, coverage_chips, official=None,
 <body>
 <a class="sitenav" href="/">&larr; Semester map</a>
 <link rel="stylesheet" href="/katex.css">
-<style>{parts["css"]}{PAGE_CSS}{drill.CSS}</style>
+<style>{parts["css"]}{PAGE_CSS}{drill.CSS}{primer.CSS}</style>
 {parts["defs"]}
 
 <div class="wrap">
@@ -879,6 +881,7 @@ def build(buckets, M, sid_label, coverage_chips, official=None,
 <script>{patch_viz(parts["s2"])}</script>
 <script>{js}</script>
 <script>{drill.JS}</script>
+<script>{primer.JS}</script>
 </body>
 </html>
 """
